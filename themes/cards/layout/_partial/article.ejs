@@ -1,0 +1,105 @@
+<div class="post-title">
+    <h1 class="post-title__text">
+        <%- page.title %>
+    </h1>
+    <div class="post-title__meta">
+        <% if (theme.layout.meta.indexOf('date') !== -1) { %>
+            <%- partial('_meta/date') %>
+        <% } %>
+        <% if (theme.layout.post.header.indexOf('categories') !== -1) { %>
+            <%- partial('_meta/categories') %> 
+        <% } %>
+        <%- partial('_third-party/busuanzi', {position: 'page'}) %> 
+    </div>
+</div>
+
+<% if (theme.meta.toc.enable && theme.layout.post.side.indexOf('toc') !== -1 && page.toc !== false) { %>
+    <div class="post__with-side">
+        <aside class="post-side">
+            <div class="post-side__toc">
+                <%- toc(page.content, {list_number: (theme.meta.toc.list_number || false), max_depth: 6, min_depth: 2}) %>
+            </div>
+        </aside>
+        <article class="post content-card">
+            <div class="post__header">
+                <% if (theme.layout.post.header.indexOf('thumbnail') !== -1) { %>
+                    <%- partial('_meta/thumbnail', {post: post, position: 'article'}) %> 
+                <% } %>
+                <% if (theme.layout.post.header.indexOf('expire')) { %>
+                    <%- partial('_meta/expire') %>
+                <% } %>
+            </div>
+            <div class="post__content">
+                <div class="markdown-body">
+                    <%- page.content %>
+                </div>
+            </div>
+            <% if (theme.layout.post.footer.indexOf('copyright') !== -1) { %>
+                <%- partial('_meta/copyright') %> 
+            <% } %>
+            <% if (theme.layout.post.footer.indexOf('updated') !== -1) { %>
+                <%- partial('_meta/updated') %> 
+            <% } %>
+            <% if (theme.layout.post.footer.indexOf('tags') !== -1) { %>
+                <%- partial('_meta/categories-block') %> 
+                <%- partial('_meta/tags-block') %> 
+            <% } %> 
+        </article>
+        <br>
+        <% if (theme.comments.enable && page.comments !== false) { %>
+            <div class="post__comment content-card">
+                <%- partial('_third-party/comments.ejs') %>
+            </div>
+        <% } %>
+    </div>
+<% } else { %>
+    <article class="post content-card">
+        <div class="post__header">
+            <% if (theme.layout.post.header.indexOf('thumbnail') !== -1) { %>
+                <%- partial('_meta/thumbnail', {post: post, position: 'article'}) %> 
+            <% } %>
+            <% if (theme.layout.post.header.indexOf('expire')) { %>
+                <%- partial('_meta/expire') %>
+            <% } %>
+        </div>
+        <div class="post__content">
+            <div class="markdown-body">
+                <%- page.content %>
+            </div>
+        </div>
+        <% if (theme.layout.post.footer.indexOf('copyright') !== -1) { %>
+            <%- partial('_meta/copyright') %> 
+        <% } %>
+        <% if (theme.layout.post.footer.indexOf('updated') !== -1) { %>
+            <%- partial('_meta/updated') %> 
+        <% } %>
+        <% if (theme.layout.post.footer.indexOf('tags') !== -1) { %>
+            <%- partial('_meta/categories-block') %> 
+            <%- partial('_meta/tags-block') %> 
+        <% } %> 
+    </article>
+    <br>
+    <% if (theme.comments.enable && page.comments !== false) { %>
+        <div class="post__comment content-card">
+            <%- partial('_third-party/comments.ejs') %>
+        </div>
+    <% } %>
+<% } %>
+
+<% if (!(is_home() || is_tag() || is_category() || is_archive() || page.layout === 'tag' || page.layout === 'category' || page.layout === 'links')) { %>
+    <br>
+    <div class="cover">
+        <% if (theme.cover.menu && theme.cover.menu.length && theme.cover.menu.forEach) { %>
+            <div class="cover__menus">
+                <% for(let i = 0; i < theme.cover.menu.length; ++i) { %>
+                    <a href="<%- url_for(theme.cover.menu[i].url) %>" class="cover-menu button">
+                        <%- theme.cover.menu[i].name %>
+                    </a>
+                    <% if (i !== theme.cover.menu.length - 1) { %>
+                        <span class="separate-dot"></span>
+                    <% } %>
+                <% } %>
+            </div>
+        <% } %>
+    </div>
+<% } %>

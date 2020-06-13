@@ -1,0 +1,97 @@
+<head>
+    <meta charset="utf-8">
+
+    <% if (page.robots) { %>
+        <meta name="robots" content="<%- page.robots %>">
+    <% } %>
+
+    <!--icon-->
+    <% if (theme.head.favicon) { %>
+        <link rel="shortcut icon" type='image/x-icon' href="<%- url_for(theme.head.favicon) %>">
+    <% } else if (config.favicon) { %>
+        <link rel="shortcut icon" type='image/x-icon' href="<%- url_for(config.favicon) %>">
+    <% } %>
+
+    <!-- 渲染优化 -->
+    <meta name="renderer" content="webkit">
+    <meta name="force-rendering" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta name="HandheldFriendly" content="True" >
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <!-- meta -->
+    <%
+        var title = page.title;
+        var keywords = page.keywords;
+        if (!keywords) {
+            keywords = config.keywords;
+        } else {
+            keywords += ', ' + config.keywords;
+        }
+        var description = page.description;
+        if (!description) {
+            description = config.description || '';
+        } else {
+            description += ' -- ' + config.title;
+        }
+        if (is_archive()) {
+            title = __('navbar.archive');
+            if (is_month()) {
+                title += __('symbol.colon') + page.year + '/' + page.month;
+            } else if (is_year()) {
+                title += __('symbol.colon') + page.year;
+            }
+        } else if (is_category()) {
+            title = __('navbar.category') + __('symbol.colon') + page.category;
+        } else if (is_tag()) {
+            title = __('navbar.tag') + __('symbol.colon') + page.tag;
+        } else if (is_home()) {
+            keywords = config.keywords || '';
+            description = config.description || '';
+        }
+    %>
+    <title><% if (title) { %><%= title %> | <% } %><%= config.title %></title>
+    <% if (keywords) { %>
+        <meta name="keywords" content="<%= keywords %>">
+    <% } %>
+    <% if (description) { %>
+        <meta name="description" content="<%= description %>">
+    <% } %>
+
+    <!--Social link-->
+    <% if (theme.head.opengraph.enable) { %> 
+        <%- open_graph({type: theme.head.opengraph.type, twitter_card: theme.head.opengraph.twitter_card, twitter_id: theme.head.opengraph.twitter_id, image: eval(theme.head.opengraph.image), fb_admins: theme.head.opengraph.fb_admins, fb_app_id: theme.head.opengraph.fb_app_id}) %>
+    <% } %>
+
+    <!-- feed -->
+    <% if (config.feed && config.feed.path){ %>
+        <%- feed_tag(config.feed.path, {title: config.title}) %>
+    <% } %>
+
+    <%- css(theme.vendors.style || 'style.css') %> 
+    <% if (is_post()) { %>
+        <link rel="stylesheet" href="<%-theme.vendors.highlight || config.root + 'github.min.css' %>" crossorigin="anonymous" media="none" onload="this.media='all'">
+    <% } %>
+
+    <% if (theme.optimize.darkmode.enable) { %>
+        <%- js(theme.vendors.darkmode || 'js/darkmode.js') %>
+    <% } %>
+
+    <!--LaTex-->
+    <% if (page.mathjax) { %>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous" media="none" onload="this.media='all'">
+        <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <% } %>
+
+    <% if (theme.analytics.busuanzi.enable) { %> 
+        <script async src="<%- theme.vendors.busuanzi || '//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js' %>"></script>
+    <% } %> 
+
+    <% if (theme.head.custom_head && theme.head.custom_head.forEach) { %>
+        <% theme.head.custom_head.forEach((item) => { %>
+            <%- item %> 
+        <% }); %>
+    <% } %>
+
+</head>
