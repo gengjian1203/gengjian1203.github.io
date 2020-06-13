@@ -53,7 +53,7 @@ cover:
     - name: 归档
       url: /archives/
     - name: 项目
-      url: /projects/
+      url: /categories/project/
     - name: 关于
       url: /about/
 
@@ -115,7 +115,7 @@ meta:
   
   # 默认文章作者（可在front-matter中覆盖）
   author:
-    name: 
+    name: gengjian1203
     url: 
   
   # 文章创建日期
@@ -130,7 +130,7 @@ meta:
 
   # 文章过时提醒
   expire: 
-    enable: true
+    enable: false
     duration: 120  # 超过此天数则显示过期提醒
 
   # 文章自动摘要
@@ -202,17 +202,17 @@ optimize:
     loadingImg: 
 
   jquery: 
-    enable: false
+    enable: true
 
   # 如需开启 fancybox 请确保开启上方 jQuery
   fancybox: 
-    enable: false
-    auto: false
+    enable: true
+    auto: true
     
   # 回到顶部按钮
   back_to_top: 
-    enable: false
-    smoothly: false
+    enable: true
+    smoothly: true
 
   # 深色模式（beta）
   darkmode: 
@@ -394,5 +394,3 @@ vendors:
   fancybox: 
     css: 
     js: 
-
-

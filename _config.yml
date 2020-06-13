@@ -102,19 +102,26 @@ deploy:
   repository: git@github.com:gengjian1203/gengjian1203.github.io.git
   branch: master
 
-# 拓展插件
-# 懒加载
+# ---------------------------------------------------------------
+# 优化/功能 插件
+# ---------------------------------------------------------------
+# 如需开启，请复制下段内容至站点配置文件中
 lazyload:
   enable: true
   onlypost: false
-  loadingImage:
+  loadingImg: 
 
-# 图片点击放大插件  
+jquery: 
+  enable: true
+# 如需开启 fancybox 请确保开启上方 jQuery
 fancybox: 
   enable: true
   auto: true
-
-# 返回顶部按钮
+# 回到顶部按钮
 back_to_top: 
   enable: true
   smoothly: true
+
+# 深色模式（beta）
+darkmode: 
+  enable: false
