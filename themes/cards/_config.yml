@@ -116,7 +116,7 @@ meta:
   # 默认文章作者（可在front-matter中覆盖）
   author:
     name: gengjian1203
-    url: 
+    url: https://github.com/gengjian1203/
   
   # 文章创建日期
   date:
