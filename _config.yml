@@ -124,4 +124,4 @@ back_to_top:
 
 # 深色模式（beta）
 darkmode: 
-  enable: false
+  enable: true
