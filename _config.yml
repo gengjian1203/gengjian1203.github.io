@@ -4,11 +4,11 @@
 
 # Site
 title: '耿健的个人博客'
-subtitle: ''
-description: ''
+subtitle: '一个即将放飞理想的咸鱼博主'
+description: '要么读书，要么旅行，身体和灵魂总有一个在路上'
 keywords:
 author: gengjian1203
-language: en
+language: zh-CN
 timezone: ''
 
 # URL
@@ -47,7 +47,7 @@ future: true
 highlight:
   enable: true
   line_number: true
-  auto_detect: false
+  auto_detect: true
   tab_replace: ''
   wrap: true
   hljs: false
@@ -93,7 +93,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: cards
+theme: next
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -102,26 +102,8 @@ deploy:
   repository: git@github.com:gengjian1203/gengjian1203.github.io.git
   branch: master
 
-# ---------------------------------------------------------------
-# 优化/功能 插件
-# ---------------------------------------------------------------
-# 如需开启，请复制下段内容至站点配置文件中
-lazyload:
-  enable: true
-  onlypost: false
-  loadingImg: 
-
-jquery: 
-  enable: true
-# 如需开启 fancybox 请确保开启上方 jQuery
-fancybox: 
-  enable: true
-  auto: true
-# 回到顶部按钮
-back_to_top: 
-  enable: true
-  smoothly: true
-
-# 深色模式（beta）
-darkmode: 
-  enable: true
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
