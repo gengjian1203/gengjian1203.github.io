@@ -2,13 +2,13 @@
 name: 简体中文
 title:
   archive: 归档
-  category: 分类
+  category: 项目
   tag: 标签
   schedule: 日程表
 menu:
   home: 首页
   archives: 归档
-  categories: 分类
+  categories: 项目
   tags: 标签
   about: 关于
   search: 搜索
@@ -45,9 +45,9 @@ counter:
     one: 目前共计 1 个标签
     other: "目前共计 %d 个标签"
   categories:
-    zero: 暂无分类
-    one: 目前共计 1 个分类
-    other: "目前共计 %d 个分类"
+    zero: 暂无项目
+    one: 目前共计 1 个项目
+    other: "目前共计 %d 个项目"
   archive_posts:
     zero: 暂无日志。
     one: 目前共计 1 篇日志。
@@ -55,7 +55,7 @@ counter:
 state:
   posts: 日志
   tags: 标签
-  categories: 分类
+  categories: 项目
 search:
   placeholder: 搜索...
 cheers:
