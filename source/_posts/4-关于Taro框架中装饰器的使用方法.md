@@ -73,7 +73,7 @@ function Demo(arrFunc: Array<string> = [], num: Number = 9999) {
 export default Demo;
 ```
 Taro的装饰器使用方法  
-``` typescript
+``` tsx
 import { Throttle } from '@/kits/decorator/index';
 
 @Demo(['componentDidMount'], 123)

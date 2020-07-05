@@ -71,7 +71,7 @@ ModuleSettingInfo: {
 这样即使执行了action，因为数值没有变化，所以就没有触发页面的渲染。  
 
 **错误的代码**  
-``` javascript
+``` tsx
 // 找到移出项将其剔除
 const arrItemTmp = arrShowModuleInfo.splice(nModuleItemIndex, 1); 
 // 将移出项塞入隐藏列表数组
@@ -84,7 +84,7 @@ popModuleSettingInfo({
 ```
   
 **修改后的代码**  
-``` javascript
+``` tsx
 // 将Redux取到的对象深拷贝
 const arrShowModuleInfoTmp = JSON.parse(JSON.stringify(arrShowModuleInfo));
 const arrHideModuleInfoTmp = JSON.parse(JSON.stringify(arrHideModuleInfo));
@@ -111,7 +111,7 @@ popModuleSettingInfo({
 附上正确的日志做个纪念。  
 
 **实现渲染的日志**  
-``` javascript
+``` bash
 action POP_MODULE_SETTING_INFO
 prev state
 ModuleSettingInfo: {

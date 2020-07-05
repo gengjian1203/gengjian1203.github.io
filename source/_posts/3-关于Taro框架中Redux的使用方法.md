@@ -134,7 +134,7 @@ store = {
 其实TS近乎强迫症的语法，在这一步折腾了好久，不断的在语法错误提示中挣扎。  
 在参考了多方资料之后，总算摸索出来一套不再错误提示的写法。  
 示例是用最基本的方法来操作Redux。  
-``` typescript
+``` tsx
 import { 
   connect 
 } from '@tarojs/redux';

@@ -12,7 +12,7 @@ tags:
 结果点击按钮的时候，  
 蒙层事件也被触发了。  
 这个就是事件冒泡很正常的事情，  
-``` typescript
+``` tsx
 e.stopPropagation();
 ```
 本以为阻止一下就可以了，  
@@ -25,11 +25,11 @@ e.stopPropagation();
 后来在一条评论下面找到了答案。  
 原因是我绑定事件的写法不对。  
 正确的写法应该是。  
-``` typescript
+``` tsx
 onClick={this.handleMaskClick.bind(this)}
 ```
 参考代码  
-``` typescript
+``` tsx
 // 点击蒙板
 handleMaskClick (e: Event) {
   e.stopPropagation();
