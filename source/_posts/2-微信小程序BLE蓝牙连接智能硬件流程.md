@@ -3,6 +3,8 @@ title: 2.微信小程序BLE蓝牙连接智能硬件流程
 date: 2020-06-18 07:59:38
 tags:
   - 微信小程序
+categories:
+  - projects
 ---
 
 ### BLE蓝牙连接智能硬件流程
