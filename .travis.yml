@@ -1,6 +1,11 @@
 language: node_js
 node_js: 10
 
+# 指定缓存模块，可选。缓存可加快编译速度。
+cache:
+  directories:
+    - node_modules
+
 # S: Build Lifecycle
 install:
   - npm install
@@ -9,6 +14,7 @@ install:
 #  - npm install -g gulp
 
 script:
+  - hexo clean
   - hexo g
   # - gulp
 
@@ -18,13 +24,30 @@ after_script:
   - git config user.name "gengjian1203"
   - git config user.email "gengjian1203@foxmail.com"
   - git add .
-  - git commit -m "Update docs"
+
+  # Github Pages
+  - git commit -m "TravisCI 自动部署"
   - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:master
+  # Coding Pages
+  - git push --force --quiet "https://gengjian1203:${CO_TOKEN}@${CO_REF}" master:master
+  - git tag v0.0.$TRAVIS_BUILD_NUMBER -a -m "Auto Taged By TravisCI With Build $TRAVIS_BUILD_NUMBER"
+
+  # Github Pages
+  - git push --quiet "https://${GH_TOKEN}@${GH_REF}" master:master --tags
+  # Coding Pages
+  - git push --quiet "https://gengjian1203:${CO_TOKEN}@${CO_REF}" master:master --tags
+
+  
 
 # E: Build LifeCycle
 branches:
   only:
     - hexo-source
+
 env:
  global:
-   - GH_REF: github.com/gengjian1203/gengjian1203.github.io
+    # Github Pages
+    - GH_REF: github.com/gengjian1203/gengjian1203.github.io
+    # Coding Pages
+    # - CO_REF: git.dev.tencent.com/XuxuGood/XuxuGood.coding.me.git
+    - CO_REF: git.coding.net/p/gengjian1203.coding.me
