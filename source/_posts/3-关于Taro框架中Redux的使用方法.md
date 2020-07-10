@@ -32,7 +32,7 @@ tags:
 ![Redux数据流程图](/images/image_3_1.jpg)
 
 ### 使用流程
-1. 准备好仓库state。（只操作一次）  
+1. 准备好仓库state。（只操作一次，聚合所有数据）  
 ``` typescript
 import { createStore, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
@@ -54,9 +54,9 @@ export default function configStore () {
 举个例子，我准备将主页的相关信息都存储在仓库的这个对象里MainPageInfo。  
 所以我会创建3个文件。  
 ``` bash
-../actions/MainPageInfo.ts  
-../constants/MainPageInfo.ts  
-../reducers/MainPageInfo.ts  
+../actions/MainPageInfo.ts    # 做逻辑处理
+../constants/MainPageInfo.ts  # 更新Redux标记
+../reducers/MainPageInfo.ts   # 小片段的数据，处理数据，更新数据
 ```
   
 3. 准备好对这个对象操作的指令代号。  
