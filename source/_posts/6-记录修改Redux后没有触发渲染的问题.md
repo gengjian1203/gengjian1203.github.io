@@ -98,6 +98,39 @@ popModuleSettingInfo({
   arrHideModuleInfo: arrHideModuleInfoTmp
 });
 ```
+
+### 解决方法2
+今天在做代码review的时候，  
+发现了一个很好的办法，  
+就是通过引用 **immer** 这个库。  
+Immer是mobx的作者写的一个immutable库，  
+核心实现是利用ES6的proxy，  
+几乎以最小的成本实现了js的不可变数据结构。  
+  
+简单的来说就是，想要修改一个对象，  
+如果直接修改，就会修改对象本身，  
+如果深拷贝之后再修改，就比较影响性能。  
+那么Immer的神奇之处就是只会对有变化的数值做深拷贝，  
+而没有变的地方还依然保持旧的引用，  
+以这种巧妙的方式杜绝了修改引用的副作用。  
+  
+引用网上的一个很透彻的说法，  
+“immer的copy-on-write是一个非常有意思的技术。它的思想在于当某个资源被多个实例使用，仅仅在改变值的时候，才copy出一个副本，否则都引用原始对象。”  
+  
+``` bash
+npm i --save immer
+```
+``` ts
+import { produce } from 'immer'
+
+// 不影响原来obj对象，且还能返回修改后的对象。
+function funTest(obj) {
+  return produce(obj, draft => {
+    draft.x = 1;
+    return draft
+  }
+}
+```
   
 ### 后记
 这个问题，总得来说还是对Taro、Redux、Hook的一些东西不熟悉。  
