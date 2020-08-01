@@ -43,26 +43,18 @@ after_script:
   # Coding Pages
   # - git push --quiet "https://gengjian1203:${CO_TOKEN}@${CO_REF}" master:master --tags
 
-  
-
 # E: Build LifeCycle
 branches:
   only:
     - hexo-source
 
 env:
- global:
+  global:
     # Github Pages
     - GH_REF: github.com/gengjian1203/gengjian1203.github.io
     # Gitee Pages
     - GE_REF: gitee.com/gengjian1203/gengjian1203.github.io
-
     # Coding Pages
     # - CO_REF: git.dev.tencent.com/XuxuGood/XuxuGood.coding.me.git
     # - CO_REF: git.coding.net/gengjian1203/gengjian1203.coding.me
     # - CO_REF: https://e.coding.net/yiship/gengjian1203.coding.me/gengjian1203.coding.me.git
-
-language: ruby
-rvm:
- - 2.2
- - jruby
