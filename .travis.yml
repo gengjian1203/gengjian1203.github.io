@@ -61,3 +61,8 @@ env:
     # - CO_REF: git.dev.tencent.com/XuxuGood/XuxuGood.coding.me.git
     # - CO_REF: git.coding.net/gengjian1203/gengjian1203.coding.me
     # - CO_REF: https://e.coding.net/yiship/gengjian1203.coding.me/gengjian1203.coding.me.git
+
+language: ruby
+rvm:
+ - 2.2
+ - jruby
