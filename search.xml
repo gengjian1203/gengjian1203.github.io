@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>1.欢迎来到我的博客</title>
+    <url>/2020/06/15/1-%E6%AC%A2%E8%BF%8E%E6%9D%A5%E5%88%B0%E6%88%91%E7%9A%84%E5%8D%9A%E5%AE%A2/</url>
+    <content><![CDATA[<h3 id="关于博客"><a href="#关于博客" class="headerlink" title="关于博客"></a>关于博客</h3><p>时光如梭，感觉随着岁数增大，就开始想要回忆。<br>从大学最开始学习的turbo C，<br>到后来用的VC 6.0，再到后来visio studio。<br>从课程设计写的MFC，用过cocos引擎，玩过原生APP开发，<br>到后来进了公司去做脚本开发，寻基址，读内存，模拟交互。<br>再到后来被正规军收编在Ubuntu的Qt上做起了C++服务器开发。<br>直到现在做起来主攻微信小程序的前端开发。<br>这一路感觉又坎坷，又曲折。<br>有时候真的很迷惑，自己东一下西一下，<br>最后到底收获了什么。<br>都说没有目标的努力，都是在耍流氓。<br>没想到接近而立之年，竟然一直都是在耍流氓。<br>都说，<br>“种一棵树最好的时间，是十年前，其次就是现在。”<br>恩，买房也是。<br>好吧，古人云，知耻而后勇，<br>既然十年前不曾努力，那就从现在开始。<br>更新频率不用太快，不过我希望我能一直坚持下去！</p>
+<a id="more"></a>
+
+<h3 id="前世今生"><a href="#前世今生" class="headerlink" title="前世今生"></a>前世今生</h3><p>在很久之前，在同学小虎的安利下，<br>曾经布置过一次博客，不过那个博客基本都用来秀美食了。<br>最近心血来潮，觉得应该每隔一段时间，<br>应该复盘一下自身的技术栈，<br>不仅是技术的积累，<br>也能在以后遇到同样问题的时候，也能及时找到解决方法。<br>所以，轻车熟路之下，<br>重新有搭建了个纯技术的博客。<br>这次还是用熟悉的hexo来搭建，<br>不过新尝试了 Travis CI 来做持续集成，<br>以及使用了好评超高的 Next 来做主题。</p>
+<h3 id="持续集成"><a href="#持续集成" class="headerlink" title="持续集成"></a>持续集成</h3><p>因为hexo的源码，和发布代码是不一样的。<br>而建立两个项目，每次push两次，又显得特别的别扭。<br>所以为了想要同时保留两份代码，在网上找到了解决方案。<br>使用 <a href="https://www.travis-ci.org/" target="_blank" rel="noopener">Travis CI</a> 持续集成。<br>大致的思路是这样。<br>github的page功能，之能应用在master主分支上。<br>那么master就用来存放发布后的代码。<br>我们在项目中另外建立个hexo-source分支，去存放我们编写时候的源码。<br>而我们每次只需要push到hexo-source分支上去，<br>然后通过持续集成，项目编译之后，在把发布代码push到master上去，<br>这样就完成了提交一次代码，github能存放两套代码的功能。  </p>
+<p>而Travis CI直接通过github账号登录即可，<br>然后再github中授权Travis CI访问自己的项目。<br>不知道是不是自身网速的原因，<br>感觉每次访问Travis CI和github都会很卡。<br>耐着性子一点点登录，授权之后，<br>在项目中新增允许操作的Key，然后再Travis CI配置好Key值即可。  </p>
+<p>具体的操作可以参考相关成熟的<a href="https://www.jianshu.com/p/5691815b81b6" target="_blank" rel="noopener">技术文章</a>。  </p>
+<p>.travis.yml配置文件可参照如下：  </p>
+<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">language:</span> <span class="string">node_js</span></span><br><span class="line"><span class="attr">node_js:</span> <span class="number">10</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># S: Build Lifecycle</span></span><br><span class="line"><span class="attr">install:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">npm</span> <span class="string">install</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># before_script:</span></span><br><span class="line"><span class="comment">#  - npm install -g gulp</span></span><br><span class="line"></span><br><span class="line"><span class="attr">script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">hexo</span> <span class="string">g</span></span><br><span class="line">  <span class="comment"># - gulp</span></span><br><span class="line"></span><br><span class="line"><span class="attr">after_script:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">cd</span> <span class="string">./public</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">init</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">user.name</span> <span class="string">"gengjian1203"</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">config</span> <span class="string">user.email</span> <span class="string">"gengjian1203@foxmail.com"</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">add</span> <span class="string">.</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">commit</span> <span class="string">-m</span> <span class="string">"Update docs"</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">git</span> <span class="string">push</span> <span class="string">--force</span> <span class="string">--quiet</span> <span class="string">"https://$&#123;GH_TOKEN&#125;@$&#123;GH_REF&#125;"</span> <span class="string">master:master</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># E: Build LifeCycle</span></span><br><span class="line"><span class="attr">branches:</span></span><br><span class="line">  <span class="attr">only:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="string">hexo-source</span></span><br><span class="line"><span class="attr">env:</span></span><br><span class="line"> <span class="attr">global:</span></span><br><span class="line">   <span class="bullet">-</span> <span class="attr">GH_REF:</span> <span class="string">github.com/gengjian1203/gengjian1203.github.io</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="关于主题"><a href="#关于主题" class="headerlink" title="关于主题"></a>关于主题</h3><p>主题也是前后折腾了好多次。<br>从自带的landscape，到之前用过的yilia、cards，<br>直到现在用的<a href="https://github.com/theme-next/hexo-theme-next" target="_blank" rel="noopener">Next</a>。<br>确实不愧是Star最多的主题，也一直更新了下来。<br>虽然配置项比较多，不过用起来确实很舒爽。<br>比如几个常用的配置：  </p>
+<ol>
+<li>Next的子主题<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">scheme:</span> <span class="string">Gemini</span> <span class="comment"># Muse Mist Pisces</span></span><br></pre></td></tr></table></figure></li>
+<li>菜单设置<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">menu:</span></span><br><span class="line">  <span class="attr">home:</span> <span class="string">/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-home</span> <span class="comment"># 首页</span></span><br><span class="line">  <span class="attr">tags:</span> <span class="string">/tags/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-tags</span> <span class="comment"># 标签页</span></span><br><span class="line">  <span class="attr">categories:</span> <span class="string">/categories/projects</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-th</span>  <span class="comment"># 套用分类的功能，直接跳转到分类的子文件夹</span></span><br><span class="line">  <span class="attr">about:</span> <span class="string">/about/</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-user</span> <span class="comment"># 关于</span></span><br></pre></td></tr></table></figure></li>
+<li>菜单标识<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">menu_settings:</span></span><br><span class="line">  <span class="attr">icons:</span> <span class="literal">true</span> <span class="comment"># 菜单现实图标</span></span><br><span class="line">  <span class="attr">badges:</span> <span class="literal">false</span> <span class="comment"># 显示内容的数量</span></span><br></pre></td></tr></table></figure></li>
+<li>头像配置<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">avatar:</span></span><br><span class="line">  <span class="attr">url:</span> <span class="string">/images/head.jpg</span> <span class="comment"># 头像url</span></span><br><span class="line">  <span class="attr">rounded:</span> <span class="literal">true</span> <span class="comment"># 头像圆角</span></span><br><span class="line">  <span class="attr">rotated:</span> <span class="literal">false</span> <span class="comment"># 鼠标略过头像旋转</span></span><br></pre></td></tr></table></figure></li>
+<li>外链配置<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">social:</span></span><br><span class="line"><span class="attr">GitHub:</span> <span class="string">https://github.com/yourname</span> <span class="string">||</span> <span class="string">fab</span> <span class="string">fa-github</span> <span class="comment"># Github链接</span></span><br><span class="line"><span class="attr">E-Mail:</span> <span class="string">mailto:yourname@qq.com</span> <span class="string">||</span> <span class="string">fa</span> <span class="string">fa-envelope</span> <span class="comment"># 邮箱链接</span></span><br></pre></td></tr></table></figure></li>
+<li>标签字号设置<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">tagcloud:</span></span><br><span class="line">  <span class="attr">min:</span> <span class="number">18</span> <span class="comment"># 标签最小字号</span></span><br><span class="line">  <span class="attr">max:</span> <span class="number">18</span> <span class="comment"># 标签最大字号</span></span><br><span class="line">  <span class="comment"># 话说Next主题没有抽出来颜色的变量，如果想要修改，就要改Next的源码，直接搜索tagcloud就能找得到对应CSS样式。</span></span><br></pre></td></tr></table></figure></li>
+<li>评论配置<br>使用的是Valine，需要注册国内后端云服务提供商 LeanCloud 的账号。<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">valine:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span> <span class="comment"># 开启</span></span><br><span class="line">  <span class="attr">appId:</span> <span class="string">xxxxxxxxxx</span> <span class="comment"># LeanCloud 应用 appid</span></span><br><span class="line">  <span class="attr">appKey:</span> <span class="string">xxxxxxxxxx</span> <span class="comment"># LeanCloud 应用 appkey</span></span><br><span class="line">  <span class="attr">placeholder:</span> <span class="string">随便说点什么吧~</span> <span class="comment"># 评论栏默认文字</span></span><br><span class="line">  <span class="attr">meta:</span> <span class="string">[nick,</span> <span class="string">mail,</span> <span class="string">link]</span> <span class="comment"># 客户提交的抬头信息</span></span><br><span class="line">  <span class="attr">pageSize:</span> <span class="number">10</span> <span class="comment"># 评论每页条数</span></span><br><span class="line">  <span class="attr">language:</span> <span class="string">zh-cn</span> <span class="comment"># Language, available values: en, zh-cn</span></span><br></pre></td></tr></table></figure></li>
+<li>本地搜索<br>采用的是hexo-generator-search。通过npm安装。  <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ npm install hexo-generator-searchdb --save</span><br><span class="line">$ npm install hexo-generator-search --save</span><br></pre></td></tr></table></figure>
+将主题的配置项置为true。<figure class="highlight yml"><table><tr><td class="code"><pre><span class="line"><span class="attr">local_search:</span></span><br><span class="line">  <span class="attr">enable:</span> <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+
+</li>
+</ol>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>其实首页加载还是个问题，<br>第一次打开的时候会很慢，非常不好的体验。<br>不知道是不是受限于github的带宽限制，<br>有时候打开github都会很卡。<br>准备研究一下Travis CI如何搭配gulp去使用，<br>看看压缩代码之后，能不能让首屏加载速度有所提升。  </p>
+]]></content>
+      <tags>
+        <tag>Hexo</tag>
+        <tag>Travis CI</tag>
+        <tag>Next</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>10.关于小程序中安卓与iOS的兼容适配坑</title>
+    <url>/2020/07/10/10-%E5%85%B3%E4%BA%8E%E5%B0%8F%E7%A8%8B%E5%BA%8F%E4%B8%AD%E5%AE%89%E5%8D%93%E4%B8%8EiOS%E7%9A%84%E5%85%BC%E5%AE%B9%E5%9D%91/</url>
+    <content><![CDATA[<h3 id="小程序兼容适配"><a href="#小程序兼容适配" class="headerlink" title="小程序兼容适配"></a>小程序兼容适配</h3><p>机型适配，安卓与iOS系统的兼容，<br>是做前端永恒不变的话题。<br>现在随着终端设备的五花八门，<br>系统繁杂，尺寸比各式各样，<br>导致前端的适配工作就是一个永远也填不完的神坑。<br>随即新建了这个文章，<br>用来记录一下自己踩过的兼容适配坑。</p>
+<a id="more"></a>
+
+<h3 id="遇到的坑"><a href="#遇到的坑" class="headerlink" title="遇到的坑"></a>遇到的坑</h3><h4 id="小程序中右滑返回"><a href="#小程序中右滑返回" class="headerlink" title="小程序中右滑返回"></a>小程序中右滑返回</h4><p>可能由于随着手机屏幕过大，<br>在返回交互上，手指够不到左上角的返回键，<br>新增了右滑返回的交互。<br>设计的初衷是好的，不过坑惨了前端开发人员。<br><a href="https://developers.weixin.qq.com/community/develop/doc/000868190489286620a8b27f156c01?highLine=disableSwipeBack" target="_blank" rel="noopener">“右滑手势返回”能力调整</a><br>微信7.0.5客户端版本之后，页面配置中的 <strong>disableSwipeBack</strong> 属性将不再生效。<br>同时也没有api能获取到右划返回的回调。  </p>
+<p>目前能够想到的办法：  </p>
+<ul>
+<li>通过产品交互来回避这个返回坑。  </li>
+<li>通过检测点击屏幕左边边缘，向右滑动这个动作来捕捉这个事件。（但是无法阻止返回上一页面的交互）  </li>
+</ul>
+<h4 id="Textarea标签"><a href="#Textarea标签" class="headerlink" title="Textarea标签"></a>Textarea标签</h4><p>关于输入表单，多行文本一般会使用Textarea组件。<br>这个时候在样式上，就有文本对齐的坑。<br>安卓机型：没有默认内边距，可以正常显示。<br>iOS机型：会有默认的padding偏移，且无法置0。<br>虽然在微信小程序官方文档中提到了，<br>基础库版本2.10.0以上，<br>新增disable-default-padding属性可以去掉iOS下的默认内边距。<br>不过实测之后，发现并没有用。  </p>
+<p>像是vant这样的ui组件库，<br>对Textarea封装的Field组件，<br>在源码上是对ios机型上增加margin-top: -9rpx;样式<br>只能说是尽量抹除机型的差距。</p>
+<h4 id="长机型的底部安全距离预留"><a href="#长机型的底部安全距离预留" class="headerlink" title="长机型的底部安全距离预留"></a>长机型的底部安全距离预留</h4><p>类似iphoneX长机型将样式填满屏幕的时候会有：  </p>
+<ul>
+<li>底部圆边被裁掉样式  </li>
+<li>底部黑色长条遮挡样式  </li>
+<li>误触发Home Indicator事件  </li>
+</ul>
+<p>这个时候就需要给底部留出安全的距离。<br>可以使用该样式来处理。  </p>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.safe-bottom</span> &#123;</span><br><span class="line">  <span class="attribute">padding-bottom</span>: <span class="built_in">constant</span>(safe-area-inset-bottom); <span class="comment">/*兼容 IOS&lt;11.2*/</span></span><br><span class="line">  <span class="attribute">padding-bottom</span>: <span class="built_in">env</span>(safe-area-inset-bottom);      <span class="comment">/*兼容 IOS&gt;11.2*/</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>因为这个变量是iOS系统内核提供的，<br>安卓和开发者工具上用的chromium内核没有这个变量，<br>导致这个样式只支持iOS系统，对安卓系统还需要单独处理。  </p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>未完待续，随时新坑。  </p>
+]]></content>
+      <tags>
+        <tag>微信小程序</tag>
+        <tag>机型兼容适配</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>11.在项目中适配模式的使用</title>
+    <url>/2020/07/13/11-%E5%9C%A8%E9%A1%B9%E7%9B%AE%E4%B8%AD%E9%80%82%E9%85%8D%E6%A8%A1%E5%BC%8F%E7%9A%84%E4%BD%BF%E7%94%A8/</url>
+    <content><![CDATA[<h3 id="使用背景"><a href="#使用背景" class="headerlink" title="使用背景"></a>使用背景</h3><p>项目最近在用Taro重构，<br>在书写代码方面要求比较严格，<br>正好在跟老大调侃，<br>他偶尔看到我一筐switch…case…<br>给我指了指，<br>让我改用适配模式做一做。<br>本来项目任务都已经很紧了，<br>突然代码实现业务方式的改变，<br>让我有点猝不及防。<br>说实话本来是有点抗拒的，毕竟已经写了很多了，<br>不过后来琢磨了一下，产品的逻辑着实是乱的一批，<br>现在多写点代码，为了以后增改逻辑的时候，能少点坑，<br>看样子用上适配模式，也不失为一个好办法。  </p>
+<a id="more"></a>
+
+<h3 id="试用场景"><a href="#试用场景" class="headerlink" title="试用场景"></a>试用场景</h3><p>“适配模式”是比较常用的设计模式之一，<br>核心的概念是，<br>将若干个互不兼容的类，使他们能放到一起去工作。<br>目前的业务场景是这样的：<br>在设置权限模块中，根据设置不同权限类型，<br>对页面有不同的渲染，同时请求不同的数据。  </p>
+<p>按照我平时的做法，都是会把几个权限，<br>每种权限分别抽象成一个标志字符，<br>另外将处理方式封成一个函数，<br>通过传入这个标志字符，来得出渲染结果以及所需的数据。  </p>
+<p>如果是比较规规矩矩的交互，我的方法还是比较快捷的。<br>可是这次实在是每种权限的渲染差异很大，<br>有的是点一项勾选一个，<br>有的是点一项勾选两个，<br>有的是点一项收起/展示另外两项，<br>很难用一个通用的逻辑去解析这种交互。  </p>
+<p>所以干脆写的透彻些，<br>用一个适配器，大大方方的去解决这个问题。<br>把每种权限，用一个类去清清爽爽的处理，<br>这样可以通过类实现物理隔离，不会有牵一发动全身的情况。<br>而且在以后维护的时候，只针对对应的类去修改就好。<br>代码量虽然会多，不过减少了维护成本。  </p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 抽象出来的父类</span></span><br><span class="line"><span class="keyword">interface</span> IPermissionAdaptor &#123;</span><br><span class="line">  support: <span class="function">(<span class="params">result</span>) =&gt;</span> <span class="built_in">Boolean</span>;     <span class="comment">// 判断是否用该适配器</span></span><br><span class="line">  resolve: <span class="function">(<span class="params">result</span>) =&gt;</span> <span class="built_in">Array</span>&lt;<span class="built_in">any</span>&gt;;  <span class="comment">// 使用该适配器的逻辑处理方法</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> &#123;</span><br><span class="line">  IPermissionAdaptor</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="comment">// AAAAA 类型权限</span></span><br><span class="line"><span class="keyword">class</span> NoticeAAAAAdaptor <span class="keyword">implements</span> IPermissionAdaptor&#123;</span><br><span class="line">  support = <span class="function">(<span class="params">objModuleItem</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> objModuleItem.type === <span class="string">'AAAA'</span></span><br><span class="line">  &#125;</span><br><span class="line">  resolve = <span class="function">(<span class="params">objModuleItem</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> arrResult = []</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">return</span> arrResult</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// BBBBB 类型权限</span></span><br><span class="line"><span class="keyword">class</span> NoticeBBBBBdaptor <span class="keyword">implements</span> IPermissionAdaptor&#123;</span><br><span class="line">  support = <span class="function">(<span class="params">objModuleItem</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> objModuleItem.type === <span class="string">'BBBBBB'</span></span><br><span class="line">  &#125;</span><br><span class="line">  resolve = <span class="function">(<span class="params">objModuleItem</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> arrResult = []</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="comment">// do something</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    <span class="keyword">return</span> arrResult</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 待遍历类的数组，如果以后权限多了，可以再次拓展</span></span><br><span class="line"><span class="keyword">const</span> ModulePermissionAdaptors = [</span><br><span class="line">  <span class="keyword">new</span> NoticeAAAAAdaptor(),</span><br><span class="line">  <span class="keyword">new</span> NoticeBBBBBdaptor(),</span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> AdaptorInvoker = &#123;</span><br><span class="line">  apply: <span class="function">(<span class="params">objModuleItem: PermissionResult</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> arrResult = [];</span><br><span class="line">    <span class="comment">// 循环遍历，符合条件的适配器</span></span><br><span class="line">    <span class="comment">// 找到合适的就调用该适配器的逻辑实现方法，得到结果后，终止循环</span></span><br><span class="line">    ModulePermissionAdaptors.every(<span class="function">(<span class="params">adaptor</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (adaptor.support(objModuleItem)) &#123;</span><br><span class="line">        arrResult = adaptor.resolve(objModuleItem)</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;)</span><br><span class="line">    <span class="keyword">return</span> arrResult</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> AdaptorInvoker;</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 调用方法</span></span><br><span class="line"><span class="keyword">const</span> arrResult = PermissionViewAdaptor.apply(objModuleItem)</span><br></pre></td></tr></table></figure>
+
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>草草看来，<br>如果使用适配器模式的话，<br>代码量绝对是暴增，<br>但是这种写法很适合复杂的逻辑。  </p>
+<p>面向过程的写法确实很快，<br>而且代码量也不会看起来这么多。<br>可是，思路无法做到这么清晰，  </p>
+<p>以维护的角度来说，<br>如果两个月后找人再来维护这段代码。<br>面向过程那个面条式的逻辑，绝对会让你捋上半天。<br>说不定增加个功能，还得波及到其他的东西。<br>而这个适配器模式，让人很清除要在哪里修改，<br>也不会有该一处，波及其他逻辑的风险。  </p>
+<p>另外，我想说的是，有时候设计模式该用就得大胆去用，<br>多用才能对这个模式能有更深的理解。<br>多多利用公司重构代码的机会，<br>锻炼一下自身的架构思想。  </p>
+]]></content>
+      <tags>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>12.关于小程序开发的一些杂谈</title>
+    <url>/2020/08/01/12-%E5%85%B3%E4%BA%8E%E5%B0%8F%E7%A8%8B%E5%BA%8F%E5%BC%80%E5%8F%91%E7%9A%84%E4%B8%80%E4%BA%9B%E6%9D%82%E8%B0%88/</url>
+    <content><![CDATA[<h3 id="书写背景"><a href="#书写背景" class="headerlink" title="书写背景"></a>书写背景</h3><p>从接触到开发小程序，<br>也有一段时间了。<br>想新建一个帖子，<br>借此总结复盘一下自己踩过的坑，<br>和含泪背锅的经历。</p>
+<a id="more"></a>
+
+<h3 id="背锅标签"><a href="#背锅标签" class="headerlink" title="背锅标签"></a>背锅标签</h3><ol>
+<li><a href="https://developers.weixin.qq.com/community/develop/doc/0006648cb5cd98d8efa9f2be15b000" target="_blank" rel="noopener">wx.previewImage 不能禁用用户保存图片</a></li>
+<li><a href="https://developers.weixin.qq.com/community/develop/doc/000e2af7f08bc81a3a4738b0d59400?highLine=10003" target="_blank" rel="noopener">ios 播放音频偶尔会出现错误</a></li>
+<li><a href="https://developers.weixin.qq.com/community/develop/doc/000e06415e8080732868e776f56000" target="_blank" rel="noopener">UploadTask.onProgressUpdate 进度回调不准确</a></li>
+<li><a href="https://developers.weixin.qq.com/community/develop/doc/000868190489286620a8b27f156c01?highLine=disableSwipeBack" target="_blank" rel="noopener">“右滑手势返回”能力调整</a></li>
+</ol>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><ol>
+<li><p>每个页面尽量重新调用接口<br>这样做的好处是降低耦合，<br>页面与页面之间是一个非常脆弱的关联。<br>因为谁也说不准未来的需求，<br>会不会一时兴起要“空降”这个页面。<br>那么如果这个页面依赖于之前的缓存或者其他处获取 Redux 等全局的数据，<br>最后的结果肯定是惨痛的修修补补。</p>
+</li>
+<li><p>onLoad/ onShow 生命周期<br>onLoad 的声明周期只用来处理页面传参。<br>onShow 的声明周期用来调用接口初始化数据。<br>如果二者混用，那么绝逼会由于接口异步的调用，<br>导致某些数据依赖数据没获取到就执行下一步，<br>从而使程序出现一堆偶现且莫名其妙的错误。</p>
+</li>
+<li><p>自定义封装的顶部导航<br>关于自定义的导航有两点想说一下：<br>一是，fixed 样式兼容。<br>当处于 fixed 样式的时候，<br>最好能实现个空格高度来占位文档流。<br>这样可以兼容用 fixed 的页面和不用 fixed 的页面。<br>有了占位之后，可以保证 fixed 的页面不会被搞垮掉。<br>另外也没必要让每个页面都要特意做个 padding-top。<br>这个 padding-top 还需要根据机型来判断高度。<br>所以最好还是都封装在顶部导航组件里来处理这个脏活是最好了。<br>二是，返回按钮劫持事件。<br>由于微信版本的更新，<br>在真机使用小程序时候，<br>可以通过右划左屏幕边缘，来完成快捷返回上一页的交互。<br>这个交互且无法关闭。<br>（可能为了照顾大屏手机 or 最小化小程序交互？）<br>这样相当于跨过了点返回按钮才返回的交互。<br>如果再点击返回按钮时候做了逻辑处理，<br>那么就很容易给未来的自己挖坑。<br>所以，最好还是通过 <strong>重定向</strong> 的跳转方式，<br>稳定的来维护我们的路由堆栈。</p>
+</li>
+<li><p>关于接口参数的传递<br>比如封装接口，需要传值的时候，<br>需要多少参数，就给封装函数参数设置多少个变量。<br>举个例子。</p>
+<figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> queryAppInfo = <span class="keyword">async</span> (</span><br><span class="line">  memberId?: <span class="built_in">string</span>,</span><br><span class="line">  appId?: <span class="built_in">string</span>,</span><br><span class="line">  timestamp?: <span class="built_in">string</span></span><br><span class="line">) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> params = &#123;</span><br><span class="line">    memberId,</span><br><span class="line">    appId,</span><br><span class="line">    timestamp,</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">const</span> res = <span class="keyword">await</span> CloudFetch.callFunction(<span class="string">"fetchAppInfo"</span>, params);</span><br><span class="line">  <span class="keyword">return</span> res.data.data[<span class="number">0</span>];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>而有些参数是可选传参。比如我们不需要传递 appId 的时候，<br>外部调用的时候就会很难看</p>
+<figure class="highlight ts"><table><tr><td class="code"><pre><span class="line">queryAppInfo(<span class="string">"007"</span>, , <span class="string">'123'</span>);</span><br></pre></td></tr></table></figure>
+
+<p>那么，个人认为还是在调用接口的地方处理好参数对象，<br>直接将参数对象传入封装的函数中，</p>
+<figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> param = &#123;</span><br><span class="line">  memberId: <span class="string">"007"</span>,</span><br><span class="line">  timestamp: <span class="string">"123"</span>,</span><br><span class="line">&#125;;</span><br><span class="line">queryAppInfo(param);</span><br></pre></td></tr></table></figure>
+
+<p>这样看起来比较规范，数据也会比较安全。</p>
+</li>
+</ol>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>如果后续有想到的会随时更新。</p>
+]]></content>
+      <tags>
+        <tag>微信小程序</tag>
+        <tag>设计模式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>2.微信小程序BLE蓝牙连接智能硬件流程</title>
+    <url>/2020/06/18/2-%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8FBLE%E8%93%9D%E7%89%99%E8%BF%9E%E6%8E%A5%E6%99%BA%E8%83%BD%E7%A1%AC%E4%BB%B6%E6%B5%81%E7%A8%8B/</url>
+    <content><![CDATA[<h3 id="BLE蓝牙连接智能硬件流程"><a href="#BLE蓝牙连接智能硬件流程" class="headerlink" title="BLE蓝牙连接智能硬件流程"></a>BLE蓝牙连接智能硬件流程</h3><p>微信小程序蓝牙模块只支持BLE，通常说的蓝牙4.0（及以上版本）。<br>特点在于低功耗，高速率，距离短，数据量小，以字节流传输。  </p>
+<p>可以通过手机下载对应APP应用来模拟被连接的硬件设备  </p>
+<ul>
+<li>iOS lightblue</li>
+<li>Android BLE调试宝</li>
+</ul>
+<a id="more"></a>
+
+<h3 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h3><p><a href="https://developers.weixin.qq.com/miniprogram/dev/api/device/bluetooth/wx.startBluetoothDevicesDiscovery.html" target="_blank" rel="noopener">微信小程序蓝牙官方文档</a></p>
+<h3 id="通讯流程"><a href="#通讯流程" class="headerlink" title="通讯流程"></a>通讯流程</h3><ol>
+<li>初始化蓝牙适配器。</li>
+<li>搜索蓝牙设备获取设备UUID(deviceId)。（占用资源较多，不搜索要及时停止搜索）（另部分安卓机可能需要获取位置权限才能搜索到蓝牙设备）</li>
+<li>配对绑定设备，建立连接。</li>
+<li>通过设备UUID(deviceId)，获取该设备的设备所有服务(services)。</li>
+<li>通过设备UUID(deviceId)、服务UUID(serviceId)，获取蓝牙设备指定服务的所有特征值(characteristic)。</li>
+<li>通过特征值(characteristic)的属性，获取该特征值的读、写、广播权限。</li>
+<li>通过设备UUID(deviceId)、服务UUID(serviceId)、特征值UUID(characteristicId)，来对该特征值进行读写操作。（传输类型只支持ArrayBuffer）</li>
+<li>通过监听特征值的回调，获取特征值的变化情况。进而实现小程序蓝牙与智能硬件设备的通讯。</li>
+<li>由于BLE低功耗蓝牙的连接非常不稳定。比如：比如刚连接上就断开、连接成功之后传输数据随机断开等情况。所以要做好断线重连等底层通讯异常的对应处理。</li>
+</ol>
+<h3 id="参数示意图"><a href="#参数示意图" class="headerlink" title="参数示意图"></a>参数示意图</h3><p><img src="/images/image_2_1.jpg" alt="参数示意图"></p>
+<h3 id="蓝牙常用API及返回值"><a href="#蓝牙常用API及返回值" class="headerlink" title="蓝牙常用API及返回值"></a>蓝牙常用API及返回值</h3><ol>
+<li>初始化蓝牙适配器<br>wx.openBluetoothAdapter  </li>
+<li>开始搜寻附近的蓝牙外围设备<br>wx.startBluetoothDevicesDiscovery  </li>
+<li>获取搜索发现到的蓝牙设备的具体信息<br>wx.onBluetoothDeviceFound<br>返回值：<br>信号强度：RSSI: number,<br>该设备启动服务的UUID：advertisServiceUUIDs: array,<br>设备UUID：deviceId: string,<br>设备名称：localName: string,<br>设备名称：name: string,<br>serviceData: array object  </li>
+<li>通过设备UUID(deviceId)，来连接对应的设备。<br>wx.createBLEConnection<br>若小程序在之前已有搜索过某个蓝牙设备，并成功建立连接，可直接传入之前搜索获取的 deviceId 直接尝试连接该设备，无需进行搜索操作。  </li>
+<li>通过设备UUID(deviceId)，获取指定蓝牙设备所有服务(service)<br>wx.getBLEDeviceServices<br>返回值：<br>设备UUID：deviceId: string,<br>开启的服务列表：service: array,    </li>
+<li>通过设备UUID(deviceId)和服务UUID(serviceId)，获取蓝牙设备指定服务的所有特征值(characteristic)。<br>wx.getBLEDeviceCharacteristics<br>返回值：<br>设备UUID：deviceId: string,<br>服务UUID：serviceId: string,<br>特征值列表：characteristic: array object<br>特征值UUID：characteristic[0].uuid<br>该特征值是否支持read操作：characteristic[0].properties.read<br>该特征值是否支持write操作：characteristic[0].properties.write<br>该特征值是否支持notify操作：characteristic[0].properties.notify<br>该特征值是否支持indicate操作：characteristic[0].properties.indicate  </li>
+<li>开启notify。必须先启用 notifyBLECharacteristicValueChange 接口才能接收到设备推送的 notification<br>wx.notifyBLECharacteristicValueChange  </li>
+<li>监听低功耗蓝牙设备的特征值变化<br>wx.onBLECharacteristicValueChange<br>返回值：<br>设备UUID：deviceId: string,<br>服务UUID：serviceId: string,<br>特征值UUID：characteristicId: string,<br>特征值: value: ArrayBuffer,  </li>
+<li>发送数据到设备中<br>wx.writeBLECharacteristicValue  </li>
+<li>关闭蓝牙模块。<br>wx.closeBluetoothAdapter  </li>
+<li>停止搜寻附近的蓝牙外围设备。<br>wx.stopBluetoothDevicesDiscovery  </li>
+</ol>
+<h3 id="附件"><a href="#附件" class="headerlink" title="附件"></a>附件</h3><p><a href="/assets/assets_2_1.wpy">基于Wepy的示例</a></p>
+]]></content>
+      <categories>
+        <category>projects</category>
+      </categories>
+      <tags>
+        <tag>微信小程序</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>3.关于Taro框架中Redux的使用方法</title>
+    <url>/2020/06/20/3-%E5%85%B3%E4%BA%8ETaro%E6%A1%86%E6%9E%B6%E4%B8%ADRedux%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h3 id="关于Redux"><a href="#关于Redux" class="headerlink" title="关于Redux"></a>关于Redux</h3><p>个人认为，一些轻量级的项目是完全用不到Redux。<br>简单的单例出一个全局变量管理器，就可以满足项目的需要。<br>不过如果项目一旦沉重起来，需求逻辑繁琐，父子组件通讯错综复杂，<br>开发人员思路又不统一，<br>这个时候如果只是使用全局变量管理，<br>那么数据随时都可能被更改，全局变量将会成为一团乱麻，变得不可被信任。<br>项目的迭代和维护成本也将会迎来指数级的上升，<br>如果这个时候能有一个全局的对象，<br>可随时被观察状态，只能用特殊方式修改状态，<br>将会对项目的维护非常有帮助。<br>而这也就是Redux。  </p>
+<a id="more"></a>
+
+<h3 id="官方文档"><a href="#官方文档" class="headerlink" title="官方文档"></a>官方文档</h3><p><a href="https://taro-docs.jd.com/taro/docs/redux/" target="_blank" rel="noopener">Taro的Redux官方文档</a></p>
+<h3 id="Redux数据流程图"><a href="#Redux数据流程图" class="headerlink" title="Redux数据流程图"></a>Redux数据流程图</h3><p>借用网上流传的图片，发现有个箭头的遗漏，<br>一切起源是因为组件触发了action，<br>才引发了这一系列的流程。<br><img src="/images/image_3_1.jpg" alt="Redux数据流程图"></p>
+<h3 id="使用流程"><a href="#使用流程" class="headerlink" title="使用流程"></a>使用流程</h3><ol>
+<li><p>准备好仓库state。（只操作一次，聚合所有数据）  </p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; createStore, applyMiddleware &#125; <span class="keyword">from</span> <span class="string">'redux'</span>;</span><br><span class="line"><span class="keyword">import</span> thunkMiddleware <span class="keyword">from</span> <span class="string">'redux-thunk'</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; createLogger &#125; <span class="keyword">from</span> <span class="string">'redux-logger'</span>;</span><br><span class="line"><span class="keyword">import</span> rootReducer <span class="keyword">from</span> <span class="string">'../reducers'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> middlewares = [</span><br><span class="line">  thunkMiddleware,</span><br><span class="line">  createLogger()</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">configStore</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> store = createStore(rootReducer, applyMiddleware(...middlewares));</span><br><span class="line">  <span class="keyword">return</span> store;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>准备一个数据对象。<br>举个例子，我准备将主页的相关信息都存储在仓库的这个对象里MainPageInfo。<br>所以我会创建3个文件。  </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">../actions/MainPageInfo.ts    <span class="comment"># 做逻辑处理</span></span><br><span class="line">../constants/MainPageInfo.ts  <span class="comment"># 更新Redux标记</span></span><br><span class="line">../reducers/MainPageInfo.ts   <span class="comment"># 小片段的数据，处理数据，更新数据</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>准备好对这个对象操作的指令代号。<br>我会将指令代号以及类型声明存放在这个文件中。<br>../actions/MainPageInfo.ts  </p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 切换主页底部导航</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">const</span> SET_MAIN_PAGE_SELECT: <span class="built_in">string</span> = <span class="string">'SET_MAIN_PAGE_SELECT'</span>;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">type</span> MainPageInfoType = &#123;</span><br><span class="line">  nSelectIndex: <span class="built_in">number</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>准备对这个对象的行动。<br>我会将所需要的操作存放在这个文件中。<br>../actions/MainPageInfo.ts  </p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  SET_MAIN_PAGE_SELECT</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">'@/constants/MainPageInfo'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="function"><span class="keyword">function</span> <span class="title">setMainPageSelect</span> (<span class="params">nSelectIndex: <span class="built_in">number</span></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> &#123;</span><br><span class="line">    <span class="keyword">type</span>: SET_MAIN_PAGE_SELECT,</span><br><span class="line">    nMainPageSelect: nSelectIndex</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  setMainPageSelect,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>准备对这个对象数据的改动。<br>我会将操作之后的数据改动放在这个文件中。<br>../reducers/MainPageInfo.ts  </p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;</span><br><span class="line">  SET_MAIN_PAGE_SELECT</span><br><span class="line">&#125; <span class="keyword">from</span> <span class="string">'@/constants/MainPageInfo'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> INITIVAL_STATE = &#123;</span><br><span class="line">  nSelectIndex: <span class="number">0</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> <span class="function"><span class="keyword">function</span> <span class="title">MainPageInfo</span> (<span class="params">state = INITIVAL_STATE, action</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">switch</span> (action.type) &#123;</span><br><span class="line">    <span class="keyword">case</span> SET_MAIN_PAGE_SELECT:</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        ...state,</span><br><span class="line">        nSelectIndex: action.nMainPageSelect</span><br><span class="line">      &#125;</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">      <span class="keyword">return</span> &#123;</span><br><span class="line">        ...state</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>准备阶段完毕<br>那么准备阶段完毕，<br>我可以通过setMainPageSelect方法传入的参数，<br>来修改store.MainPageInfo.nSelectIndex<br>而此时我的期望数据结构就会是这样。  </p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line">store = &#123;</span><br><span class="line">  MainPageInfo: &#123;</span><br><span class="line">    nSelectIndex: <span class="built_in">number</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在Taro中运用<br>其实TS近乎强迫症的语法，在这一步折腾了好久，不断的在语法错误提示中挣扎。<br>在参考了多方资料之后，总算摸索出来一套不再错误提示的写法。<br>示例是用最基本的方法来操作Redux。  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; </span><br><span class="line">  connect </span><br><span class="line">&#125; from &#39;@tarojs&#x2F;redux&#39;;</span><br><span class="line">import &#123; </span><br><span class="line">  MainPageInfoType </span><br><span class="line">&#125; from &#39;@&#x2F;constants&#x2F;MainPageInfo&#39;;</span><br><span class="line">import &#123; </span><br><span class="line">  setMainPageSelect,</span><br><span class="line">&#125; from &#39;@&#x2F;actions&#x2F;MainPageInfo&#39;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 类型声明：传递过来的变量</span><br><span class="line">type PageStateProps &#x3D; &#123;</span><br><span class="line">  MainPageInfo: MainPageInfoType;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 类型声明：传递过来的dispatch方法</span><br><span class="line">type PageDispatchProps &#x3D; &#123;</span><br><span class="line">  setMainPageSelect: (nSelectIndex: number) &#x3D;&gt; any;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 类型声明：传递过来的普通方法</span><br><span class="line">type PageOwnProps &#x3D; &#123; &#125;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 类型声明：组件内变量</span><br><span class="line">type PageState &#x3D; &#123; &#125;;</span><br><span class="line"></span><br><span class="line">type IProps &#x3D; PageStateProps &amp; PageDispatchProps &amp; PageOwnProps;</span><br><span class="line"></span><br><span class="line">type IState &#x3D; PageState;</span><br><span class="line"></span><br><span class="line">@connect(</span><br><span class="line">  (&#123; MainPageInfo &#125;) &#x3D;&gt; (&#123;</span><br><span class="line">    MainPageInfo</span><br><span class="line">  &#125;),</span><br><span class="line">  dispatch &#x3D;&gt; (&#123;</span><br><span class="line">    setMainPageSelect (nSelectIndex: number) &#123;</span><br><span class="line">      dispatch(setMainPageSelect(nSelectIndex));</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">)</span><br><span class="line">export default class Main extends Component&lt;IProps, IState&gt; &#123;</span><br><span class="line">  &#x2F;&#x2F; 测试按钮</span><br><span class="line">  handleTestClick () &#123;</span><br><span class="line">    const &#123;</span><br><span class="line">      MainPageInfo,</span><br><span class="line">      setMainPageSelect</span><br><span class="line">    &#125; &#x3D; this.props;</span><br><span class="line">    console.log(&#39;handleTestClick before.&#39;, MainPageInfo);</span><br><span class="line">    setMainPageSelect(9999);</span><br><span class="line">    console.log(&#39;handleTestClick after.&#39;, MainPageInfo);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; </span><br><span class="line">  render () &#123;</span><br><span class="line">    (</span><br><span class="line">      &#x2F;&#x2F; ...</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们不能直接的去修改store中的数据，<br>我们可以触发handleTestClick，<br>通过dispatch，调用setMainPageSelect方法，<br>来对store.MainPageInfo.nSelectIndex的数值进行修改。  </p>
+</li>
+</ol>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>前端的框架语法更新很快，<br>React 16.8版本新增了React Hook的写法。<br>这也让操作Redux的方式更加灵活了。<br>我会在接下来的时间里研究一下Hook的写法，整理出来。  </p>
+]]></content>
+      <tags>
+        <tag>微信小程序</tag>
+        <tag>Taro</tag>
+        <tag>Redux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>4.关于Taro框架中装饰器的使用方法</title>
+    <url>/2020/06/21/4-%E5%85%B3%E4%BA%8ETaro%E6%A1%86%E6%9E%B6%E4%B8%AD%E8%A3%85%E9%A5%B0%E5%99%A8%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/</url>
+    <content><![CDATA[<h3 id="关于装饰器"><a href="#关于装饰器" class="headerlink" title="关于装饰器"></a>关于装饰器</h3><p>装饰器模式是在不影响原来的类/方法/属性的基础上，<br>增加的新功能的方式。<br>一般可以运用在权限校验、日志打印、性能测验、属性保护、节流防抖、耦合度低的重复性工作（加积分）等等……<br>或者说，你干脆不想动别人写的代码，免得背锅，<br>这个时候就可以通过装饰器模式进行改造。  </p>
+<a id="more"></a>
+
+<h3 id="装饰器的几种模式"><a href="#装饰器的几种模式" class="headerlink" title="装饰器的几种模式"></a>装饰器的几种模式</h3><ol>
+<li><p>对类进行的装饰<br>以类为单元，可以对类中的声明周期，以及所有类中的属性和方法进行装饰。<br>虽然都能够包括在内，不过以类为单元过于庞大，<br>需要做精准的筛选和操作。<br>而Taro可能是因为框架的原因，只能够修饰类，其他两种方式都不能被使用，所以只能硬着头皮去装饰类。  </p>
+</li>
+<li><p>对方法进行的装饰<br>这个用起来比较精准，用起来比较顺眼，便于理解，<br>也是常用的装饰器模式。  </p>
+</li>
+<li><p>对属性进行的装饰<br>同时，装饰器也能装饰一些变量，<br>比如给某个变量增加只读的属性，<br>这样如果无意间修改了变量，编译器也能做出对应的提示。  </p>
+</li>
+</ol>
+<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><p>装饰模式装饰类的实现。  </p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Demo装饰器示例</span></span><br><span class="line"><span class="comment">// 功能在类中所有方法前后都打印Log，并且屏蔽指定的方法，替换成输出数字。</span></span><br><span class="line"><span class="comment">// 使用方式</span></span><br><span class="line"><span class="comment">// @Demo(['componentDidMount'], 123)</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Demo</span>(<span class="params">arrFunc: <span class="built_in">Array</span>&lt;<span class="built_in">string</span>&gt; = [], num: <span class="built_in">Number</span> = 9999</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span> <span class="title">Demo</span>(<span class="params">target, key, descriptor</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'Demo Params'</span>, &#123; target, key, descriptor, arrFunc, num &#125;);</span><br><span class="line">    <span class="keyword">if</span> (target.prototype) &#123;</span><br><span class="line">      <span class="comment">// 拷贝对象，获取类中的所有方法</span></span><br><span class="line">      <span class="keyword">const</span> desc = <span class="built_in">Object</span>.getOwnPropertyDescriptors(target.prototype);</span><br><span class="line">      <span class="comment">// 遍历该对象中所有方法</span></span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> key of <span class="built_in">Object</span>.keys(desc)) &#123;</span><br><span class="line">        <span class="keyword">const</span> func = desc[key].value;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> func === <span class="string">'function'</span>) &#123;</span><br><span class="line">          <span class="comment">// 修改对象的现有属性key，并且返回这个对象</span></span><br><span class="line">          <span class="built_in">Object</span>.defineProperty(target.prototype, key, &#123;</span><br><span class="line">            value(...args: <span class="built_in">any</span>[]) &#123;</span><br><span class="line">              <span class="comment">// 指定方法则屏蔽原方法，打印个参数</span></span><br><span class="line">              <span class="keyword">if</span> (arrFunc &amp;&amp; arrFunc.indexOf(key) &gt; <span class="number">-1</span>) &#123;</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;key&#125;</span> - <span class="subst">$&#123;num&#125;</span>`</span>);</span><br><span class="line">                <span class="keyword">return</span> &#123;&#125;;</span><br><span class="line">              &#125; </span><br><span class="line">              <span class="comment">// 其他方法 装饰前后log</span></span><br><span class="line">              <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;key&#125;</span> - before.`</span>);</span><br><span class="line">              <span class="keyword">const</span> res = func.apply(<span class="keyword">this</span>, args);</span><br><span class="line">              <span class="built_in">console</span>.log(<span class="string">`<span class="subst">$&#123;key&#125;</span> - after.`</span>);</span><br><span class="line">              <span class="keyword">return</span> res;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; <span class="keyword">as</span> <span class="built_in">any</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> Demo;</span><br></pre></td></tr></table></figure>
+<p>Taro的装饰器使用方法  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import &#123; Throttle &#125; from &#39;@&#x2F;kits&#x2F;decorator&#x2F;index&#39;;</span><br><span class="line"></span><br><span class="line">@Demo([&#39;componentDidMount&#39;], 123)</span><br><span class="line">export default class AvatarModule extends Component &#123;</span><br><span class="line">  &#x2F;&#x2F; </span><br><span class="line">  render () &#123;</span><br><span class="line">    (</span><br><span class="line">      &#x2F;&#x2F; ...</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>话说，刚刚说过的Redux的connect其实也是装饰器的实现。  </p>
+]]></content>
+      <tags>
+        <tag>微信小程序</tag>
+        <tag>设计模式</tag>
+        <tag>Taro</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>5.阻止Taro框架中的事件冒泡</title>
+    <url>/2020/06/22/5-%E9%98%BB%E6%AD%A2Taro%E6%A1%86%E6%9E%B6%E4%B8%AD%E7%9A%84%E4%BA%8B%E4%BB%B6%E5%86%92%E6%B3%A1/</url>
+    <content><![CDATA[<h3 id="问题起因"><a href="#问题起因" class="headerlink" title="问题起因"></a>问题起因</h3><p>在书写Taro的一个弹窗组件的时候，<br>在弹窗按钮和蒙层分别绑定了点击事件。<br>结果点击按钮的时候，<br>蒙层事件也被触发了。<br>这个就是事件冒泡很正常的事情，  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">e.stopPropagation();</span><br></pre></td></tr></table></figure>
+<p>本以为阻止一下就可以了，<br>结果发现并不好用。  </p>
+<a id="more"></a>
+
+<h3 id="解决过程"><a href="#解决过程" class="headerlink" title="解决过程"></a>解决过程</h3><p>网上找了很多文档都是这么说的，<br>后来在一条评论下面找到了答案。<br>原因是我绑定事件的写法不对。<br>正确的写法应该是。  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">onClick&#x3D;&#123;this.handleMaskClick.bind(this)&#125;</span><br></pre></td></tr></table></figure>
+<p>参考代码  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 点击蒙板</span><br><span class="line">handleMaskClick (e: Event) &#123;</span><br><span class="line">  e.stopPropagation();</span><br><span class="line">  console.log(&#39;handleMaskClick&#39;);</span><br><span class="line">  this.setShow(false);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 点击登录按钮</span><br><span class="line">handleLoginClick (e: Event) &#123;</span><br><span class="line">  e.stopPropagation();</span><br><span class="line">  console.log(&#39;handleLoginClick&#39;);</span><br><span class="line">  this.setShow(false);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">render() &#123;</span><br><span class="line">    const &#123;</span><br><span class="line">      m_isShow</span><br><span class="line">    &#125; &#x3D; this.state;</span><br><span class="line"></span><br><span class="line">    return (</span><br><span class="line">      &lt;View className&#x3D;&#39;login-dialog-wrap&#39;&gt;</span><br><span class="line">        &lt;View </span><br><span class="line">          className&#x3D;&#39;login-dialog-mask&#39;</span><br><span class="line">          onClick&#x3D;&#123;this.handleMaskClick.bind(this)&#125;</span><br><span class="line">        &gt;</span><br><span class="line">          &lt;View className&#x3D;&#123;classNames(m_isShow ? </span><br><span class="line">                                      &#39;fade-in-from-btottom login-dialog-content&#39; : </span><br><span class="line">                                      &#39;fade-out-from-btottom login-dialog-content&#39;)&#125;</span><br><span class="line">          &gt;</span><br><span class="line">              &lt;View className&#x3D;&#39;content-text&#39;&gt;</span><br><span class="line">                登录后即可体验更多服务</span><br><span class="line">              &lt;&#x2F;View&gt;</span><br><span class="line">              &lt;Button </span><br><span class="line">                className&#x3D;&#39;content-button&#39;</span><br><span class="line">                openType&#x3D;&#39;getUserInfo&#39;</span><br><span class="line">                onClick&#x3D;&#123;this.handleLoginClick.bind(this)&#125;</span><br><span class="line">              &gt;</span><br><span class="line">                微信登录</span><br><span class="line">              &lt;&#x2F;Button&gt;</span><br><span class="line">            &lt;&#x2F;View&gt;</span><br><span class="line">        &lt;&#x2F;View&gt;</span><br><span class="line">      &lt;&#x2F;View&gt;</span><br><span class="line">    )</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>虽然Taro是一个能够多端开发，跨平台的优秀框架，<br>不过不知道是不是菜鸟手生的缘故，<br>总是感觉遇到了很多奇奇怪怪的坑。<br>比如这个阻止事件冒泡，<br>还有不能使用修饰方法的装饰器什么的，<br>反正踩着踩着，<br>也就习惯了。  </p>
+]]></content>
+      <tags>
+        <tag>微信小程序</tag>
+        <tag>Taro</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>6.记录修改Redux后没有触发渲染的问题</title>
+    <url>/2020/06/30/6-%E8%AE%B0%E5%BD%95%E4%BF%AE%E6%94%B9Redux%E5%90%8E%E6%B2%A1%E6%9C%89%E8%A7%A6%E5%8F%91%E6%B8%B2%E6%9F%93%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h3 id="问题起因"><a href="#问题起因" class="headerlink" title="问题起因"></a>问题起因</h3><p>由于刚开始熟悉Taro + Redux + Hook的技术栈，<br>开发过程中有时候用的还很蹩脚，<br>出现了很多问题，也踩了许多坑。<br>今天就遇到这么个问题，<br>页面是根据Redux中的数据来渲染的，<br>可是明明已经修改了Redux的数据，<br>而且redux-logger也打印出来日志了，<br>页面却没有重新刷新渲染。  </p>
+<a id="more"></a>
+
+<h3 id="定位问题"><a href="#定位问题" class="headerlink" title="定位问题"></a>定位问题</h3><p>由于技术栈的不熟悉，想过了很多可能性，<br>比如：需要主动触发刷新函数、Hook的底层实现不一样等等……<br>疯狂的确认constants、reducers、actions这一流程的书写方式。<br>也尝试调用其他可以实现渲染有效的actions来找异同点。<br>最终还是通过日志发现了一些端倪。  </p>
+<p><strong>不渲染的日志</strong><br>本意是将两个数组长度从5,2 改变成4,3。  </p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">action POP_MODULE_SETTING_INFO</span><br><span class="line">prev state</span><br><span class="line">ModuleSettingInfo: &#123;</span><br><span class="line">  ...</span><br><span class="line">  arrShowModuleInfo: <span class="built_in">Array</span>(<span class="number">4</span>), </span><br><span class="line">  arrHideModuleInfo: <span class="built_in">Array</span>(<span class="number">3</span>),</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">action</span><br><span class="line">type: <span class="string">"POP_MODULE_SETTING_INFO"</span></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">next state</span><br><span class="line">ModuleSettingInfo: &#123;</span><br><span class="line">  ...</span><br><span class="line">  arrShowModuleInfo: <span class="built_in">Array</span>(<span class="number">4</span>), </span><br><span class="line">  arrHideModuleInfo: <span class="built_in">Array</span>(<span class="number">3</span>),</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>可是日志记录的是从4,3 改变成4,3。<br>那么是不是因为数据没有变化，所以没有触发渲染。<br>可是数据又是什么时候被改成4,3了呢？  </p>
+<h3 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h3><p>代码此处的逻辑是，<br>通过Hook的useSelector，<br>来获取到Redux中的ModuleSettingInfo。<br>对取到的ModuleSettingInfo直接修改后，<br>使之作为参数再执行了action。  </p>
+<p>简单的来说，我修改了两次。<br>第一次是直接因为浅拷贝，引用到那块内存给修改了，<br>第二次是使用Redux的action，通过正规操作又修改一次。<br>也是因为这次action日志被打印出来了，<br>不过因为第二次修改的时候，数值已经被修改过了，<br>所以日志的prev state和next state数值是一样的。<br>这样即使执行了action，因为数值没有变化，所以就没有触发页面的渲染。  </p>
+<p><strong>错误的代码</strong>  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 找到移出项将其剔除</span><br><span class="line">const arrItemTmp &#x3D; arrShowModuleInfo.splice(nModuleItemIndex, 1); </span><br><span class="line">&#x2F;&#x2F; 将移出项塞入隐藏列表数组</span><br><span class="line">arrHideModuleInfo.unshift(arrItemTmp[0]);</span><br><span class="line">&#x2F;&#x2F; 结果存入redux并渲染</span><br><span class="line">popModuleSettingInfo(&#123;</span><br><span class="line">  arrShowModuleInfo,</span><br><span class="line">  arrHideModuleInfo</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><strong>修改后的代码</strong>  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#x2F;&#x2F; 将Redux取到的对象深拷贝</span><br><span class="line">const arrShowModuleInfoTmp &#x3D; JSON.parse(JSON.stringify(arrShowModuleInfo));</span><br><span class="line">const arrHideModuleInfoTmp &#x3D; JSON.parse(JSON.stringify(arrHideModuleInfo));</span><br><span class="line">&#x2F;&#x2F; 找到移出项将其剔除</span><br><span class="line">const arrItemTmp &#x3D; arrShowModuleInfoTmp.splice(nModuleItemIndex, 1); </span><br><span class="line">&#x2F;&#x2F; 将移出项塞入隐藏列表数组</span><br><span class="line">arrHideModuleInfoTmp.unshift(arrItemTmp[0]);</span><br><span class="line">&#x2F;&#x2F; 结果存入redux并渲染</span><br><span class="line">popModuleSettingInfo(&#123;</span><br><span class="line">  arrShowModuleInfo: arrShowModuleInfoTmp,</span><br><span class="line">  arrHideModuleInfo: arrHideModuleInfoTmp</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="解决方法2"><a href="#解决方法2" class="headerlink" title="解决方法2"></a>解决方法2</h3><p>今天在做代码review的时候，<br>发现了一个很好的办法，<br>就是通过引用 <strong>immer</strong> 这个库。<br>Immer是mobx的作者写的一个immutable库，<br>核心实现是利用ES6的proxy，<br>几乎以最小的成本实现了js的不可变数据结构。  </p>
+<p>简单的来说就是，想要修改一个对象，<br>如果直接修改，就会修改对象本身，<br>如果深拷贝之后再修改，就比较影响性能。<br>那么Immer的神奇之处就是只会对有变化的数值做深拷贝，<br>而没有变的地方还依然保持旧的引用，<br>以这种巧妙的方式杜绝了修改引用的副作用。  </p>
+<p>引用网上的一个很透彻的说法，<br>“immer的copy-on-write是一个非常有意思的技术。它的思想在于当某个资源被多个实例使用，仅仅在改变值的时候，才copy出一个副本，否则都引用原始对象。”  </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">npm i --save immer</span><br></pre></td></tr></table></figure>
+<figure class="highlight ts"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; produce &#125; <span class="keyword">from</span> <span class="string">'immer'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 不影响原来obj对象，且还能返回修改后的对象。</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">funTest</span>(<span class="params">obj</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> produce(obj, <span class="function"><span class="params">draft</span> =&gt;</span> &#123;</span><br><span class="line">    draft.x = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">return</span> draft</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>这个问题，总得来说还是对Taro、Redux、Hook的一些东西不熟悉。<br>这就让在定位问题的时候比较浪费时间，<br>怀疑自身Hook的使用方法、怀疑Redux的写法、<br>怀疑Hook底层实现、怀疑小程序的实现机制、<br>怀疑Taro的版本更新不靠谱等等……<br>结果，却是因为自身的Redux用法错误。  </p>
+<p>好在最后终于找到问题，并且解决了。<br>附上正确的日志做个纪念。  </p>
+<p><strong>实现渲染的日志</strong>  </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">action POP_MODULE_SETTING_INFO</span><br><span class="line">prev state</span><br><span class="line">ModuleSettingInfo: &#123;</span><br><span class="line">  ...</span><br><span class="line">  arrShowModuleInfo: Array(5), </span><br><span class="line">  arrHideModuleInfo: Array(2),</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">action</span><br><span class="line"><span class="built_in">type</span>: <span class="string">"POP_MODULE_SETTING_INFO"</span></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">next state</span><br><span class="line">ModuleSettingInfo: &#123;</span><br><span class="line">  ...</span><br><span class="line">  arrShowModuleInfo: Array(4), </span><br><span class="line">  arrHideModuleInfo: Array(3),</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>微信小程序</tag>
+        <tag>Taro</tag>
+        <tag>Redux</tag>
+        <tag>Hook</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>7.通过Shell脚本实现本地自动打包上传</title>
+    <url>/2020/07/05/7-%E9%80%9A%E8%BF%87Shell%E8%84%9A%E6%9C%AC%E5%AE%9E%E7%8E%B0%E6%9C%AC%E5%9C%B0%E8%87%AA%E5%8A%A8%E6%89%93%E5%8C%85%E4%B8%8A%E4%BC%A0/</url>
+    <content><![CDATA[<h3 id="背景痛点"><a href="#背景痛点" class="headerlink" title="背景痛点"></a>背景痛点</h3><p>在开发流程中的测试阶段，<br>当测试完一批bug单，就需要去打一个最新版的体验码，<br>来配合测试去检验新的一批bug单。<br>打体验码的话，需要那个人现将写到一半的代码git stash，<br>开始编译打包。（2次平台版、专属版）  </p>
+<p>在持续集成系统没有搭建完毕的时候，<br>可以临时写一个脚本，来完成繁琐的打包上传工作。  </p>
+<a id="more"></a>
+
+<h3 id="脚本功能"><a href="#脚本功能" class="headerlink" title="脚本功能"></a>脚本功能</h3><p>通过shell脚本来实现平台版和专属版小程序自动打包的功能。<br>只需要在拉取最新代码后，执行脚本，输入版本号/版本备注，<br>即可实现一键对平台版/专属版，两套代码的自动编译，<br>利用微信cli接口来实现打包上传。<br>每次打体验码时间大概可以控制在5分钟以内。  </p>
+<h3 id="脚本思路"><a href="#脚本思路" class="headerlink" title="脚本思路"></a>脚本思路</h3><ol>
+<li>校验入参合法性。版本号的规则正则校验。  </li>
+<li>兼容Window和mac系统，适配两个系统的路径。  </li>
+<li>修改小程序标识位，设置为专属版标识。  </li>
+<li>编译代码。  </li>
+<li>修改开发者工具appid。  </li>
+<li>上传代码</li>
+<li>重复3-6步骤，将小程序标识位设置为平台版。  </li>
+</ol>
+<h3 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h3><ol>
+<li><p>macOS:<br>&lt;安装路径&gt;/Contents/MacOS/cli  </p>
+</li>
+<li><p>Windows:<br>配置环境变量 WECHAT_DEVTOOL_PATH_CLI: &lt;安装路径&gt;/cli.bat<br>※ 确保安装路径不能有空格！<br>重启电脑以应用环境变量<br>配置nodejs / npm / wepy环境  </p>
+</li>
+<li><p>微信开发者工具配置:<br>设置 -&gt; 安全设置 -&gt; 服务端口<br>设置为：开启  </p>
+</li>
+</ol>
+<h3 id="优化方向"><a href="#优化方向" class="headerlink" title="优化方向"></a>优化方向</h3><ol>
+<li>目前脚本只是调用写死的APPID，未来可以优化动态读取ext.json内的APPID。  </li>
+</ol>
+<h3 id="附件"><a href="#附件" class="headerlink" title="附件"></a>附件</h3><p><a href="/assets/assets_7_1.sh">小程序本地自动打包脚本</a></p>
+]]></content>
+      <categories>
+        <category>projects</category>
+      </categories>
+      <tags>
+        <tag>微信小程序</tag>
+        <tag>Shell</tag>
+        <tag>Wepy</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>8.解决Taro里面滚动穿透的问题</title>
+    <url>/2020/07/05/8-%E8%A7%A3%E5%86%B3Taro%E9%87%8C%E9%9D%A2%E6%BB%9A%E5%8A%A8%E7%A9%BF%E9%80%8F%E7%9A%84%E9%97%AE%E9%A2%98/</url>
+    <content><![CDATA[<h3 id="问题起因"><a href="#问题起因" class="headerlink" title="问题起因"></a>问题起因</h3><p>最近的项目在用Taro重构代码，<br>接到个令人头秃的交互，通过拖拽栏目来改变排序顺序。<br>好在小程序和Taro框架，<br>已经封装了<strong>MovableArea</strong>和<strong>MovableView</strong>这俩标签，能降低点难度。<br>不过还是需要通过计算来定位位置，让我这个学酥瑟瑟发抖。  </p>
+<p>结果实现到最后的时候，遇到了个大坑，<br>就是滚动穿透的问题。<br>效果就是，当这边拖拽着栏目的时候，结果页面也跟着一起滚动。<br>也是醉了。  </p>
+<a id="more"></a>
+
+<h3 id="解决过程"><a href="#解决过程" class="headerlink" title="解决过程"></a>解决过程</h3><p>首先，想到的就是事件拦截，<br>比如阻止事件冒泡，结果拦截也木有用，<br>或者用原生小程序catchtouchmove来绑定事件，<br>结果直接语法报错，一脸懵逼。  </p>
+<p>其次，就百度谷歌，<br>网上也有一些解决方法，<br>不过在我这里唯一生效的方法，就是靠样式生生阻止了滚动，<br>虽然感觉这个方法有些奇葩，<br>但是目前也就先采用这个方案了。  </p>
+<p>最后，就是禁用iOS系统特有的屏幕滚动特效。<br>不禁用采取默认值的话，<br>iOS机型的屏幕依旧滚动的很魔性。  </p>
+<h3 id="代码示例"><a href="#代码示例" class="headerlink" title="代码示例"></a>代码示例</h3><p>在最外层的View增加样式，<br>通过是否处于点击状态变量标识，来改变样式。  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;View className&#x3D;&#123;&#96;$&#123;isTouch ? &#39;scroll-lock&#39;: &#39;scroll-unlock&#39;&#125;&#96;&#125;&gt;</span><br><span class="line">  ...</span><br><span class="line">&lt;&#x2F;View&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight less"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.scroll-lock</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100vh</span>; </span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.scroll-unlock</span> &#123;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">100vh</span>; </span><br><span class="line">  <span class="attribute">overflow-y</span>: scroll;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>禁用iOS系统特有的屏幕滚动特效。<br>页面级新建文件 ./index.config.ts  </p>
+<figure class="highlight typescript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> &#123;</span><br><span class="line">  disableScroll: <span class="literal">true</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>话说Taro论坛也没有相关的介绍，<br>感觉这个问题应该是比较常见啊。<br>不知道是不是我找错位置了。  </p>
+<p>而且，另外有种感觉就是React系框架写东西很吃力，<br>也是自己不太熟悉的原因吧。  </p>
+<p>如果让我比喻的话（狗头保命勿喷），<br>Vue系的框架，像是一盘快餐，像是自动挡的车，<br>可以快速的满足需求，很多都是傻瓜式操作，<br>框架默认帮助自己做了很多东西，<br>这样缺点就是会导致代码可优化空间也会很有限，<br>当项目做大会觉得后继无力。  </p>
+<p>React系的框架，像是一顿正餐，像是手动挡的车，<br>煎炸烹煮都可以开发者自由的选择，<br>自由度高，可操作性比较复杂，<br>正因为如此，<br>导致项目差异会很大，想充分驾驭React就需要更多的知识储备，<br>高手和菜鸟写出来的东西完全是两种效果。  </p>
+<p>前端就是一个这样的生态环境吧，<br>框架迭代频繁，<br>逆水行舟，不进则退。<br>每天只有不断地学习，才能不会被后浪拍在沙滩上吧。  </p>
+]]></content>
+      <tags>
+        <tag>微信小程序</tag>
+        <tag>Taro</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>9.关于Taro中常用Hook的用法</title>
+    <url>/2020/07/09/9-%E5%85%B3%E4%BA%8ETaro%E4%B8%AD%E5%B8%B8%E7%94%A8Hook%E7%9A%84%E7%94%A8%E6%B3%95/</url>
+    <content><![CDATA[<h3 id="关于Hook"><a href="#关于Hook" class="headerlink" title="关于Hook"></a>关于Hook</h3><p>Hook这个特性，是React16.8中新增的，<br>随着小程序框架Taro对React的支持，<br>让Taro也能开始使用，<br>甚至在Taro3.0.0开始，在底层api做了代理，<br>让Hook方法直接可以从React包中引用。<br>值得注意的是，<br>Hook的方法，只能在函数组件的主体内部调用。</p>
+<a id="more"></a>
+
+<h3 id="React系的Hook"><a href="#React系的Hook" class="headerlink" title="React系的Hook"></a>React系的Hook</h3><h4 id="useState"><a href="#useState" class="headerlink" title="useState"></a>useState</h4><p>由于函数式组件每次渲染都会执行一次函数，<br>那么函数内的变量是无法被保存住的。<br>所以如果想要将数据保存住的话，<br>需要使用这个Hook，来将数据存储起来。  </p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">const [nCount, setCount] &#x3D; useState&lt;number&gt;(0);</span><br><span class="line">&#x2F;&#x2F; 使用nCount</span><br><span class="line">console.log(&#39;nCount&#39;, nCount);</span><br><span class="line">&#x2F;&#x2F; 更新Count</span><br><span class="line">setCount(nCount++);</span><br></pre></td></tr></table></figure>
+
+<h4 id="useEffect"><a href="#useEffect" class="headerlink" title="useEffect"></a>useEffect</h4><p>这个Hook可谓是最常用的方法，<br>同时也是一个很危险的Hook，<br>因为他可以模拟出来3种以类方式React的声明周期。  </p>
+<ul>
+<li>可以模拟刚加载页面或者组件的声明周期 <strong>componentsDidMount</strong> </li>
+<li>可以模拟销毁页面或者组件的声明周期 <strong>componentsWillUnmount</strong> </li>
+<li>如果有依赖项 <strong>deps</strong> 的时候，那么就会监听 <strong>deps</strong> 中的数据，一旦数据有变化，则也会执行一次函数。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">useEffect(() &#x3D;&gt; &#123;</span><br><span class="line">  &#x2F;&#x2F; componentsDidMount</span><br><span class="line">  &#x2F;&#x2F; componentsDidUpdate</span><br><span class="line">  return () &#x3D;&gt; &#123;</span><br><span class="line">    &#x2F;&#x2F; componentsWillUnmount</span><br><span class="line">  &#125;</span><br><span class="line">&#125;, [deps])</span><br></pre></td></tr></table></figure>
+<p>值得注意的是，<br>正因为会检测数值变化，就会执行一次函数，<br>所以如果在函数内又修改了该数值，<br>就会很容易产生死循环，<br>所以要谨慎的对书写函数内的逻辑。  </p>
+<p>那么，你也应该发现了，<br>这个函数也是一个闭包，内部的数据存在于独立的存储空间，<br>内部的数据永远都只会是第一次创建时候的数据。<br>如果需要跟外接数据同步，就需要将想同步的变量加入依赖 <strong>deps</strong> 中，<br>这样变量发生变化一次之后，内部闭包函数重新调用一次以更新数据。  </p>
+<h4 id="useCallBack"><a href="#useCallBack" class="headerlink" title="useCallBack"></a>useCallBack</h4><h4 id="useuseRef"><a href="#useuseRef" class="headerlink" title="useuseRef"></a>useuseRef</h4><h4 id="useMemo"><a href="#useMemo" class="headerlink" title="useMemo"></a>useMemo</h4><h4 id="useContext"><a href="#useContext" class="headerlink" title="useContext"></a>useContext</h4><h3 id="Taro系（小程序专用）的Hook"><a href="#Taro系（小程序专用）的Hook" class="headerlink" title="Taro系（小程序专用）的Hook"></a>Taro系（小程序专用）的Hook</h3><p>这些Hook对开发过小程序的小伙伴应该是非常友好的了。  </p>
+<h4 id="useDidShow"><a href="#useDidShow" class="headerlink" title="useDidShow"></a>useDidShow</h4><p>页面再度激活，<br>返回或者切回前台的生命周期，<br>等同于 <strong>onShow(componentDidShow)</strong></p>
+<h4 id="useDidHide"><a href="#useDidHide" class="headerlink" title="useDidHide"></a>useDidHide</h4><p>切到后台，页面隐藏的生命周期，<br>等同于 <strong>onHide(componentDidHide)</strong>  </p>
+<h4 id="usePullDownRefresh"><a href="#usePullDownRefresh" class="headerlink" title="usePullDownRefresh"></a>usePullDownRefresh</h4><p>下拉刷新的生命周期，<br>等同于 <strong>onPullDownRefresh</strong>  </p>
+<h4 id="useReachBottom"><a href="#useReachBottom" class="headerlink" title="useReachBottom"></a>useReachBottom</h4><p>页面拉到底部的生命周期，<br>等同于 <strong>onReachBottom</strong>  </p>
+<h4 id="usePageScroll"><a href="#usePageScroll" class="headerlink" title="usePageScroll"></a>usePageScroll</h4><p>页面发生滚动的生命周期，<br>等同于 <strong>onPageScroll</strong>  </p>
+<h4 id="useResize"><a href="#useResize" class="headerlink" title="useResize"></a>useResize</h4><p>页面尺寸发生变化的生命周期，<br>等同于 <strong>onResize</strong>  </p>
+<h4 id="useShareAppMessage"><a href="#useShareAppMessage" class="headerlink" title="useShareAppMessage"></a>useShareAppMessage</h4><p>分享的生命周期，<br>等同于 <strong>onShareAppMessage</strong>  </p>
+<h4 id="useRouter"><a href="#useRouter" class="headerlink" title="useRouter"></a>useRouter</h4><p>获取路由信息。<br>等同于 <strong>getCurrentInstance().router</strong>  </p>
+<h4 id="useReady"><a href="#useReady" class="headerlink" title="useReady"></a>useReady</h4><p>页面节点加载完毕的生命周期，<br>等同于 <strong>onReady</strong>  </p>
+<h3 id="自定义Hook"><a href="#自定义Hook" class="headerlink" title="自定义Hook"></a>自定义Hook</h3><h4 id="useXXXX"><a href="#useXXXX" class="headerlink" title="useXXXX"></a>useXXXX</h4><h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>其实，我自身对Hook的语法也是刚刚接触，<br>可能有些理解不是很深刻，也比较懵懂。<br>那么随着自身对这些Hook的理解，<br>我也会对这篇文章的内容不断更新。  </p>
+]]></content>
+      <tags>
+        <tag>微信小程序</tag>
+        <tag>Taro</tag>
+        <tag>Hook</tag>
+        <tag>React</tag>
+      </tags>
+  </entry>
+</search>
