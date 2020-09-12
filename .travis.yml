@@ -51,7 +51,7 @@ env:
     # Github Pages
     - GH_REF: github.com/gengjian1203/gengjian1203.github.io
     # Coding Pages
-    - CO_REF: git.coding.net/gengjian1203/gengjian1203/gengjian1203.git
+    - CO_REF: e.coding.net/gengjian1203/gengjian1203/gengjian1203.git
     # - CO_REF: git.dev.tencent.com/XuxuGood/XuxuGood.coding.me.git
     # - CO_REF: git.coding.net/gengjian1203/gengjian1203.coding.me
     # - CO_REF: https://e.coding.net/yiship/gengjian1203.coding.me/gengjian1203.coding.me.git
