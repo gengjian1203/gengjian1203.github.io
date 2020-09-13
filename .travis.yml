@@ -26,7 +26,7 @@ after_script:
   - git add .
 
   # Github Pages
-  - git commit -m "TravisCI Update"
+  - git commit -m "Update Blog By TravisCI With Build $TRAVIS_BUILD_NUMBER"
   - git push --force --quiet "https://${GH_TOKEN}@${GH_REF}" master:master
   # Coding Pages
   - git push --force --quiet "https://gengjian1203:${CO_TOKEN}@${CO_REF}" master:master
