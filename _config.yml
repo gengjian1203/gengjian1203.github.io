@@ -101,7 +101,7 @@ deploy:
   type: "git"
   repository:
     github: git@github.com:gengjian1203/gengjian1203.github.io.git
-    # coding: git@e.coding.net:gengjian1203/gengjian1203/gengjian1203.git
+    coding: git@e.coding.net:gengjian1203/gengjian1203/gengjian1203.git
   branch: master
 
 search:
