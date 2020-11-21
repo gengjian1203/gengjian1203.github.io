@@ -2,7 +2,6 @@
 title: 15.flex布局下文字超出宽度后省略号不起作用解决方法
 date: 2020-08-21 08:34:09
 tags:
-  - 微信小程序
   - CSS
 ---
 
@@ -61,18 +60,18 @@ tags:
 
 ### 解决方法
 
-```tsx
-<View className="wrap">
-  <View className="module-left"></View>
-  <View className="module-mid">
-    <View className="mid-text">abcabcabcabcabcabcabcabcabc</View>
-  </View>
-  <View className="module-right"></View>
-</View>
+```html
+<div class="module-wrap">
+  <div class="module-left">1111</div>
+  <div class="module-mid">
+    <div class="mid-text text-ellipsis">abcabcabcabcabcabcabcabcabc</div>
+  </div>
+  <div class="module-right">2222</div>
+</div>
 ```
 
 ```less
-.wrap {
+.module-wrap {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -81,7 +80,8 @@ tags:
     height: 100%;
     flex: 0 0 120px;
   }
-  .mid-text {
+
+  .module-mid {
     flex: 1 1 auto;
     width: 0; /* 此处的宽度为关键 */
     height: 100%;
@@ -94,6 +94,7 @@ tags:
       white-space: nowrap;
     }
   }
+
   .module-right {
     height: 100%;
     flex: 0 0 120px;
