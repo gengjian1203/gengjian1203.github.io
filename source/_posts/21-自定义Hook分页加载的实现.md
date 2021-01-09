@@ -25,17 +25,23 @@ tags:
 `入参`就是：  
 需要调用的接口函数、以及对应的传入参数。  
 `返回值`就是：  
-用以展示的列表数据。
+用以展示的列表数据，以及总条数。
 
 所以在 useQueryPageList 里面同时需要使用生命周期：
-`useEffect`初次加载：用以加载第一组分页数据
-`useReachBottom`触底加载分页：用以加载下组分页数据
-`usePullDownRefresh`下拉刷新：用以重新加载第一组分页数据
+`useEffect`监听 funFetchApi、param 其中之一发生变化：重新请求一次第一分页（第一次进入页面通过此处获取数据）
+`useEffect`监听 isUpdateList 变化：用于主动触发刷新的需求
+`useDidShow`onShow 生命周期：重新获取数据（注：第一次进入页面虽触发 onShow 不过不去执行获取数据操作）
+`useReachBottom`触底生命周期：加载下一分页数据
+`usePullDownRefresh`下拉刷新生命周期：重新加载第一分页数据
 
 同时我们需要绑定变量保存当前加载情况：
 `nPageNum`当前加载的分页编号
 `nPageSize`每组分页加载多少条数据
 `arrPageList`目前已经加载的数据
+
+`isInitComplate`是否初始化完毕
+`funFetchApiTmp`接口 API 的备份，用以判断是否有变化
+`paramTmp`接口入参的备份，用以判断是否有变化
 
 最后在之前的三个声明周期分别触发回调函数，将获取到的分页数据返回即可。
 
