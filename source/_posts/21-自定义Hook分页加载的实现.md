@@ -50,56 +50,160 @@ import Taro, {
   usePullDownRefresh,
 } from "@tarojs/taro";
 import { useEffect, useRef } from "react";
+import useDebounce from "@/hooks/useDebounce";
 
-const PAGE_SIZE = 50;
+const PAGE_NUM_LOCK = 2;
+const PAGE_SIZE = 20;
 
+/**
+ * @param callback 获取到的列表数据回调函数
+ * @param funFetchApi 请求数据的接口函数
+ * @param param 请求数据的必要参数
+ * @param isUpdateList 修改则主动触发onShow刷新
+ */
 const useQueryPageList = (
   callback: any,
   funFetchApi: any = null,
-  param: any = {}
+  param: any = {},
+  isUpdateList: boolean = false
 ) => {
   const nPageNum = useRef<number>(0);
+  const nTotalCount = useRef<number>(0);
   const arrPageList = useRef<Array<any>>([]);
+
+  const isInitComplate = useRef<boolean>(false);
+  const funFetchApiTmp = useRef(undefined);
+  const paramTmp = useRef(undefined);
+
   const nPageSize = param.nPageSize ? param.nPageSize : PAGE_SIZE;
 
-  // // 重新加载
-  // useDidShow(async () => {
-  // 	console.log('useQueryPageList useDidShow')
-  // 	callback({ state: 'LOADING' })
-  // 	const paramReal = {
-  // 		...param,
-  // 		nPageNum: 0,
-  // 		nPageSize: (nPageNum.current + 1) * nPageSize,
-  // 	}
-  // 	const res = await funFetchApi(paramReal)
-  // 	arrPageList.current = res ? res.data : []
-  // 	callback({ state: 'RESULT', data: arrPageList.current, total: 100000 })
-  // })
-
-  // 初次加载
-  useEffect(() => {
-    if (!funFetchApi) {
-      return;
-    }
-    console.log("useQueryPageList useEffect");
-    callback({ state: "LOADING" });
-    const paramReal = {
-      ...param,
-      nPageNum: 0,
-      nPageSize: nPageSize,
+  /**
+   * 统一处理接口返回数据
+   * @param res
+   */
+  const dealFetchResult = (res: any) => {
+    const list = res?.data ? res.data : [];
+    const totalCount =
+      res?.totalCount === undefined
+        ? 9999
+        : res?.totalCount
+        ? res?.totalCount
+        : 0;
+    nTotalCount.current = totalCount;
+    return {
+      list,
+      totalCount,
     };
-    funFetchApi(paramReal).then((res) => {
-      arrPageList.current = res ? res.data : [];
-      callback({ state: "RESULT", data: arrPageList.current });
-    });
-  }, []);
+  };
 
-  // 触底加载分页
-  useReachBottom(() => {
-    if (!funFetchApi) {
+  /**
+   * 统一返回结果数据
+   */
+  const returnCallBack = () => {
+    callback &&
+      callback({
+        state: "RESULT",
+        list: arrPageList.current,
+        totalCount: nTotalCount.current,
+      });
+  };
+
+  /**
+   * 监听funFetchApi、param其中之一发生变化：重新请求一次第一分页
+   * 新增防抖操作，只取短时间内最后一次的请求结果
+   */
+  useEffect(
+    useDebounce(() => {
+      const isNotUndefined =
+        !(funFetchApi === undefined) && !(param === undefined);
+      const isDiff =
+        funFetchApiTmp.current !== funFetchApi ||
+        JSON.stringify(paramTmp.current) !== JSON.stringify(param);
+      if (isNotUndefined && isDiff) {
+        funFetchApiTmp.current = funFetchApi;
+        paramTmp.current = param;
+        nPageNum.current = 0;
+        callback && callback({ state: "LOADING" });
+        const paramReal = {
+          ...param,
+          nPageNum: nPageNum.current,
+          nPageSize: nPageSize,
+        };
+        funFetchApi &&
+          funFetchApi(paramReal).then((res) => {
+            console.log("useQueryPageList useUpdateApiOrParam", res);
+            const { list } = dealFetchResult(res);
+            arrPageList.current = list;
+            isInitComplate.current = true;
+            returnCallBack();
+          });
+      }
+    }, 500),
+    [funFetchApi, param]
+  );
+
+  /**
+   * 监听isUpdateList变化：用于主动触发刷新
+   */
+  useEffect(() => {
+    if (!callback || !funFetchApi) {
       return;
     }
-    console.log("useQueryPageList useReachBottom");
+    if (isInitComplate.current) {
+      callback({ state: "LOADING" });
+      // 一次最多加载(PAGE_NUM_LOCK + 1) * PAGE_SIZE条数据
+      nPageNum.current =
+        nPageNum.current >= PAGE_NUM_LOCK ? PAGE_NUM_LOCK : nPageNum.current;
+      const paramReal = {
+        ...param,
+        nPageNum: 0,
+        nPageSize: (nPageNum.current + 1) * nPageSize,
+      };
+      funFetchApi(paramReal).then((res) => {
+        console.log("useQueryPageList useUpdateList", res);
+        const { list } = dealFetchResult(res);
+        arrPageList.current = list;
+        returnCallBack();
+      });
+    }
+  }, [isUpdateList]);
+
+  /**
+   * onShow声明周期：重新获取数据（注：第一次进入页面虽触发onShow不过不执行获取数据操作）
+   */
+  useDidShow(() => {
+    if (!callback || !funFetchApi) {
+      return;
+    }
+    if (isInitComplate.current) {
+      callback({ state: "LOADING" });
+      // 一次最多加载PAGE_NUM_LOCK * PAGE_SIZE条数据
+      nPageNum.current =
+        nPageNum.current >= PAGE_NUM_LOCK ? PAGE_NUM_LOCK : nPageNum.current;
+      const paramReal = {
+        ...param,
+        nPageNum: 0,
+        nPageSize: (nPageNum.current + 1) * nPageSize,
+      };
+      funFetchApi(paramReal).then((res) => {
+        console.log("useQueryPageList useDidShow", res);
+        const { list } = dealFetchResult(res);
+        arrPageList.current = list;
+        returnCallBack();
+      });
+    }
+  });
+
+  /**
+   * 触底生命周期：加载下一分页数据
+   */
+  useReachBottom(() => {
+    if (!callback || !funFetchApi) {
+      return;
+    }
+    if (nPageNum.current * nPageSize > nTotalCount.current) {
+      return;
+    }
     callback({ state: "REACH_BOTTOM" });
     nPageNum.current++;
     const paramReal = {
@@ -108,14 +212,18 @@ const useQueryPageList = (
       nPageSize: nPageSize,
     };
     funFetchApi(paramReal).then((res) => {
-      arrPageList.current = arrPageList.current.concat(res ? res.data : []);
-      callback({ state: "RESULT", data: arrPageList.current });
+      console.log("useQueryPageList useReachBottom", res);
+      const { list } = dealFetchResult(res);
+      arrPageList.current = arrPageList.current.concat(list);
+      returnCallBack();
     });
   });
 
-  // 下拉刷新
+  /**
+   * 下拉刷新生命周期：重新加载第一分页数据
+   */
   usePullDownRefresh(() => {
-    if (!funFetchApi) {
+    if (!callback || !funFetchApi) {
       return;
     }
     console.log("useQueryPageList usePullDownRefresh");
@@ -127,8 +235,10 @@ const useQueryPageList = (
       nPageSize: nPageSize,
     };
     funFetchApi(paramReal).then((res) => {
-      arrPageList.current = res ? res.data : [];
-      callback({ state: "RESULT", data: arrPageList.current });
+      console.log("useQueryPageList usePullDownRefresh", res);
+      const { list } = dealFetchResult(res);
+      arrPageList.current = list;
+      returnCallBack();
     });
   });
 };
@@ -150,13 +260,15 @@ export default useQueryPageList;
    `方案 1`：列表页面 onShow 生命周期再次加载一次。  
    优点：onShow 操作简单，再次调取接口即可。
    缺点：比如刚刚点赞的是第 1000 条。页面只会再次加载一次第一组分页数据，页面就会被强制拉上去。要是页面再次加载是将刚刚加载的数据再次请求一次，那么一次请求数据过于庞大也会有问题。且接口请求需要时间，点赞数更新需要等待。  
-   `方案 2`：本地数据管理，进行本地刷新。  
+   `方案 2`：本地数据管理，精准刷新。  
    列表页面 onShow 声明周期的时候，不做任何处理。  
    点赞评论等操作的时候，除了接口调用，同时也要将本地数据同步进行修改。
    优点：减少接口调用，提升性能，优化体验。
-   缺点：需要精确管理本地数据，给点赞、评论等操作增加副作用冗余操作，逻辑复杂。后期维护增加困难。且如果是帖子取消置顶等交互操作无法判定帖子原来的位置，同样需要接口支持。
+   缺点：需要跨组件甚至跨页面，精确管理本地数据，给点赞、评论等操作增加副作用冗余操作，逻辑复杂。后期维护增加困难。且如果是帖子取消置顶等交互操作无法判定帖子原来的位置，同样需要接口支持。
+   `方案 3`：即为方案 1 的优化版本。  
+   onShow 生命周期再次加载一次。不过设定一次加载最多条数。以防一次性加载数量过于庞大。
 
-   根据项目来决定使用哪种方案。相比之下，个人比较倾向于方案 2 的使用。
+   根据项目来决定使用哪种方案。相比之下，个人比较倾向于方案 3 的使用。
 
 ### 后记
 
