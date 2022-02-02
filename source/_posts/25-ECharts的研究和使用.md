@@ -1,11 +1,11 @@
 ---
-title: 25.ECharts的使用小记
+title: 25.ECharts的研究和使用
 date: 2021-07-07 07:51:12
 tags:
   - ECharts
 ---
 
-### 折腾背景
+### 研究背景
 
 最近项目疯狂折腾报表，很多图表纯使用 CSS 实现是不现实的，  
 专业的事情还是得交给专业的库去实现。  
@@ -55,7 +55,7 @@ ECharts 生成对象、初始化等操作没什么太过特殊的地方。
    所以也要注意属性支持的最低版本。  
    如：  
    `series-bar.selectedMode` 属性从`v5.0.0`开始支持。  
-   `series-bar. showBackground`属性从`v4.7.0`开始支持。
+   `series-bar.showBackground`属性从`v4.7.0`开始支持。
 
 3. 更换 ECharts 库的版本，报错 "fp is not a function"  
    坑在官方定制 ECharts 库的网站的“代码压缩”选项有毒，不要勾选。  
