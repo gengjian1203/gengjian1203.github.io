@@ -60,4 +60,4 @@ categories:
 
 ### 附件
 
-[小程序本地自动打包脚本](/assets/assets_7_1.sh)
+[小程序本地自动打包脚本](../../../../assets/assets_7_1.sh)

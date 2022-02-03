@@ -91,4 +91,4 @@ categories:
 
 ### 附件
 
-[基于 Wepy 的示例](/assets/assets_2_1.wpy)
+[基于 Wepy 的示例](../../../../assets/assets_2_1.wpy)
