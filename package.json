@@ -7,7 +7,10 @@
     "clean": "hexo clean",
     "deploy": "hexo deploy",
     "server": "hexo server",
-    "upload": "hexo generate && node ./script/uploadWeb.js"
+    "showUrl": "node ./script/showUrl.js",
+    "uploadMaster": "cp ./script/_config_Master.yml _config.yml && hexo generate && ./script/uploadMaster.sh",
+    "uploadWeb": "cp ./script/_config_Web.yml _config.yml && hexo generate && node ./script/uploadWeb.js",
+    "upload": "yarn uploadWeb && yarn uploadMaster && yarn showUrl"
   },
   "hexo": {
     "version": "4.2.1"

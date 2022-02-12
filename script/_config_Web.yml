@@ -13,8 +13,8 @@ timezone: ""
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://gengjian1203.github.io/
-root: /
+url: https://prod-5gkxku5cdb510bb2-1259256375.tcloudbaseapp.com/gengjian1203/
+root: /gengjian1203/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -23,7 +23,7 @@ pretty_urls:
 
 # Directory
 source_dir: source
-public_dir: gengjian1203_master
+public_dir: gengjian1203
 tag_dir: tags
 archive_dir: archives
 category_dir: categories
