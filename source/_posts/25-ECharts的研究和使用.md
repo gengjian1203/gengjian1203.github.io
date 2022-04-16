@@ -62,6 +62,11 @@ ECharts 生成对象、初始化等操作没什么太过特殊的地方。
    如果下载下来的包过大，可以自己手动通过其他网站[https://tool.lu/js/](https://tool.lu/js/)进行混淆压缩。  
    即可正常使用。
 
+4. ECharts 多次 init 后 setOption，小程序会崩溃，疑似内存泄漏。
+
+   复现场景：一个页面 init9 个 ECharts 实例，同时对实例 setOptions，来回进出页面，约 15~16 次之后，小程序崩溃。  
+   已经调用 this.chart.clear() / this.chart.dispose()的销毁方法，并没有实际作用。
+
 ### 参考资料
 
 1. [官方 options 文档](https://echarts.apache.org/zh/option.html)
