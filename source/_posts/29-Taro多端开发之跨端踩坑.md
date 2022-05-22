@@ -190,6 +190,23 @@ canvas.toDataURL();
 
 最后，将 base64 转换为接口上传所需要的格式（Blob），进而完成图片的上传功能。
 
+13. H5 获取参数通过 this.$router.params 获取不到参数中携带=等字符
+
+```js
+if (process.env.TARO_ENV === "h5") {
+  const { href = "" } = (window && window.location) || {};
+  const { path: pathH5 = "", params: paramsH5 = {} } =
+    router2Params(href) || {};
+  path = pathH5.split("#")[1] || "";
+  params = paramsH5;
+  // 暂不兼容类似 http://localhost:10086?code=071UBEge2snGkI0Szxhe2BPNge2UBEgU&state=123#/pages/index 格式，如有场景需要可后续拓展
+} else {
+  const { path: pathTmp = "", params: paramsTmp = {} } = this.$router || {};
+  path = pathTmp;
+  params = paramsTmp;
+}
+```
+
 ### 参考资料
 
 [Taro 多端开发文档](https://taro-docs.jd.com/taro/docs/envs)  
