@@ -92,7 +92,7 @@ CI 是一种通过在应用开发阶段引入自动化来频繁向客户交付�
 
 ### 参考资料
 
-[微信官方文档/CI](https://developers.weixin.qq.com/miniprogram/dev/devtools/ci.html)
+- [1. 微信官方文档/CI](https://developers.weixin.qq.com/miniprogram/dev/devtools/ci.html)
 
 ### 附件
 

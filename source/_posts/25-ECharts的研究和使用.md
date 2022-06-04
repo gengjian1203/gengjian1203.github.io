@@ -69,9 +69,9 @@ ECharts 生成对象、初始化等操作没什么太过特殊的地方。
 
 ### 参考资料
 
-1. [官方 options 文档](https://echarts.apache.org/zh/option.html)
-2. [官方示例](https://echarts.apache.org/examples/zh/index.html)
-3. [定制 ECharts 库](https://echarts.apache.org/zh/builder.html)
-4. [echarts 多个地区合并并实现标注](https://blog.csdn.net/liuy_1314/article/details/108866987)
-5. [echarts 合并地图，把中国各个省份分成大区](https://blog.csdn.net/weixin_33743661/article/details/93469931)
-6. [echarts 示例](https://www.makeapie.com/explore.html)
+- [1. 官方 options 文档](https://echarts.apache.org/zh/option.html)
+- [2. 官方示例](https://echarts.apache.org/examples/zh/index.html)
+- [3. 定制 ECharts 库](https://echarts.apache.org/zh/builder.html)
+- [4. echarts 多个地区合并并实现标注](https://blog.csdn.net/liuy_1314/article/details/108866987)
+- [5. echarts 合并地图，把中国各个省份分成大区](https://blog.csdn.net/weixin_33743661/article/details/93469931)
+- [6. echarts 示例](https://www.makeapie.com/explore.html)

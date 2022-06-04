@@ -119,9 +119,9 @@ tags:
 
 ### 参考资料
 
-1. [在 mac 上使用 docker 部署 gitlab](http://billqiu.github.io/2016/07/08/%E5%9C%A8mac%E4%B8%8A%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2gitlab/)
-2. [基于 Docker 在 Mac OS X 系统中的部署和设置 GitLab](http://comdyn.hy.tsinghua.edu.cn/from-web/mac-os/570-docker-gitlat)
-3. [Docker gitlab 502 解决办法](https://blog.csdn.net/rex1129/article/details/110119830)
-4. [自建 gitlab 服务器以及出现 502 错误解决方案](https://blog.csdn.net/ianly123/article/details/82984736)
-5. [调整 git 仓库的连接地址](https://blog.csdn.net/top_code/article/details/50381432)
-6. [多个 git 账号的 SSH 配置](https://www.cnblogs.com/micrari/p/5659036.html)
+- [1. 在 mac 上使用 docker 部署 gitlab](http://billqiu.github.io/2016/07/08/%E5%9C%A8mac%E4%B8%8A%E4%BD%BF%E7%94%A8docker%E9%83%A8%E7%BD%B2gitlab/)
+- [2. 基于 Docker 在 Mac OS X 系统中的部署和设置 GitLab](http://comdyn.hy.tsinghua.edu.cn/from-web/mac-os/570-docker-gitlat)
+- [3. Docker gitlab 502 解决办法](https://blog.csdn.net/rex1129/article/details/110119830)
+- [4. 自建 gitlab 服务器以及出现 502 错误解决方案](https://blog.csdn.net/ianly123/article/details/82984736)
+- [5. 调整 git 仓库的连接地址](https://blog.csdn.net/top_code/article/details/50381432)
+- [6. 多个 git 账号的 SSH 配置](https://www.cnblogs.com/micrari/p/5659036.html)

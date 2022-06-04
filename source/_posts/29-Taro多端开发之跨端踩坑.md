@@ -37,16 +37,16 @@ tags:
 }
 
 // good
-.page-wrap {
+.pageWrap {
 }
 
-.page-content {
+.pageContent {
 }
 
-.page-list {
+.pageList {
 }
 
-.page-item {
+.pageItem {
 }
 ```
 
@@ -207,17 +207,21 @@ if (process.env.TARO_ENV === "h5") {
 }
 ```
 
+14. 微信 H5 长按图片识别码功能。
+
+如果屏幕内有很多码，长按没有完整展示在屏幕内的码，进行识别的时候，可能会识别出是屏幕其他码的信息。（疑似是微信的自身 bug）
+
 ### 参考资料
 
-[Taro 多端开发文档](https://taro-docs.jd.com/taro/docs/envs)  
-[taro 框架的缺陷以及注意事项](https://blog.csdn.net/gwdgwd123/article/details/84726238)  
-[Taro 兼容 h5 踩坑指南](https://blog.csdn.net/chuogun0812/article/details/100766099)  
-[window.close()不能关闭页面时的解决办法及思路](https://blog.csdn.net/perryliu6/article/details/87791231)  
-[h5 跨域访问图片\_Taro - 本地 H5 无法访问远程服务器（跨域问题）](https://blog.csdn.net/weixin_30394975/article/details/112942957)  
-[Taro 踩坑记之 React-Native 环境教程](https://www.jianshu.com/p/8186b70eb316)  
-[I can not install pod files. #10718](https://github.com/CocoaPods/CocoaPods/issues/10718)  
-[How to running CocoaPods on Apple Silicon (M1)](https://stackoverflow.com/questions/64901180/running-cocoapods-on-apple-silicon-m1/65334677#65334677)  
-[解决 ios 上传图片被旋转的问题](https://blog.csdn.net/weixin_55869781/article/details/119110800)
+- [1. Taro 多端开发文档](https://taro-docs.jd.com/taro/docs/envs)
+- [2. taro 框架的缺陷以及注意事项](https://blog.csdn.net/gwdgwd123/article/details/84726238)
+- [3. Taro 兼容 h5 踩坑指南](https://blog.csdn.net/chuogun0812/article/details/100766099)
+- [4. window.close()不能关闭页面时的解决办法及思路](https://blog.csdn.net/perryliu6/article/details/87791231)
+- [5. h5 跨域访问图片\_Taro - 本地 H5 无法访问远程服务器（跨域问题）](https://blog.csdn.net/weixin_30394975/article/details/112942957)
+- [6. Taro 踩坑记之 React-Native 环境教程](https://www.jianshu.com/p/8186b70eb316)
+- [7. I can not install pod files. #10718](https://github.com/CocoaPods/CocoaPods/issues/10718)
+- [8. How to running CocoaPods on Apple Silicon (M1)](https://stackoverflow.com/questions/64901180/running-cocoapods-on-apple-silicon-m1/65334677#65334677)
+- [9. 解决 ios 上传图片被旋转的问题](https://blog.csdn.net/weixin_55869781/article/details/119110800)
 
 ### 后记
 

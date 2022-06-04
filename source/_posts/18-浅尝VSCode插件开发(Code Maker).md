@@ -125,9 +125,9 @@ categories:
 
 参考资料：
 
-1. [Code Maker](https://github.com/gengjian1203/code-maker)
-2. [VSCode 插件英文文档](https://code.visualstudio.com/api/references/vscode-api#window)
-3. [VSCode 插件中文文档（残卷）](https://liiked.github.io/VS-Code-Extension-Doc-ZH/#/api/README)
-4. [小茗同学的博客园-VSCode 插件开发全攻略](https://www.cnblogs.com/liuxianan/p/vscode-plugin-overview.html)
-5. [有赞美业前端团队-VS Code 插件开发介绍](https://segmentfault.com/a/1190000016641617)
-6. [VSCode 插件示例](https://github.com/microsoft/vscode-extension-samples)
+- [1. Code Maker](https://github.com/gengjian1203/code-maker)
+- [2. VSCode 插件英文文档](https://code.visualstudio.com/api/references/vscode-api#window)
+- [3. VSCode 插件中文文档（残卷）](https://liiked.github.io/VS-Code-Extension-Doc-ZH/#/api/README)
+- [4. 小茗同学的博客园-VSCode 插件开发全攻略](https://www.cnblogs.com/liuxianan/p/vscode-plugin-overview.html)
+- [5. 有赞美业前端团队-VS Code 插件开发介绍](https://segmentfault.com/a/1190000016641617)
+- [6. VSCode 插件示例](https://github.com/microsoft/vscode-extension-samples)
