@@ -211,6 +211,10 @@ if (process.env.TARO_ENV === "h5") {
 
 如果屏幕内有很多码，长按没有完整展示在屏幕内的码，进行识别的时候，可能会识别出是屏幕其他码的信息。（疑似是微信的自身 bug）
 
+15. 获取用户信息 API getUserProfile
+    Taro.getUserProfile 不支持微信小程序。（Taro2.x 版本）  
+    解决方案为如果是微信小程序端，通过 wx.getUserProfile 去调用，其他端则不作处理跳过该逻辑
+
 ### 参考资料
 
 - [1. Taro 多端开发文档](https://taro-docs.jd.com/taro/docs/envs)
