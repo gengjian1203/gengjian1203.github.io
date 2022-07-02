@@ -8,7 +8,7 @@
     "deploy": "hexo deploy",
     "server": "hexo server",
     "showUrl": "node ./script/showUrl.js",
-    "uploadMaster": "rm -rf ./gengjian1203_master && cp ./script/_config_Master.yml _config.yml && hexo generate && ./script/uploadMaster.sh",
+    "uploadMaster": "rm -rf ./gengjian1203_master && cp ./script/_config_Master.yml _config.yml && hexo generate && node ./script/uploadMaster.js",
     "uploadWeb": "rm -rf ./gengjian1203 && cp ./script/_config_Web.yml _config.yml && hexo generate && node ./script/uploadWeb.js",
     "upload": "yarn uploadWeb && yarn uploadMaster && yarn showUrl"
   },
