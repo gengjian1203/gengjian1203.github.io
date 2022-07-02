@@ -197,6 +197,7 @@ if (process.env.TARO_ENV === "h5") {
   const { href = "" } = (window && window.location) || {};
   const { path: pathH5 = "", params: paramsH5 = {} } =
     router2Params(href) || {};
+  host = pathH5.split("#")[0] || "";
   path = pathH5.split("#")[1] || "";
   params = paramsH5;
   // 暂不兼容类似 http://localhost:10086?code=071UBEge2snGkI0Szxhe2BPNge2UBEgU&state=123#/pages/index 格式，如有场景需要可后续拓展
@@ -208,12 +209,17 @@ if (process.env.TARO_ENV === "h5") {
 ```
 
 14. 微信 H5 长按图片识别码功能。
-
-如果屏幕内有很多码，长按没有完整展示在屏幕内的码，进行识别的时候，可能会识别出是屏幕其他码的信息。（疑似是微信的自身 bug）
+    如果屏幕内有很多码，长按没有完整展示在屏幕内的码，  
+    进行识别的时候，可能会识别出是屏幕其他码的信息。（疑似是微信的自身 bug）
 
 15. 获取用户信息 API getUserProfile
     Taro.getUserProfile 不支持微信小程序。（Taro2.x 版本）  
     解决方案为如果是微信小程序端，通过 wx.getUserProfile 去调用，其他端则不作处理跳过该逻辑
+
+16. H5 端 如果元素设置绝对定位，通过 bottom 控制位置不准确。
+    当有 Input 聚焦的时弹出输入法，部分安卓机型，此时屏幕高度会被调整。（device.windowHeight 高度会改变）  
+    此时如果通过 absolute + bottom 布局，元素就会被输入法挤上去。  
+    解决方案为页面渲染之前，将屏幕高度获取到，并且计算好元素的对应 top 或者 margin-top，然后引用到对应元素上即可。
 
 ### 参考资料
 
