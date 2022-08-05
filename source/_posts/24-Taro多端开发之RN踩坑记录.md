@@ -22,28 +22,34 @@ Taro 这么一个可以实现跨端的框架，结果我却天天只去用来写
 ### 准备工作
 
 ```
-nvm -v
+➜ ~ nvm -v
 0.38.0
 
-node -v
+➜ ~ node -v
 v14.17.0
 
-npm -v
+➜ ~ npm -v
 6.14.13
 
-yarn -v
+➜ ~ yarn -v
 1.22.17
 
 ➜ ~ taro -v
 👽 Taro v3.3.13
 
-# 提前安装好 cocoapods
-brew install cocoapods
-或者使用gem
-sudo gem install cocoapods
+➜ ~ pod --version
+1.11.2
 
-# 提前安装XCode 并手动先启动一次XCode，同意相关条款
-sudo xcode-select --switch /Applications/Xcode.app
+# 提前安装好 cocoapods
+➜ ~ brew install cocoapods
+# 或者使用gem
+➜ ~ sudo gem
+# M1芯片需要再执行下条语句
+➜ ~ sudo arch -x86_64 gem install ffi
+
+# 提前安装XCode并更新至最新版本，并手动先启动一次XCode，同意相关条款
+# 如果最新版本XCode依赖最新系统，则更新MacOS至最新系统
+➜ ~ sudo xcode-select --switch /Applications/Xcode.app
 ```
 
 ### 踩坑步骤
@@ -117,6 +123,8 @@ https://127.0.0.1:8081/rn_temp/index.bundle?platform=ios&dev=true
 ::ffff:127.0.0.1 - - [25/Jun/2021:09:31:39 +0000] "GET /favicon.ico HTTP/1.1" 404 150 "http://127.0.0.1:8081/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36"
 ```
 
+### 打包
+
 ### Q&A
 
 1. [!] No `Podfile' found in the project directory.
@@ -130,7 +138,12 @@ sudo arch -x86_64 gem install ffi
 arch -x86_64 pod install
 ```
 
-3. 解决 React-Native mac 运行报错 error Failed to build iOS project. We ran "xcodebuild" command but it exited with error code 65. To debug build logs further, consider building your app with Xcode.app, by opening reactNative.xcodeproj
+3. 如果执行 pod install 报错
+
+可能是因为没有勾选使用 Rosetta 打开
+(应用程序-实用工具-终端-显示简介-勾选“Rosetta”)就执行
+
+4. 解决 React-Native mac 运行报错 error Failed to build iOS project. We ran "xcodebuild" command but it exited with error code 65. To debug build logs further, consider building your app with Xcode.app, by opening reactNative.xcodeproj
    https://www.cnblogs.com/stevexu/archive/2019/04/21/10745769.html
 
 ```
@@ -144,7 +157,15 @@ taro-native-shell git:(0.59.9) ✗ node_modules/react-native/scripts/ios-install
 ~ mv ../*.gz ./
 ```
 
-4. react-native 在新版 Xcode（10+）中运行出现的问题： node_modules/react-native/third-party/glog-0.3.4 , C compiler ca
+5. N/A: version "default -> N/A" is not yet installed.
+
+You need to run "nvm install default" to install it before using it.
+Command PhaseScriptExecution failed with a nonzero exit code
+
+指定默认版本即可解决
+➜ nvm alias default 14.17.0
+
+6. react-native 在新版 Xcode（10+）中运行出现的问题： node_modules/react-native/third-party/glog-0.3.4 , C compiler ca
 
 https://blog.csdn.net/qq_15057213/article/details/83859251
 
@@ -153,13 +174,38 @@ taro-native-shell git:(0.59.9) ✗ cd node_modules/react-native/third-party/glog
 glog-0.3.5 git:(0.59.9) ✗ sh ../../scripts/ios-configure-glog.sh
 ```
 
-5. react-native run-ios 编译成功之后，模拟器红屏，显示 Application taroDemo has not been registered.
+7. react-native run-ios 编译成功之后，模拟器红屏，显示 Application taroDemo has not been registered.（正常情况应该不用特殊处理）
 
 设置项目名称不一致。
 在 AppDelegate.m 和 index.ios.js 中不一致。
 ./taro-native-shell/ios/taroDemo/AppDelegate.m 文件中：moduleName:@"classesMini"，
 ./classesMini/rn_temp/app.json 文件中： { "name": "classesMini" }
 名称保持一致。
+
+8. 当集成模式的 Taro 项目，真机调试命令行报错，打包却能跑通完成。
+
+即，执行`yarn ios`调试模式状态如下报错
+
+```
+The following build commands failed:
+CompileC /Users/gengjian/Library/Developer/Xcode/DerivedData/taroDemo-djzgdiaepvktgegyrmjouhzoeriw/Build/Intermediates.noindex/taroDemo.build/Debug-iphonesimulator/taroDemo.build/Objects-normal/x86_64/AppDelegate.o /Users/gengjian/Documents/github/SmartApp/ios/taroDemo/AppDelegate.m normal x86_64 objective-c com.apple.compilers.llvm.clang.1_0.compiler
+```
+
+不过`yarn build:rn --platform ios`打包却没有问题。
+
+感觉跟 M1 芯片的坑有关系，最后解决方法直接修改报错文件的语句。
+打开 XCode 找到报错文件`./ios/taroDemo/AppDelegate.m`，  
+报错语句为一个宏判断，如果是 DEBUG 模式执行另外的语句，  
+直接简单粗暴了一波，修改如下：
+
+```m
+#if DEBUG
+//  return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index" fallbackResource:@"main"];
+  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+#else
+  return [[NSBundle mainBundle] URLForResource:@"main" withExtension:@"jsbundle"];
+#endif
+```
 
 ### 参考文档
 
@@ -172,3 +218,8 @@ glog-0.3.5 git:(0.59.9) ✗ sh ../../scripts/ios-configure-glog.sh
 7. [【笔记】Mac M1 搭建 React Native 环境](https://zhuanlan.zhihu.com/p/356820165)
 8. [Command PhaseScriptExecution failed with a nonzero exit code 问题](https://blog.csdn.net/ios_xumin/article/details/106888970)
 9. [Flutter 爬坑记录](https://www.cnblogs.com/shaoting/p/10235652.html)
+10. [RN 项目的坑 （M1 Mac）](https://blog.csdn.net/henryzyk/article/details/118029141)
+11. [iOS 申请证书，Certificates, Identifiers &Profiles 简介](http://t.zoukankan.com/lisa090818-p-4134376.html)
+12. [苹果企业开发者账号，P12 证书如何生成？](http://news.sohu.com/a/573939453_120174355)
+13. [上架 App Store](https://www.react-native.cn/docs/publishing-to-app-store)
+14. [打包发布 Android](https://www.react-native.cn/docs/signed-apk-android)
