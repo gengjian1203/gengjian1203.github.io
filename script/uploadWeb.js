@@ -10,7 +10,7 @@ const main = async () => {
   });
 
   // 静态网站
-  console.log("静态网站上传中...");
+  console.log("微信云托管 静态网站上传中...");
   const result = await ci.cloud.uploadStaticStorage({
     project,
     env: "prod-5gkxku5cdb510bb2",
@@ -18,7 +18,7 @@ const main = async () => {
     remotePath: "/gengjian1203",
   });
 
-  console.log("静态网站完毕.", result);
+  console.log("微信云托管 静态网站上传完毕.", result);
 };
 
 // 主函数

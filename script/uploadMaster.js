@@ -1,3 +1,4 @@
+const path = require("path");
 const { execSync } = require("child_process");
 
 const readInput = async () => {
@@ -12,36 +13,57 @@ const readInput = async () => {
 
 const main = async () => {
   console.log("开始同步更新master分支");
+  const masterPath = path.resolve(__dirname, "../gengjian1203_master");
+  const strCommit = `Update Blog By Local ${new Date().getTime()}`;
 
-  execSync(`cd ./gengjian1203_master`, { stdio: "inherit" });
+  execSync(`pwd`, { stdio: "inherit", cwd: masterPath });
 
-  execSync(`pwd`, { stdio: "inherit" });
+  execSync(`rm -rf .git`, { stdio: "inherit", cwd: masterPath });
 
-  execSync(`rm -rf .git`, { stdio: "inherit" });
+  execSync(`git init `, { stdio: "inherit", cwd: masterPath });
 
-  execSync(`git init `, { stdio: "inherit" });
+  execSync(`git add .`, { stdio: "inherit", cwd: masterPath });
 
-  execSync(`git add .`, { stdio: "inherit" });
+  execSync(`git commit -m "${strCommit}"`, {
+    stdio: "inherit",
+    cwd: masterPath,
+  });
 
-  execSync(`git commit -m "Update Blog By Local"`, { stdio: "inherit" });
-
-  while (true) {
-    const resPush = execSync(
+  for (let i = 0; i < 10; i++) {
+    console.log("github Page 网站上传中...");
+    execSync(
       `git push --force --quiet https://github.com/gengjian1203/gengjian1203.github.io.git master:master`,
-      { stdio: "inherit" }
+      { stdio: "inherit", cwd: masterPath }
     );
 
-    console.log("resPush", resPush);
+    resCommit =
+      JSON.parse(
+        execSync(
+          `git log -1 --pretty=format:"{\\"hash\\":\\"%H\\",\\"author\\":\\"%an\\",\\"date\\":\\"%ad\\",\\"commit\\":\\"%s\\"}"`,
+          { encoding: "utf8", cwd: masterPath }
+        )
+      ) || {};
 
-    console.log("是否重新上传(Y/N)");
+    console.log("resPush", resCommit);
 
-    const result = await readInput();
-    if (result === "Y") {
-      console.log("重新上传");
-    } else {
-      console.log("上传成功");
+    if (resCommit.commit === strCommit) {
+      console.log("github Page 网站上传完毕.");
       break;
+    } else {
+      if (i === 9) {
+        console.log("github Page 网站上传失败.");
+      }
     }
+
+    // console.log("是否重新上传(Y/N)");
+
+    // const result = await readInput();
+    // if (result === "Y") {
+    //   console.log("重新上传");
+    // } else {
+    //   console.log("上传成功");
+    //   break;
+    // }
   }
 
   process.exit();
