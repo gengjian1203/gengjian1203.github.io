@@ -131,3 +131,4 @@ categories:
 - [4. 小茗同学的博客园-VSCode 插件开发全攻略](https://www.cnblogs.com/liuxianan/p/vscode-plugin-overview.html)
 - [5. 有赞美业前端团队-VS Code 插件开发介绍](https://segmentfault.com/a/1190000016641617)
 - [6. VSCode 插件示例](https://github.com/microsoft/vscode-extension-samples)
+- [7. 关于 VSCODE 的插件](https://blog.csdn.net/Viccj/article/details/125404437)

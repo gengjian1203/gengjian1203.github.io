@@ -239,6 +239,11 @@ RN 子元素默认是沿着 竖直轴(column) 方向排列；这点和 CSS 不�
 - 不支持组合选择器的写法
 - 不支持伪类及伪元素
 
+21. 读写缓存
+    RN 端不支持 setStorageSync 需要改用 setStorage
+    RN 端不支持 getStorageSync 需要改用 getStorage
+    RN 端不支持 removeStorageSync 需要改用 removeStorage
+
 ### 参考资料
 
 - [1. Taro 多端开发文档](https://taro-docs.jd.com/taro/docs/envs)
