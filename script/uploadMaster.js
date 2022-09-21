@@ -40,6 +40,8 @@ const main = async () => {
       console.log("git push error", e);
     }
 
+    console.log("git push done.");
+
     resCommit =
       JSON.parse(
         execSync(
