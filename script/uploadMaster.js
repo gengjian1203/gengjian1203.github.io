@@ -31,10 +31,14 @@ const main = async () => {
 
   for (let i = 0; i < 10; i++) {
     console.log("github Page 网站上传中...");
-    execSync(
-      `git push --force --quiet https://github.com/gengjian1203/gengjian1203.github.io.git master:master`,
-      { stdio: "inherit", cwd: masterPath }
-    );
+    try {
+      execSync(
+        `git push --force --quiet https://github.com/gengjian1203/gengjian1203.github.io.git master:master`,
+        { stdio: "inherit", cwd: masterPath }
+      );
+    } catch (e) {
+      console.log("git push error", e);
+    }
 
     resCommit =
       JSON.parse(
