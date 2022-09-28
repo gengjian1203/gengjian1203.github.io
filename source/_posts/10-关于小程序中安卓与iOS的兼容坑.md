@@ -73,11 +73,58 @@ iOS 机型：会有默认的 padding 偏移，且无法置 0。
 安卓和开发者工具上用的 chromium 内核没有这个变量，  
 导致这个样式只支持 iOS 系统，对安卓系统还需要单独处理。
 
+后补js判断逻辑：
+```js
+// 计算安全区域信息
+const calcSafeAreaInfo = (env, isScreenFringe, systemInfo) => {
+  const { safeArea = {}, windowHeight = 0, statusBarHeight = 0 } = systemInfo || {}
+  const { top = 0, left = 0, right = 0, bottom = 0, width = 0, height = 0 } = safeArea || {}
+  let safeAreaInfoTmp = {}
+
+  switch (env) {
+    case "WEB": {
+      safeAreaInfoTmp.safeTop = 0
+      safeAreaInfoTmp.safeBottom = 0
+      break
+    }
+    case "RN": {
+      safeAreaInfoTmp.safeTop = isScreenFringe ? 44 : 22
+      safeAreaInfoTmp.safeBottom = 0
+      break
+    }
+    default: {
+      const safeTopTmp = Math.max(top, statusBarHeight)
+      const safeBottomTmp = windowHeight - bottom
+
+      safeAreaInfoTmp.safeTop = safeTopTmp
+      safeAreaInfoTmp.safeBottom = safeBottomTmp
+      break
+    }
+  }
+
+  return safeAreaInfoTmp
+}
+```
+
+
 #### replaceAll 方法个别机型报错
 
 android 8.0.1 的 vivo 手机，android 系统内微信版本 7.0.22 里面直接报错。  
 建议改为通过正则实现替换。
 
+#### 渐变色为透明场景iOS真机情况不满足预期
+
+当有需求要做到一个渐变效果，上方填充红色，下方填充透明颜色，实现渐变效果。  
+样式如下书写时，透明色在iOS真机情况下，透明色会被渲染成黑色
+```less
+background-image: linear-gradient(to bottom, red, transparent);
+```
+
+主要的原因应该是渐变样式对`transparent`属性的不兼容，改为`#fff0`或者`rgba(255, 255, 255, 0)`即可。  
+正确的写法如下：  
+```less
+background-image: linear-gradient(to bottom, red, rgba(255, 255, 255, 0));
+```
 ### 后记
 
 未完待续，随时新坑。
