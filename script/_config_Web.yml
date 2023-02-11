@@ -13,7 +13,7 @@ timezone: ""
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://prod-5gkxku5cdb510bb2-1259256375.tcloudbaseapp.com/gengjian1203/
+url: https://www.orz2.top/gengjian1203/
 root: /gengjian1203/
 permalink: :year/:month/:day/:title/
 permalink_defaults:
