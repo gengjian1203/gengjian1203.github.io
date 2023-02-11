@@ -57,6 +57,16 @@ tags:
 | transition-timing-function | 规定速度效果的速度曲线            | linear \| ease \| ease-in \| ease-out \| ease-in-out \| cubic-bezier(n,n,n,n); |
 | transition-delay           | 定义过渡效果何时开始              |                                   0 \| time                                    |
 
+参考示例：
+```css
+.demoTransition {
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-timing-function: linear;
+  transition-delay: 0;
+}
+```
+
 2. animation
 
 | 属性                      | 描述                                   |                            可使用值(第一个为默认值)                            |
@@ -67,6 +77,31 @@ tags:
 | animation-delay           | 规定在动画开始之前的延迟               |                                   0 \| time                                    |
 | animation-iteration-count | 规定动画应该播放的次数                 |                               1 \| n \| infinite                               |
 | animation-direction       | 规定是否应该轮流反向播放动画           |                              normal \| alternate                               |
+
+
+参考示例：
+```css
+.demoAnimation {
+  animation-name: press;
+  animation-duration: 0.5s;
+  animation-timing-function: ease;
+  animation-delay: 0;
+  animation-iteration-count: 1;
+  animation-direction: normal;
+}
+
+@keyframes press {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+```
 
 ### 后记
 
