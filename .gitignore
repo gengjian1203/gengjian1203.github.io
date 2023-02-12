@@ -2,8 +2,10 @@
 Thumbs.db
 db.json
 *.log
+*.tar.gz
+.deploy*/
 node_modules/
 public/
 gengjian1203/
 gengjian1203_master/
-.deploy*/
+script/private

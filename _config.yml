@@ -13,8 +13,8 @@ timezone: ""
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: https://www.orz2.top/gengjian1203/
-root: /gengjian1203/
+url: https://gengjian1203.github.io/
+root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
@@ -23,7 +23,7 @@ pretty_urls:
 
 # Directory
 source_dir: source
-public_dir: gengjian1203
+public_dir: gengjian1203_master
 tag_dir: tags
 archive_dir: archives
 category_dir: categories

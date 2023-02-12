@@ -9,7 +9,7 @@
     "server": "hexo server",
     "showUrl": "node ./script/showUrl.js",
     "uploadMaster": "rm -rf ./gengjian1203_master && cp ./script/_config_Master.yml _config.yml && hexo generate && node ./script/uploadMaster.js",
-    "uploadWeb": "rm -rf ./gengjian1203 && cp ./script/_config_Web.yml _config.yml && hexo generate",
+    "uploadWeb": "rm -rf ./gengjian1203 && cp ./script/_config_Web.yml _config.yml && hexo generate && node ./script/uploadWeb.js",
     "upload": "yarn uploadWeb && yarn uploadMaster && yarn showUrl"
   },
   "hexo": {
@@ -35,5 +35,11 @@
     "hexo-server": "^1.0.0",
     "hexo-symbols-count-time": "^0.7.1",
     "miniprogram-ci": "^1.8.0"
+  },
+  "devDependencies": {
+    "axios": "^1.3.2",
+    "dayjs": "^1.11.7",
+    "scp2": "^0.5.0",
+    "ssh2": "^1.11.0"
   }
 }
