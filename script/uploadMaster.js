@@ -20,7 +20,11 @@ const main = async () => {
 
   execSync(`rm -rf .git`, { stdio: "inherit", cwd: masterPath });
 
-  execSync(`git init `, { stdio: "inherit", cwd: masterPath });
+  execSync(`git init`, { stdio: "inherit", cwd: masterPath });
+
+  execSync(`git config user.name "Hugh Geng"`, { stdio: "inherit", cwd: masterPath });
+
+  execSync(`git config user.email "gengjian1203@foxmail.com"`, { stdio: "inherit", cwd: masterPath });
 
   execSync(`git add .`, { stdio: "inherit", cwd: masterPath });
 
