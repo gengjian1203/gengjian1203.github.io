@@ -22,6 +22,8 @@ const main = async () => {
 
   execSync(`git init`, { stdio: "inherit", cwd: masterPath });
 
+  execSync(`git config commit.gpgsign false`, { stdio: "inherit", cwd: masterPath });
+
   execSync(`git config user.name "Hugh Geng"`, { stdio: "inherit", cwd: masterPath });
 
   execSync(`git config user.email "gengjian1203@foxmail.com"`, { stdio: "inherit", cwd: masterPath });
