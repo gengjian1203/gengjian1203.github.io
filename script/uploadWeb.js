@@ -32,9 +32,8 @@ const main = async () => {
     pathFile: pathTar,
   });
   if (!resSCP) {
-    result.state = "failRemote";
-    result.msg = `tar上传失败`;
-    return result;
+    console.log(`tar上传失败`);
+    return;
   }
 
   // 服务器解压
