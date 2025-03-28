@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gengjian1203.github.io","root":"/","scheme":"Gemini","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="写在前面作为一名前端开发者，我日常工作主要专注于实现功能和优化体验，对 SEO（搜索引擎优化）这块一直是知道个大概，但没有深入了解过。 最近公司新项目要求提高网站在搜索引擎中的排名，于是这个任务就落到了我的头上，从零开始学习 SEO，一路踩坑，积累了不少经验，今天就来分享一下这段学习历程。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="50.菜鸡浅尝SEO踩坑小记">
+<meta property="og:url" content="https://gengjian1203.github.io/2025/03/28/50-%E8%8F%9C%E9%B8%A1%E6%B5%85%E5%B0%9DSEO%E8%B8%A9%E5%9D%91%E5%B0%8F%E8%AE%B0/">
+<meta property="og:site_name" content="耿健的个人博客">
+<meta property="og:description" content="写在前面作为一名前端开发者，我日常工作主要专注于实现功能和优化体验，对 SEO（搜索引擎优化）这块一直是知道个大概，但没有深入了解过。 最近公司新项目要求提高网站在搜索引擎中的排名，于是这个任务就落到了我的头上，从零开始学习 SEO，一路踩坑，积累了不少经验，今天就来分享一下这段学习历程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-28T07:39:35.000Z">
+<meta property="article:modified_time" content="2025-03-28T08:19:25.762Z">
+<meta property="article:author" content="gengjian1203">
+<meta property="article:tag" content="SEO">
+<meta property="article:tag" content="前端优化">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://gengjian1203.github.io/2025/03/28/50-%E8%8F%9C%E9%B8%A1%E6%B5%85%E5%B0%9DSEO%E8%B8%A9%E5%9D%91%E5%B0%8F%E8%AE%B0/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>50.菜鸡浅尝SEO踩坑小记 | 耿健的个人博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">耿健的个人博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个即将放飞理想的咸鱼博主</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/projects" rel="section"><i class="fa fa-th fa-fw"></i>项目</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SEO-基础概念"><span class="nav-number">2.</span> <span class="nav-text">SEO 基础概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#技术-SEO-踩坑记录"><span class="nav-number">3.</span> <span class="nav-text">技术 SEO 踩坑记录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-网站爬虫可访问性"><span class="nav-number">3.1.</span> <span class="nav-text">1. 网站爬虫可访问性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-页面加载速度"><span class="nav-number">3.2.</span> <span class="nav-text">2. 页面加载速度</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-移动适配"><span class="nav-number">3.3.</span> <span class="nav-text">3. 移动适配</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内容-SEO-踩坑记录"><span class="nav-number">4.</span> <span class="nav-text">内容 SEO 踩坑记录</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-关键词研究与使用"><span class="nav-number">4.1.</span> <span class="nav-text">1. 关键词研究与使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-内容质量与结构"><span class="nav-number">4.2.</span> <span class="nav-text">2. 内容质量与结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-meta-标签书写"><span class="nav-number">4.3.</span> <span class="nav-text">3. meta 标签书写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-内链与外链"><span class="nav-number">4.4.</span> <span class="nav-text">4. 内链与外链</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#度量与分析"><span class="nav-number">5.</span> <span class="nav-text">度量与分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#踩坑教训总结"><span class="nav-number">6.</span> <span class="nav-text">踩坑教训总结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后记"><span class="nav-number">7.</span> <span class="nav-text">后记</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链接"><span class="nav-number">8.</span> <span class="nav-text">链接</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="gengjian1203"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">gengjian1203</p>
+  <div class="site-description" itemprop="description">要么读书，要么旅行，身体和灵魂总有一个在路上</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/projects">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">项目</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gengjian1203" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gengjian1203" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:187076081@qq.com" title="E-Mail → mailto:187076081@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gengjian1203.github.io/2025/03/28/50-%E8%8F%9C%E9%B8%A1%E6%B5%85%E5%B0%9DSEO%E8%B8%A9%E5%9D%91%E5%B0%8F%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="gengjian1203">
+      <meta itemprop="description" content="要么读书，要么旅行，身体和灵魂总有一个在路上">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耿健的个人博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          50.菜鸡浅尝SEO踩坑小记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2025-03-28 15:39:35 / 修改时间：16:19:25" itemprop="dateCreated datePublished" datetime="2025-03-28T15:39:35+08:00">2025-03-28</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2025/03/28/50-%E8%8F%9C%E9%B8%A1%E6%B5%85%E5%B0%9DSEO%E8%B8%A9%E5%9D%91%E5%B0%8F%E8%AE%B0/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2025/03/28/50-%E8%8F%9C%E9%B8%A1%E6%B5%85%E5%B0%9DSEO%E8%B8%A9%E5%9D%91%E5%B0%8F%E8%AE%B0/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.3k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>作为一名前端开发者，我日常工作主要专注于实现功能和优化体验，<br>对 SEO（搜索引擎优化）这块一直是知道个大概，但没有深入了解过。</p>
+<p>最近公司新项目要求提高网站在搜索引擎中的排名，<br>于是这个任务就落到了我的头上，<br>从零开始学习 SEO，一路踩坑，积累了不少经验，<br>今天就来分享一下这段学习历程。</p>
+<a id="more"></a>
+
+<h3 id="SEO-基础概念"><a href="#SEO-基础概念" class="headerlink" title="SEO 基础概念"></a>SEO 基础概念</h3><p>在开始具体优化前，有必要了解一下 SEO 的基本概念。</p>
+<p>SEO 即搜索引擎优化（Search Engine Optimization），<br>简单来说就是通过了解搜索引擎的工作原理，对网站进行调整和优化，<br>使其在搜索引擎中获得更好的排名，从而带来更多的自然流量。</p>
+<p>SEO 主要分为两大类：</p>
+<ol>
+<li><p><strong>技术 SEO（Technical SEO）</strong>：<br>确保网站能被搜索引擎正确抓取和索引，包括网站结构、加载速度、移动适配等。</p>
+</li>
+<li><p><strong>内容 SEO（Content SEO）</strong>：<br>优化网站内容以匹配用户搜索意图，包括关键词研究、内容质量、内链外链等。</p>
+</li>
+</ol>
+<h3 id="技术-SEO-踩坑记录"><a href="#技术-SEO-踩坑记录" class="headerlink" title="技术 SEO 踩坑记录"></a>技术 SEO 踩坑记录</h3><h4 id="1-网站爬虫可访问性"><a href="#1-网站爬虫可访问性" class="headerlink" title="1. 网站爬虫可访问性"></a>1. 网站爬虫可访问性</h4><p>一开始我天真地认为只要网站能正常访问，搜索引擎就能正常抓取。<br>然而实际情况却不是这样：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 这是我曾经写的代码，导致搜索引擎无法抓取 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"robots"</span> <span class="attr">content</span>=<span class="string">"noindex, nofollow"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>这段代码直接告诉搜索引擎不要索引我的网页，也不要跟踪页面上的链接。<br>这段代码是从一个旧项目中复制过来的，我完全没注意到它的存在！</p>
+<p>还有一次，我们的网站使用了大量 JavaScript 动态加载内容，<br>结果 Google 无法正确抓取这些动态加载的内容，导致索引不完整。</p>
+<p><strong>解决方法</strong>：</p>
+<ol>
+<li>移除了错误的 robots 元标签</li>
+<li>对重要页面实施服务端渲染或预渲染</li>
+<li>创建并提交了详细的站点地图（sitemap.xml）</li>
+<li>检查并优化了 robots.txt 文件</li>
+</ol>
+<h4 id="2-页面加载速度"><a href="#2-页面加载速度" class="headerlink" title="2. 页面加载速度"></a>2. 页面加载速度</h4><p>我一直知道网站速度对用户体验很重要，但没想到它对 SEO 的影响也这么大。</p>
+<p>做完第一版做完之后，用 devtool 的 Lighthouse 测了一下，分数直接红色叹号</p>
+<p>主要问题是：</p>
+<ul>
+<li>图片没有优化（格式随意、原图太大、没有懒加载）</li>
+<li>button 标签没有无障碍提示</li>
+<li>JavaScript 文件阻塞渲染</li>
+<li>没有使用浏览器缓存</li>
+<li>服务器响应时间过长</li>
+<li>页面由于使用指定字体，字体文件会跳动</li>
+</ul>
+<p><strong>解决方法</strong>：</p>
+<ol>
+<li>图片压缩、转换成 WebP 格式、实现懒加载</li>
+<li>button 等可操作标签增加 aria-label 属性</li>
+<li>拆分打包 JavaScript，实现代码 chunk 分割</li>
+<li>配置合理的缓存策略</li>
+<li>使用 CDN 加速资源</li>
+<li>字体文件预加载</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 图片优化示例 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span></span></span><br><span class="line"><span class="tag">  <span class="attr">src</span>=<span class="string">"small-placeholder.jpg"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">data-src</span>=<span class="string">"actual-image.jpg"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">loading</span>=<span class="string">"lazy"</span></span></span><br><span class="line"><span class="tag">  <span class="attr">alt</span>=<span class="string">"详细的描述文字"</span></span></span><br><span class="line"><span class="tag">/&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 批量处理图片的脚本 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="javascript">  <span class="built_in">document</span>.addEventListener(<span class="string">"DOMContentLoaded"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> lazyImages = <span class="built_in">document</span>.querySelectorAll(<span class="string">"img[data-src]"</span>);</span></span><br><span class="line"></span><br><span class="line"><span class="javascript">    <span class="keyword">const</span> observer = <span class="keyword">new</span> IntersectionObserver(<span class="function">(<span class="params">entries</span>) =&gt;</span> &#123;</span></span><br><span class="line"><span class="javascript">      entries.forEach(<span class="function">(<span class="params">entry</span>) =&gt;</span> &#123;</span></span><br><span class="line">        if (entry.isIntersecting) &#123;</span><br><span class="line"><span class="actionscript">          <span class="keyword">const</span> img = entry.target;</span></span><br><span class="line">          img.src = img.dataset.src;</span><br><span class="line">          observer.unobserve(img);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"><span class="javascript">    lazyImages.forEach(<span class="function">(<span class="params">img</span>) =&gt;</span> observer.observe(img));</span></span><br><span class="line">  &#125;);</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-移动适配"><a href="#3-移动适配" class="headerlink" title="3. 移动适配"></a>3. 移动适配</h4><p>现在 Google 使用移动优先索引，这意味着它主要使用网站的移动版本来确定排名。</p>
+<p>检查我们的网站，发现移动端存在严重问题：</p>
+<ul>
+<li>文字太小，用户需要捏放才能阅读</li>
+<li>点击目标（按钮等）太小且过于紧凑</li>
+<li>内容宽度没有适配屏幕，需要水平滚动</li>
+</ul>
+<p><strong>解决方法</strong>：</p>
+<ol>
+<li>使用响应式设计，确保所有设备都有良好体验</li>
+<li>增加触摸目标尺寸，提高可点击区域</li>
+<li>优先显示移动端重要内容</li>
+</ol>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 确保触摸目标足够大 */</span></span><br><span class="line"><span class="selector-class">.button</span>,</span><br><span class="line"><span class="selector-class">.link</span>,</span><br><span class="line"><span class="selector-class">.nav-item</span> &#123;</span><br><span class="line">  <span class="attribute">min-height</span>: <span class="number">48px</span>;</span><br><span class="line">  <span class="attribute">min-width</span>: <span class="number">48px</span>;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">12px</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">8px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 使用媒体查询适配不同屏幕 */</span></span><br><span class="line"><span class="keyword">@media</span> (<span class="attribute">max-width:</span> <span class="number">768px</span>) &#123;</span><br><span class="line">  <span class="selector-class">.sidebar</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: none; <span class="comment">/* 在小屏幕上隐藏不重要内容 */</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="selector-class">.main-content</span> &#123;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">16px</span>; <span class="comment">/* 确保文字大小合适 */</span></span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">15px</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="内容-SEO-踩坑记录"><a href="#内容-SEO-踩坑记录" class="headerlink" title="内容 SEO 踩坑记录"></a>内容 SEO 踩坑记录</h3><h4 id="1-关键词研究与使用"><a href="#1-关键词研究与使用" class="headerlink" title="1. 关键词研究与使用"></a>1. 关键词研究与使用</h4><p>一开始，我对关键词的理解非常浅显：</p>
+<blockquote>
+<p>“我想排名什么词，就在页面上多写几次这个词就好了”</p>
+</blockquote>
+<p>这种做法不仅没效果，还可能被视为关键词堆砌，反而降低排名。</p>
+<p><strong>解决方法</strong>：</p>
+<ol>
+<li>使用专业工具（如 Google Keyword Planner、SEMrush）进行关键词研究</li>
+<li>注重长尾关键词（更具体、竞争更少的词组）</li>
+<li>关键词自然融入内容，注意语义相关性</li>
+<li>重要关键词合理出现在标题（H1）、副标题、URL、元描述等位置</li>
+</ol>
+<h4 id="2-内容质量与结构"><a href="#2-内容质量与结构" class="headerlink" title="2. 内容质量与结构"></a>2. 内容质量与结构</h4><p>我们最初的内容存在几个问题：</p>
+<ul>
+<li>文章结构混乱，没有清晰的标题层级</li>
+<li>段落冗长，不易阅读</li>
+<li>缺乏有价值的原创内容</li>
+<li>没有使用富媒体（图片、视频等）增强内容</li>
+</ul>
+<p><strong>解决方法</strong>：</p>
+<ol>
+<li>使用正确的 HTML 语义化标签，建立清晰的标题层级（H1、H2、H3…）</li>
+<li>分割长段落，增加可读性</li>
+<li>创建有深度、能解决用户问题的内容</li>
+<li>添加相关的图片、视频、表格等多媒体元素</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 优化前 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span>如何优化网站速度<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">  网站速度很重要。可以提高用户体验，减少跳出率，增加转化率。下面介绍几种提高网站速度的方法...</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 优化后 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>如何优化网站速度：提升用户体验的实用指南<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>网站速度直接影响用户体验，数据显示，加载时间每增加1秒，转化率可能下降7%。<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>为什么网站速度对SEO至关重要<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span></span><br><span class="line">  Google官方确认，页面加载速度是排名因素之一。慢速网站不仅会降低用户满意度，还会影响您的搜索排名。</span><br><span class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span>&gt;</span>提升网站速度的5个实用技巧<span class="tag">&lt;/<span class="name">h2</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h3</span>&gt;</span>1. 优化图片<span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>大尺寸图片是影响加载速度的主要因素之一。通过以下方法优化图片：<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>压缩图片大小<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>使用现代图片格式如WebP<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span>实现懒加载<span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="3-meta-标签书写"><a href="#3-meta-标签书写" class="headerlink" title="3. meta 标签书写"></a>3. meta 标签书写</h4><p>在优化初期，我简单地添加了标题和描述元标签，却忽略了它们的重要性。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 初期的简单设置 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>我的网站 - 首页<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"description"</span> <span class="attr">content</span>=<span class="string">"这是一个关于XXX的网站"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>后来通过研究，发现 meta 标签在 SEO 中扮演着关键角色，影响着搜索结果的展示和点击率。</p>
+<p><strong>元标签优化</strong>：</p>
+<ol>
+<li><strong>标题标签（Title Tag）</strong>：<ul>
+<li>每个页面使用独特的标题，包含主要关键词</li>
+<li>控制长度在 50-60 个字符内，避免截断</li>
+<li>品牌名放在末尾，重要关键词放在前面</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 优化后的标题 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">title</span>&gt;</span>网站速度优化指南：提升用户体验与SEO排名 | 品牌名<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>描述元标签（Meta Description）</strong>：<ul>
+<li>包含核心关键词，准确概括页面内容</li>
+<li>添加行动号召（CTA），吸引用户点击</li>
+<li>控制在 150-160 个字符内</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 优化后的描述 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> </span></span><br><span class="line"><span class="tag">  <span class="attr">name</span>=<span class="string">"description"</span> </span></span><br><span class="line"><span class="tag">  <span class="attr">content</span>=<span class="string">"通过本指南学习5个网站速度优化技巧，包括图片压缩、代码分割等方法。提升加载速度可显著改善用户体验和SEO排名。立即了解如何加速您的网站！"</span> </span></span><br><span class="line"><span class="tag">/&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>规范标签（Canonical Tag）</strong>：<ul>
+<li>解决内容重复问题，告诉搜索引擎哪个URL是首选版本</li>
+</ul>
+</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"canonical"</span> <span class="attr">href</span>=<span class="string">"https://example.com/post/website-speed-optimization"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>国际化相关标签</strong>：</p>
+<p>这部分是我们完全忽略的。对于多语言网站，正确的语言标记至关重要：</p>
+<ol>
+<li><strong>声明页面语言</strong>：</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 简体中文页面 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh-CN"</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 英文页面 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en-US"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>提供语言替代版本</strong>：</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 告诉搜索引擎页面的其他语言版本 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"alternate"</span> <span class="attr">hreflang</span>=<span class="string">"en-US"</span> <span class="attr">href</span>=<span class="string">"https://example.com/en/page"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"alternate"</span> <span class="attr">hreflang</span>=<span class="string">"zh-CN"</span> <span class="attr">href</span>=<span class="string">"https://example.com/zh/page"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"alternate"</span> <span class="attr">hreflang</span>=<span class="string">"x-default"</span> <span class="attr">href</span>=<span class="string">"https://example.com/"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Open Graph 与社交分享优化</strong>：</p>
+<p>社交媒体分享也是流量来源，但我们之前完全没考虑这点。添加 Open Graph 协议标签后，分享效果大幅提升：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 基础 Open Graph 标签 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">property</span>=<span class="string">"og:title"</span> <span class="attr">content</span>=<span class="string">"网站速度优化完全指南"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">property</span>=<span class="string">"og:description"</span> <span class="attr">content</span>=<span class="string">"学习如何提升网站加载速度，改善用户体验和SEO排名"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">property</span>=<span class="string">"og:image"</span> <span class="attr">content</span>=<span class="string">"https://example.com/images/speed-optimization.jpg"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">property</span>=<span class="string">"og:url"</span> <span class="attr">content</span>=<span class="string">"https://example.com/post/website-speed-optimization"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">property</span>=<span class="string">"og:type"</span> <span class="attr">content</span>=<span class="string">"article"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">property</span>=<span class="string">"og:site_name"</span> <span class="attr">content</span>=<span class="string">"技术博客"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- Twitter 卡片标签 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"twitter:card"</span> <span class="attr">content</span>=<span class="string">"summary_large_image"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"twitter:title"</span> <span class="attr">content</span>=<span class="string">"网站速度优化完全指南"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"twitter:description"</span> <span class="attr">content</span>=<span class="string">"学习如何提升网站加载速度，改善用户体验和SEO排名"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"twitter:image"</span> <span class="attr">content</span>=<span class="string">"https://example.com/images/speed-optimization.jpg"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>其他重要 meta 标签</strong>：</p>
+<ol>
+<li><strong>视口设置</strong>：确保在移动设备上正确显示</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"viewport"</span> <span class="attr">content</span>=<span class="string">"width=device-width, initial-scale=1.0"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>机器人控制</strong>：精细控制搜索引擎行为</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 允许索引并跟踪链接（默认行为） --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"robots"</span> <span class="attr">content</span>=<span class="string">"index, follow"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">&lt;!-- 特定页面不希望被索引（如后台页面） --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">"robots"</span> <span class="attr">content</span>=<span class="string">"noindex, nofollow"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>页面刷新或重定向</strong>：</li>
+</ol>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 5秒后重定向到新页面 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">meta</span> <span class="attr">http-equiv</span>=<span class="string">"refresh"</span> <span class="attr">content</span>=<span class="string">"5;url=https://example.com/new-page"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>完善 meta 标签后，我们不仅在搜索结果中展示更吸引人，社交分享效果也大幅提升，点击率比之前提高了约 25%。</p>
+<p><strong>踩坑教训</strong>：meta 标签看似简单，却是 SEO 的重要基石，每一个页面都应该有精心优化的元标签设置。</p>
+<h4 id="4-内链与外链"><a href="#4-内链与外链" class="headerlink" title="4. 内链与外链"></a>4. 内链与外链</h4><p>链接策略是我们之前完全忽视的一个方面。内链可以帮助搜索引擎理解网站结构和页面关系，外链则是投票机制，表明其他网站对我们内容的认可。</p>
+<p><strong>解决方法</strong>：</p>
+<ol>
+<li>建立合理的内链结构，重要页面获得更多内链</li>
+<li>使用描述性锚文本（而不是”点击这里”）</li>
+<li>确保重要页面距离首页点击次数不超过 3 次</li>
+<li>尝试获取高质量相关网站的反向链接</li>
+</ol>
+<h3 id="度量与分析"><a href="#度量与分析" class="headerlink" title="度量与分析"></a>度量与分析</h3><p>仅仅实施优化是不够的，我们需要测量效果并持续改进。</p>
+<p>一开始，我们没有设置正确的跟踪机制，无法评估优化效果。</p>
+<p><strong>解决方法</strong>：</p>
+<ol>
+<li>正确配置 Google Analytics 和 Google Search Console</li>
+<li>定期监控关键指标：<ul>
+<li>搜索排名变化</li>
+<li>自然流量趋势</li>
+<li>页面加载速度</li>
+<li>跳出率和停留时间</li>
+<li>转化率</li>
+</ul>
+</li>
+</ol>
+<p>通过这些数据，我们能够识别问题并进行针对性优化。</p>
+<h3 id="踩坑教训总结"><a href="#踩坑教训总结" class="headerlink" title="踩坑教训总结"></a>踩坑教训总结</h3><ol>
+<li><p><strong>不要过度优化</strong><br>过度优化（如关键词堆砌）可能导致搜索引擎惩罚。SEO 应该是自然的，以用户为中心。</p>
+</li>
+<li><p><strong>技术与内容并重</strong><br>技术 SEO 确保搜索引擎能抓取和理解网站，内容 SEO 确保内容有价值并符合用户需求。两者缺一不可。</p>
+</li>
+<li><p><strong>SEO 是一场马拉松，不是短跑</strong><br>不要期望立即见效，SEO 是长期战略，需要持续投入和优化。</p>
+</li>
+<li><p><strong>移动端优先</strong><br>随着移动搜索占比越来越高，移动端体验已经成为 SEO 的核心。</p>
+</li>
+<li><p><strong>使用正确的工具</strong><br>有很多优秀的 SEO 工具可以帮助分析和优化，如 Screaming Frog、Ahrefs、SEMrush 等。</p>
+</li>
+</ol>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>通过这次 SEO 优化实践，我不仅学到了许多 SEO 知识，更重要的是改变了思维方式：</p>
+<p>从单纯考虑”如何实现功能”转变为”如何实现对用户和搜索引擎都友好的功能”。</p>
+<p>虽然我还是 SEO 领域的”菜鸡”，但这次经历让我明白，SEO 不是什么神秘的技术，而是一套系统的方法论，通过不断学习和实践，人人都能掌握。</p>
+<p>最后，分享一句曾经看到过的话：</p>
+<blockquote>
+<p>“优化网站不仅是为了搜索引擎，更是为了用户。当你真正以用户为中心设计和开发网站时，SEO 自然会水到渠成。”</p>
+</blockquote>
+<h3 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h3><p><a href="https://cloud.tencent.com/developer/inventory/21006/article/1937182" target="_blank" rel="noopener">1. Website SEO optimization</a></p>
+<p><a href="https://pagespeed.web.dev/" target="_blank" rel="noopener">2. Google PageSpeed Insights</a></p>
+<p><a href="https://search.google.com/search-console" target="_blank" rel="noopener">3. Google search console</a></p>
+<p><a href="https://analytics.google.com/analytics/web/provision/?hl=zh-cn#/provision" target="_blank" rel="noopener">4. Google Analytics</a></p>
+<p><a href="https://www.xml-sitemaps.com/validate-xml-sitemap.html" target="_blank" rel="noopener">5. Validate xml sitemap</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/SEO/" rel="tag"># SEO</a>
+              <a href="/tags/%E5%89%8D%E7%AB%AF%E4%BC%98%E5%8C%96/" rel="tag"># 前端优化</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/02/15/49-%E5%85%B3%E4%BA%8E%E8%A2%ABNext-js%E5%BC%BA%E8%A1%8C%E6%B4%97%E8%84%91%E7%9A%84%E4%BA%8C%E4%B8%89%E4%BA%8B/" rel="prev" title="49.关于被Next.js强行洗脑的二三事">
+      <i class="fa fa-chevron-left"></i> 49.关于被Next.js强行洗脑的二三事
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">gengjian1203</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">138k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"eL60vwm4rfbHvfB9iGURmnOH-gzGzoHsz","appKey":"DlHKsMf3Ijp6arF0iN0723TC","placeholder":"随便说点什么吧~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"language":"zh-cn","visitor":false,"comment_count":true,"recordIP":true,"serverURLs":null}
+    ));
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"react":{"opacity":0.7}});</script></body>
+</html>

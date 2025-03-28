@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gengjian1203.github.io","root":"/","scheme":"Gemini","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="书写背景随着代码越写越多，感觉要想成为一名合格的程序猿，不能仅仅是一味低头的当一个“码农”，偶尔也得尝试抬起头看看隔壁产品同学的日常。搞清楚产品的工作思路，也能把握自身的代码开发方向。（就好像要把握出题者的意图，答题才能更顺手的感觉~）正逢赶上公司的产品大佬分享，抽出身子过去赶紧学习一波。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="22.公司产品同学的运营实践分享有感">
+<meta property="og:url" content="https://gengjian1203.github.io/2021/01/15/22-%E5%85%AC%E5%8F%B8%E4%BA%A7%E5%93%81%E5%90%8C%E5%AD%A6%E7%9A%84%E8%BF%90%E8%90%A5%E5%AE%9E%E8%B7%B5%E5%88%86%E4%BA%AB%E6%9C%89%E6%84%9F/">
+<meta property="og:site_name" content="耿健的个人博客">
+<meta property="og:description" content="书写背景随着代码越写越多，感觉要想成为一名合格的程序猿，不能仅仅是一味低头的当一个“码农”，偶尔也得尝试抬起头看看隔壁产品同学的日常。搞清楚产品的工作思路，也能把握自身的代码开发方向。（就好像要把握出题者的意图，答题才能更顺手的感觉~）正逢赶上公司的产品大佬分享，抽出身子过去赶紧学习一波。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-15T15:13:37.000Z">
+<meta property="article:modified_time" content="2023-09-21T03:09:01.826Z">
+<meta property="article:author" content="gengjian1203">
+<meta property="article:tag" content="产品运营">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://gengjian1203.github.io/2021/01/15/22-%E5%85%AC%E5%8F%B8%E4%BA%A7%E5%93%81%E5%90%8C%E5%AD%A6%E7%9A%84%E8%BF%90%E8%90%A5%E5%AE%9E%E8%B7%B5%E5%88%86%E4%BA%AB%E6%9C%89%E6%84%9F/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>22.公司产品同学的运营实践分享有感 | 耿健的个人博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">耿健的个人博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个即将放飞理想的咸鱼博主</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/projects" rel="section"><i class="fa fa-th fa-fw"></i>项目</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#书写背景"><span class="nav-number">1.</span> <span class="nav-text">书写背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分享内容"><span class="nav-number">2.</span> <span class="nav-text">分享内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#会下交流"><span class="nav-number">3.</span> <span class="nav-text">会下交流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#所思所得"><span class="nav-number">4.</span> <span class="nav-text">所思所得</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="gengjian1203"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">gengjian1203</p>
+  <div class="site-description" itemprop="description">要么读书，要么旅行，身体和灵魂总有一个在路上</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/projects">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">项目</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gengjian1203" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gengjian1203" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:187076081@qq.com" title="E-Mail → mailto:187076081@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gengjian1203.github.io/2021/01/15/22-%E5%85%AC%E5%8F%B8%E4%BA%A7%E5%93%81%E5%90%8C%E5%AD%A6%E7%9A%84%E8%BF%90%E8%90%A5%E5%AE%9E%E8%B7%B5%E5%88%86%E4%BA%AB%E6%9C%89%E6%84%9F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="gengjian1203">
+      <meta itemprop="description" content="要么读书，要么旅行，身体和灵魂总有一个在路上">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耿健的个人博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          22.公司产品同学的运营实践分享有感
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-15 23:13:37" itemprop="dateCreated datePublished" datetime="2021-01-15T23:13:37+08:00">2021-01-15</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-21 11:09:01" itemprop="dateModified" datetime="2023-09-21T11:09:01+08:00">2023-09-21</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2021/01/15/22-%E5%85%AC%E5%8F%B8%E4%BA%A7%E5%93%81%E5%90%8C%E5%AD%A6%E7%9A%84%E8%BF%90%E8%90%A5%E5%AE%9E%E8%B7%B5%E5%88%86%E4%BA%AB%E6%9C%89%E6%84%9F/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2021/01/15/22-%E5%85%AC%E5%8F%B8%E4%BA%A7%E5%93%81%E5%90%8C%E5%AD%A6%E7%9A%84%E8%BF%90%E8%90%A5%E5%AE%9E%E8%B7%B5%E5%88%86%E4%BA%AB%E6%9C%89%E6%84%9F/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="书写背景"><a href="#书写背景" class="headerlink" title="书写背景"></a>书写背景</h3><p>随着代码越写越多，<br>感觉要想成为一名合格的程序猿，<br>不能仅仅是一味低头的当一个“码农”，<br>偶尔也得尝试抬起头看看隔壁产品同学的日常。<br>搞清楚产品的工作思路，也能把握自身的代码开发方向。<br>（就好像要把握出题者的意图，答题才能更顺手的感觉~）<br>正逢赶上公司的产品大佬分享，<br>抽出身子过去赶紧学习一波。</p>
+<a id="more"></a>
+
+<h3 id="分享内容"><a href="#分享内容" class="headerlink" title="分享内容"></a>分享内容</h3><p>这次分享会，主要分享了四点内容：</p>
+<ol>
+<li><p>过往创业背景</p>
+<p>讲述了大佬的的创业经历，从一个只有 2 个人的团队，做到拿到 A 轮融资 500w 的一个小企业的过程（需要有个好看的 PPT）。<br>其中也并不是产品一次成型，每个方向都在不断试探，不断试错。<br>将客户首先定位在大学生群体，外卖，兼职，帮帮等等，<br>最后针对招聘这个方向开始重点发力。</p>
+</li>
+<li><p>创业中产品工作问题&amp;解决</p>
+<p>期间拒绝阿里的 B 轮融资方案。最后只把希望寄托在一个客户机构上，没有 plan B，最后由于意外，导致最后资金链断裂，失败落幕。<br>所得的经验教训就是不能把企业的生死存亡寄托在其他人身上，在没有实锤之前，都给自己留一条后路。</p>
+</li>
+<li><p>产品常见错误</p>
+<p>大佬总结之下大概分为 6 点：</p>
+<ol>
+<li><p>自嗨。<br>产品在想需求的过程中，有时候会自我感觉良好。<br>灵光一闪想到个 idea，感觉有了这个玩法，产品瞬间可以逆风翻盘，感动自己。<br>其实越兴奋的时候，越要冷静。<br>正常来说，产品可以说是在部门里话语权优先级很高的。<br>如果不做深思熟虑，只是拍脑门之下，研发便投入开发，销售开始地推，<br>最后很可能客户反应冷淡，远远没有达到预期，无形浪费成本。</p>
+</li>
+<li><p>一言堂。<br>一般是有绝对话语权的人易犯的错误。<br>很可能其他人都不统一他的观点，<br>这个时候他声音大，<br>其他人抱着不想和他争，抱着要不做着看看效果的心态敷衍了事，<br>最后出来的效果也未必会好。</p>
+</li>
+<li><p>节奏感<br>产品要有自身的节奏感。<br>对于产品方向和思路的把控，这是一个合格产品应该具备的条件。<br>那么如何带出产品的节奏感，这个是一个优秀产品的必备条件。</p>
+</li>
+<li><p>龟毛<br>强迫症发作，过度于纠结细致的东西，却失去了把控大局的思路。<br>比如这个按钮的位置。<br>高几像素还是矮几像素不会太影响大局，客户不会因为这个按钮歪了一点就不去使用我们的产品。<br>客户只会因为这个产品不好用，没办法解决自身痛点而放弃使用产品。</p>
+</li>
+<li><p>脱离客户<br>由于客户的需求是一个动态的，甚至客户自身都不知道他需要什么。<br>所以就需要做到经常去跟客户沟通。<br>如果做不到两周跟客户有过沟通，那就意味着已经脱离了客户。<br>既然都不知道客户的最新需求，自然就没办法做出打动客户的产品。</p>
+</li>
+<li><p>经验主义<br>这是一般老产品会犯下的错误。<br>一看到有类似场景，那么直接就想起之前做过的案例。<br>拿出以前的方案，直接生搬硬套，没有做到因地制宜。<br>所以结果也不会很乐观的。</p>
+</li>
+</ol>
+</li>
+<li><p>产品运营紧密协同</p>
+<p>产品需求设计过程中，不是一个单向的流动，应该是双向的，也是需要有反馈的。<br>通过对产品功能的埋点，进而对客户的行为数据收集分析，<br>推测客户行为，通过数据驱动，进而推出下一步的方案。<br>以产品推销 VIP 会员为例。<br>强制蒙层弹窗可能大部分人看都不看直接叉掉，销售效果未必好。<br>通过后台的客户行为分析，在用户观看较多的页面，放置对应会员 VIP 的广告，<br>以及分批发放试用 VIP。<br>观察有试用 VIP 与没有使用 VIP 客户的行为差别。<br>观察 VIP 是否能够让客户感受得到便利。<br>进而对 VIP 的付费内容，以及推广策略进行调整。</p>
+</li>
+</ol>
+<h3 id="会下交流"><a href="#会下交流" class="headerlink" title="会下交流"></a>会下交流</h3><p>创业公司的合伙人需要分工明确。<br>创立公司之初的团队组成。<br>设计产品，要保持初心。<br>代码会写出 bug，产品需求也会有 bug，所以需求有变动其实是可以理解的。</p>
+<h3 id="所思所得"><a href="#所思所得" class="headerlink" title="所思所得"></a>所思所得</h3><p>听完这次分享会之后，<br>感觉目前公司的项目还是有很多地方需要优化的。<br>至少很多细节地方都没有打磨。<br>单就目前的每个版本的流程来说，就是一个单向流，<br>从市场销售捕获客户痛点，产品转化为需求，设计出稿，需求评审，技术评审，正式开发，验收转测，最后提审上线。<br>然后这样就结束了。<br>这一套流程下来，最后到客户手里反馈如何，却不了了之。<br>如何改善，也都是自身在凭空想象。</p>
+<p>同时，埋点是一个项目很必备的功能。<br>从代码层级上来看，<br>如果每个地方到处复制粘贴，以后管理必将是一件麻烦事。<br>那么如何优雅的实现这个功能，<br>也是需要我们去思量的。</p>
+<p>再就是在版本迭代的过程中，<br>新增功能是一个很容易的事情，不过更多考虑的是如何提高体验。<br>同样都能解决客户的痛点，<br>一个方案需要点 3 次，一个方案只需要点 2 次。<br>这样给客户带来的体验是完全不同的。</p>
+<p>另外，要善于做减法。<br>把每一个做出来的功能都当成个宝贝一样保留着，最后只会让项目臃肿不堪。<br>其实对于已经通过客户行为数据验证过，对客户没有太大帮助的功能，是完全可以下掉删除的，<br>好的功能就全力发扬，不好的功能果断放弃。<br>这样既可以避免分散客户的注意力，也能提高自身产品的性能，从而提高用户体验。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%BA%A7%E5%93%81%E8%BF%90%E8%90%A5/" rel="tag"># 产品运营</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/03/21-%E8%87%AA%E5%AE%9A%E4%B9%89Hook%E5%88%86%E9%A1%B5%E5%8A%A0%E8%BD%BD%E7%9A%84%E5%AE%9E%E7%8E%B0/" rel="prev" title="21.自定义Hook分页加载的实现">
+      <i class="fa fa-chevron-left"></i> 21.自定义Hook分页加载的实现
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/01/23/23-macOS%E6%90%AD%E5%BB%BA%E6%9C%AC%E5%9C%B0gitlab/" rel="next" title="23.macOS本地搭建gitlab服务">
+      23.macOS本地搭建gitlab服务 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">gengjian1203</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">138k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"eL60vwm4rfbHvfB9iGURmnOH-gzGzoHsz","appKey":"DlHKsMf3Ijp6arF0iN0723TC","placeholder":"随便说点什么吧~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"language":"zh-cn","visitor":false,"comment_count":true,"recordIP":true,"serverURLs":null}
+    ));
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"react":{"opacity":0.7}});</script></body>
+</html>

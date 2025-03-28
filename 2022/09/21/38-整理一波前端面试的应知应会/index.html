@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gengjian1203.github.io","root":"/","scheme":"Gemini","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="自由万岁作为一个憧憬自由的射手座，总是有一些作死的基因流淌在身体里面的。毕竟人生总会有三大错觉：手机振动，她喜欢我、我还能跳。可能也是嗅到了公司前景有些不是那么景气，然后一时脑残冲动，选择了跳槽跑路， 确实享受了一次完美的没有后顾之忧的度假之旅，同时也被行业的寒冬打击的体无完肤。在这个时期裸辞找工作确实比较辛苦，真是为自己的骚操作买单。整理了一波面试八股知识，也算是为这一阶段的面试情况做一个复盘。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="38.整理一波前端面试的应知应会">
+<meta property="og:url" content="https://gengjian1203.github.io/2022/09/21/38-%E6%95%B4%E7%90%86%E4%B8%80%E6%B3%A2%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E7%9A%84%E5%BA%94%E7%9F%A5%E5%BA%94%E4%BC%9A/">
+<meta property="og:site_name" content="耿健的个人博客">
+<meta property="og:description" content="自由万岁作为一个憧憬自由的射手座，总是有一些作死的基因流淌在身体里面的。毕竟人生总会有三大错觉：手机振动，她喜欢我、我还能跳。可能也是嗅到了公司前景有些不是那么景气，然后一时脑残冲动，选择了跳槽跑路， 确实享受了一次完美的没有后顾之忧的度假之旅，同时也被行业的寒冬打击的体无完肤。在这个时期裸辞找工作确实比较辛苦，真是为自己的骚操作买单。整理了一波面试八股知识，也算是为这一阶段的面试情况做一个复盘。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-09-21T12:19:19.000Z">
+<meta property="article:modified_time" content="2023-09-21T03:09:01.827Z">
+<meta property="article:author" content="gengjian1203">
+<meta property="article:tag" content="面试">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://gengjian1203.github.io/2022/09/21/38-%E6%95%B4%E7%90%86%E4%B8%80%E6%B3%A2%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E7%9A%84%E5%BA%94%E7%9F%A5%E5%BA%94%E4%BC%9A/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>38.整理一波前端面试的应知应会 | 耿健的个人博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">耿健的个人博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个即将放飞理想的咸鱼博主</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/projects" rel="section"><i class="fa fa-th fa-fw"></i>项目</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#自由万岁"><span class="nav-number">1.</span> <span class="nav-text">自由万岁</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一、HTML"><span class="nav-number">2.</span> <span class="nav-text">一、HTML</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二、CSS"><span class="nav-number">3.</span> <span class="nav-text">二、CSS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三、JS"><span class="nav-number">4.</span> <span class="nav-text">三、JS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四、框架相关"><span class="nav-number">5.</span> <span class="nav-text">四、框架相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五、项目相关"><span class="nav-number">6.</span> <span class="nav-text">五、项目相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六、开放问题"><span class="nav-number">7.</span> <span class="nav-text">六、开放问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后记"><span class="nav-number">8.</span> <span class="nav-text">后记</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="gengjian1203"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">gengjian1203</p>
+  <div class="site-description" itemprop="description">要么读书，要么旅行，身体和灵魂总有一个在路上</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/projects">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">项目</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gengjian1203" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gengjian1203" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:187076081@qq.com" title="E-Mail → mailto:187076081@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gengjian1203.github.io/2022/09/21/38-%E6%95%B4%E7%90%86%E4%B8%80%E6%B3%A2%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E7%9A%84%E5%BA%94%E7%9F%A5%E5%BA%94%E4%BC%9A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="gengjian1203">
+      <meta itemprop="description" content="要么读书，要么旅行，身体和灵魂总有一个在路上">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耿健的个人博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          38.整理一波前端面试的应知应会
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-09-21 20:19:19" itemprop="dateCreated datePublished" datetime="2022-09-21T20:19:19+08:00">2022-09-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-21 11:09:01" itemprop="dateModified" datetime="2023-09-21T11:09:01+08:00">2023-09-21</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/09/21/38-%E6%95%B4%E7%90%86%E4%B8%80%E6%B3%A2%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E7%9A%84%E5%BA%94%E7%9F%A5%E5%BA%94%E4%BC%9A/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/09/21/38-%E6%95%B4%E7%90%86%E4%B8%80%E6%B3%A2%E5%89%8D%E7%AB%AF%E9%9D%A2%E8%AF%95%E7%9A%84%E5%BA%94%E7%9F%A5%E5%BA%94%E4%BC%9A/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="自由万岁"><a href="#自由万岁" class="headerlink" title="自由万岁"></a>自由万岁</h3><p>作为一个憧憬自由的射手座，<br>总是有一些作死的基因流淌在身体里面的。<br>毕竟人生总会有三大错觉：手机振动，她喜欢我、我还能跳。<br>可能也是嗅到了公司前景有些不是那么景气，<br>然后一时脑残冲动，选择了跳槽跑路，</p>
+<p>确实享受了一次完美的没有后顾之忧的度假之旅，<br>同时也被行业的寒冬打击的体无完肤。<br>在这个时期裸辞找工作确实比较辛苦，真是为自己的骚操作买单。<br>整理了一波面试八股知识，也算是为这一阶段的面试情况做一个复盘。</p>
+<a id="more"></a>
+
+<p>标识意义如下：<br>🔴 频率高（面试中经常遇到）<br>🟠 频率中（面试中遇到过一次以上）<br>🟢 频率低（面试中遇到过一次）<br>⚪ 自己瞎捉摸、自己面试会可能会问到。可以酌情忽略</p>
+<h3 id="一、HTML"><a href="#一、HTML" class="headerlink" title="一、HTML"></a>一、HTML</h3><p>🔴 简单说一下浏览器有哪些缓存：localstorage、sessionstorage、cookie。有什么区别？缓存大小限制？在你之前项目中分别在什么场景下使用？<br>🟢 有做过 SEO 相关经验么？<br>🟢 http 的强缓存、协商缓存都是什么<br>🟠 常见 http 协议状态码有哪些。200、301，401、404、500<br>⚪ 语义化标签有什么好处？h1 ~ h6 / code / pre / nav / aside / section / strong<br>⚪ Canvas、video、audio、是否有使用过？如何 api 绘图 Canvas？如何 api 操作多媒体？点击 video 自动全屏且播放如何实现？</p>
+<h3 id="二、CSS"><a href="#二、CSS" class="headerlink" title="二、CSS"></a>二、CSS</h3><p>🔴 了解盒子模型么。<br>从内到外 content / padding / border / margin<br>配合属性 box-sizing / width / height<br>🔴 大小两个元素，小元素在大元素中如何实现垂直水平居中。<br>（文档流内 flex / 脱离文档流 position: absolute;top: 0;left: 0;right: 0;bottom: 0）<br>🟢 实现三个模块，左右模块固定宽度，中间宽度自适应如何实现。（用过 flex 布局么？对应参数的意义）<br>🟢 如何画个圆、画个三角。<br>🟢 给一段文本，超过 100px 就要省略号，怎么实现？多行文本省略号呢（有什么限制）？<br>🟢 是否遇到过一像素问题？<br>🟢 渐变效果分几种？线性渐变、径向渐变<br>🟢 了解 BFC(块格式化上下文)么？<br>🟢 讲讲你对 CSS 思维 原子化的理解？组件化的理解？<br>⚪ 缩放需要用什么属性，通过 transform:scale(0.5) 缩放缩小后，实际占用的空间缺没有变化，你会如何处理。<br>⚪ transform: rotate(70deg) translate(100px, 200px); 请问这种书写方法是先旋转再位移，还是先位移再旋转<br>⚪ 如果我想将元素设置半透明有几种处理方式，他们有什么区别？opacity: 0.5 / background-color: rgba(0, 0, 0, 0.5)<br>⚪ 如果一个元素宽度是动态的为当前浏览器的 50%，宽高比始终保持 16:9，如何通过 CSS 实现？aspect-ratio: 16 / 9;<br>⚪ 有用 css 实现过动画么？了解贝塞尔曲线么？通过控制曲线上的四个点（起始点、终止点以及两个相互分离的中间点）来创造、编辑图形。</p>
+<h3 id="三、JS"><a href="#三、JS" class="headerlink" title="三、JS"></a>三、JS</h3><p>🔴 你用过那些 ES6 的新特性。定义变量、扩展元素符…对象解构<br>🔴 数据精度丢失，0.1 + 0.2 = ?。为什么会有这个情况? 项目中是如何处理的? 如果两个数的小数位数不同的时候，要如何处理? 如果小数位数过多，乘以 10 的 n 次幂数据过大如何处理? （后面恶心问题也基本不会追问）<br>🟢 暂时性死区了解过么？变量提升了解过么？<br>⚪ 有用过序列化，反序列化么？什么场景下会用到？需要注意什么。应当放在 try…catch 内会安全一些。<br>序列化时应当注意对象中是否有循环引用字段(其中对象字段的值是自己)，否则直接报错；<br>反序列化时，以防传入的是非法 JSON 格式字符，也会导致直接报错；<br>⚪ 有用过编码，解码相关 api 么？什么场景下会用到？可以解决路由传值时，中文参数的乱码问题。</p>
+<p>🔴 简单说一下你对 Promise 的一个理解，解决了什么问题。如何将其改为同步实现。<br>有一个场景同时调用多个接口你会如何实现？Promise.all<br>那假如其中的一个接口报错如何处理？Promise.allsettled，或者每个接口都有 try…catch 。Promise.race 是做什么的？<br>手写 Promise 的思路，实现链式调用，有三种状态且成功失败后则状态凝固，两个入参实现其回调，等等。<br>🟢 应用过 generator、yield 么？<br>⚪ 使用过 async await 么? 如果想在循环中使用，应当如何操作？for 可以么？forEach 可以么？for await of 了解过么？</p>
+<p>🟢 简单说一下 Set 、 Map 数据结构都是什么，Map 和 Object 有什么区别，之前项目中分别在什么场景会用到？<br>🟢 了解过设计模式么，有在项目中实际应用么？装饰器模式，工厂模式，单例模式，观察者模式。<br>🟢 RESTFUL 接口规范。GET POST 有什么不一样的地方？<br>🟢 说说想实现数组的循环有哪些方式？for in .of while forEach map reduce 哪种效率最快？</p>
+<p>🔴 数组相关操作 api。<br>数组筛选，遍历，取输入前三个，slice \ splice<br>数组的哪些 API 会改变原数组？不会改变：concat、every、some、filter、indexOf、join、toString、lastIndexOf、map、slice、valueOf。会改变：pop、push、shift、unshift、reverse、sort、splice</p>
+<p>🟢 讲讲你对宏任务与微任务的理解？<br>🟢 setTimeout,setInterval 会有时间偏差？requestAnimationFrame 是否用过？</p>
+<p>🔴 了解什么是深拷贝么？<br>简单的通过 JSON.parse / JSON.stringify 处理。<br>复杂的，如果涉及到字段包含方法的，就需要递归实现。<br>手写深拷贝说出思路，函数如何拷贝，数组如何拷贝，对象如何拷贝。<br>如何判断对象中的字段是数组，对象。typeof / instanceof<br>typeof 判断所有变量的类型，返回值有 number、string、boolean、function、object、undefined。typeof 对于丰富的对象实例，只能返回 object，导致有时候得不到真实的数据类型。<br>instanceof 可以对不同的实例对象进行判断，判断方法是根据对象的原型链依次向上查询。<br>🟢 递归应该注意什么？边界，明确条件返回。</p>
+<p>🟠 讲一讲你对原型链的理解，平时开发过程中有对原型链操作过么？<br>当函数自身有相应的方法或者属性时就用自己的，当自身没有时才通过<em>proto</em>原型链查找。<br>封装或者调整公共的方法绑定到一种类型变量上。比如：实现工厂模式设计模式的时候，可以把一些基础的方法挂在到工厂类的方法里，然后实例化工厂类的对象，则天然就会携带这些刚刚的基础方法。</p>
+<p>🟠 什么是闭包，平时开发中什么场景会用到闭包？比如：写防抖节流时，存储定时器的变量不去污染全局。<br>🟠 普通函数和箭头函数有什么区别？箭头函数不能用于 new，this 指向不同：普通函数指向调用该函数的对象，箭头函数根据声明的位置决定 this<br>🟢 apply、bind、call 有什么区别？<br>都是可以实现改变函数内部 this 的指向。第一个参数都是 this 要指向的对象。<br>第二个参数：apply 是以数组形式传入、bind、call 则是以平铺参数传入。bind 直接改变了绑定的函数<br>箭头函数能否使用 apply、bind、call？不能。</p>
+<p>🟢 讲讲为什么会有内存泄漏，什么情况下会有内存泄漏的风险？<br>内存泄漏：闭包、未注销事件/定时器、直接使用函数内未定义变量会绑定到全局对象 window<br>常见的内存垃圾回收机制 GC 清理算法：</p>
+<ol>
+<li>引用计数。为每个对象设置引用数字，引用关系变化时引用计数器会修改对应的引用数字，引用数字为 0 时立即回收。 缺点：无法回收循环引用的对象。</li>
+<li>标记清除。定期遍历所有对象并标记活动对象（可达对象），然后将不可到达的对象释放掉。缺点：容易产生碎片化空间，浪费空间，不会立即回收垃圾对象，清除垃圾对象时程序暂停。</li>
+<li>标记整理。标记清除可以看作是标记清除的增强。标记的阶段和标记清除一致。清除阶段会先执行整理，移动对象位置。</li>
+</ol>
+<p>🟠 用过 TS 么？有哪些基本类型？写过泛型么？</p>
+<p>🔴 以往项目中有埋点相关业务么？是如何实现的？第三方/自研接口？<br>第三方会有引用埋点包后有实现自动上传数据的功能。比如点击元素自动埋点上传、页面跳转自动埋点上传，而这些不需要开发者额外写代码，你知道是如何实现的么？</p>
+<p>🟢 基础变量相关<br>var a = ‘a’<br>var b = new String(‘a’)<br>a == b // true<br>a === b // false<br>a、b 分别是如何在内存中存放的<br>Const b = new String(a)<br>a、b 分别是如何内存中存放的<br>a = ‘c’<br>那么，b 的内容是否会发生变化？</p>
+<p>🟢 基础函数相关<br>var a = function () {}<br>function b () {}<br>var c = new function()<br>分别解释一下这三种方式 js 内部是如何实现的？<br>js 编译器是如何解析声明函数的？</p>
+<p>🟢 基础算法相关<br>🟢 手写 字符串转数字 思路<br>🟢 手写 快速排序 思路<br>🟢 手写 将一个数组顺序随机打乱 思路<br>🟢 手写 统计一个字符串中 每个字符出现的次数 思路<br>⚪ 手写 反转链表 思路</p>
+<h3 id="四、框架相关"><a href="#四、框架相关" class="headerlink" title="四、框架相关"></a>四、框架相关</h3><p>🔴 能简单说一下 MVVM 模型的概念么？<br>🔴 Vue 生命周期都有哪些？在对应生命周期适合做那些事情？<br>🔴 Vue watch 和 computed 有什么区别？watch 深度监听数组、对象如何处理？computed 缓存计算结果优化性能。那么在你之前工作项目中什么场景会用到了 watch，什么场景用到了 computed？<br>🟠 Vue 、React 你觉得有什么不同，你更喜欢用哪个。<br>🟠 Vue3 有使用过么？Vue3 和 2 相比有什么区别？<br>🟠 Vue 数据双向绑定的原理是什么？Vue2 是通过 Object.defineProperty，Vue3 是通过 Proxy 分别有什么优缺点？<br>🟠 了解过路由守卫么？平时项目中什么场景会用到？<br>🟢 缓存页面状态应该用什么？keep-alive 用过么？keep-alive 如果单独想要缓存几个页面如何处理？<br>🟢 Vue 使用过动态组件么？<br>⚪ input 标签的 v-module 是如何实现数据双向绑定的。<br>⚪ Vue 文件中 template、style、script 哪些是必须的？template 必须，style、script 没有也可编译通过。<br>⚪ Vue 用有 watch 这个概念，那 React 中，传入子组件字段变化，组件渲染逻辑跟着变化，怎么实现？componentDidUpdate 无法实现深度监听如何处理？</p>
+<p>🔴 React 生命周期都有哪些？在对应生命周期适合做那些事情？<br>🔴 父子组件如何传值、兄弟组件如何传值。<br>🟠 React 的 this.setState 是同步还是异步？setState 为什么合成事件和钩子函数中是异步的，在原生事件和 setTimeout 中都是同步的？<br>🟠 React 的 useEffect()封装了什么生命周期？<br>🟠 React 的 useCallback()什么场景会用到？与 useMemo()相比有什么区别。<br>🟠 用过 Hook 么？为什么诞生了 hook，是为了解决什么问题。<br>🟠 有用过 React 高阶组件么？封装组件，可以实现对参数透传。<br>🟢 React 的 Hook 可以在循环中使用么？那可以再条件判断中使用么？为什么？<br>🟢 React 的版本平时用的是多少？16、17、18 分别有哪些更新？<br>🟢 React 的 useState 和 this.setState 有什么区别？useState 只能改变绑定的变量，this.setState 可以一次性修改多个变量。<br>⚪ React 的绑定的事件和原生事件一样么？不一样，原生的消息继承自 MouseEvent，React 的消息继承自 SyntheticEvent（合成事件）。event.nativeTarget 是真正的原生消息。</p>
+<p>🔴 说一下你对 Redux/Vuex 的理解。状态机，把所有状态存到一个对象中，如何读值、如何写值。会触发页面的响应式么？<br>⚪ 我在项目中声明一个全局对象，这样是不是就没必要使用 Redux/Vuex 了？</p>
+<p>🟠 有个数组[0..100]，实现个 list，循环渲染列表。key 的作用是什么。<br>🟠 简单说一下虚拟 DOM 是什么？为什么要引用这个概念？<br>🟠 了解过自己所用的框架源码中的 diff 算法？</p>
+<p>⚪ 路由跳转传参有几种方式，PC 端通过传参来控制页面是编辑/展示状态，如果我手动将 url 中参数修改了，怎么防止这种情况。如果页面用户主动 F5 刷新了，怎么处理。</p>
+<p>🟠 小程序 webview 是如何 H5 与小程序通讯的。<br>H5 网页向小程序通讯，H5 页面通过引用<a href="https://res.wx.qq.com/open/js/jweixin-1.3.2.js，然后使用wx.miniProgram.postMessage向小程序发送消息。" target="_blank" rel="noopener">https://res.wx.qq.com/open/js/jweixin-1.3.2.js，然后使用wx.miniProgram.postMessage向小程序发送消息。</a><br>小程序向 H5 页面通讯，webview 组件的 src 字段后面 url 拼接参数。<br>🟢 小程序原生由于 setData 效率很慢，如何处理？渲染进程、数据处理进程。<br>⚪ Taro 有使用过么？有做过跨端项目么？跨端遇到过什么问题，最后怎么解决的？<br>⚪ 小程序的生命周期有哪些？小程序 onShow / onLoad 生命周期什么情况下会触发，一般什么业务场景会用到这两个生命周期。<br>⚪ 小程序太阳码码生成过么？小程序的登录流程熟悉过么？小程序授权流程熟悉过么？<br>⚪ 小程序图片长按识别二维码怎么开启，想要长按图片然后绑定事件如何实现？</p>
+<h3 id="五、项目相关"><a href="#五、项目相关" class="headerlink" title="五、项目相关"></a>五、项目相关</h3><p>🔴 遇到过跨域问题么？为什么会有跨域问题，同源策略是为了防止什么情况的发生？<br>你在平时开发中面对跨域怎么解决的。<br>前端调整：项目的 config 配置代理 或者 浏览器追加参数 –disable-web-security<br>后端调整：jsonp 、CORS （Access-Control-Allow-Origin）<br>🟢 cdn 加速是怎么实现的？用户和服务器之间增加 Cache 层，智能 DNS 负载均衡系统解析域名，把对用户响应速度最快的 IP 节点返回给用户。<br>🟢 配置过 webpack 么？<br>🟢 开发阶段有优化打包效率的相关经验么？webpack / vite<br>⚪ 有跨端项目经验开发经验么？怎么实现的？遇到过什么坑？<br>⚪ 微信小程序插件有做过么？<br>⚪ 有大屏经验么？字号的适配怎么实现，用 px 可以么？<br>⚪ 有 Canvas 的经验么？是矢量图还是位图？生成 canvas 保存之后图片会很模糊怎么解决。<br>⚪ 有 ECharts 的经验么？<br>⚪ 简单说一下如何使用 ECharts，如何初始化 this.mapChart = echarts.init，<br>⚪ 通过什么 api 渲染图像。this.mapChart.setOption<br>⚪ 本地随机生成的背景颜色，然后要在此颜色上显示文字，文字的颜色，希望能通过代码的方法来判断，背景颜色深就用白色显示文字，背景颜色浅就用黑色，这个有思路可以代码实现么？<br>⚪ 有实现登录功能么？知道 Auth2.0 登录么？如果用 hash 路由，返回来的结果参数被拼到.html 与 # 之间了。你需要怎么处理？</p>
+<p>⚪ React const {list} = this.state 然后直接对第一个对 list[0] = 111，this.setState(list)可以触发渲染么？<br>⚪ Vue 直接 this.list[0] = 1111, 可以触发渲染么？<br>⚪ 你在之前的项目中，表单校验一般如何实现的？<br>⚪ 如果这个 List 数据非常多，会白屏一段时间，你有什么好的优化方案？<br>⚪ UI 给出 List 空列表样式，不过页面请求接口获取数据，接口请求时，列表没有数据 就会闪过空列表样式，你怎么解决。</p>
+<h3 id="六、开放问题"><a href="#六、开放问题" class="headerlink" title="六、开放问题"></a>六、开放问题</h3><p>🔴 有对项目性能优化方面的经验么？<br>只把用于渲染的变量放在 state。逻辑中间变量尽量不要放到 state 内。不然每次渲染都会 diff 处理 state 中的字段。过多无意义的比较，会浪费性能。<br>懒加载组件/图片，减少接口调用，图片资源压缩，cdn 加速，白屏优化，节流、防抖，骨架屏，虚拟列表等。<br>css 样式放在 head 里，js 脚本放在最后。</p>
+<p>🟠 简单说一下浏览器从输入 url 到获得页面经历的所有事情：</p>
+<ol>
+<li>输入网址</li>
+<li>缓存解析</li>
+<li>域名解析</li>
+<li>tcp 连接，三次握手</li>
+<li>浏览器发送请求（请求头、请求体），服务器返回响应（响应头、响应体）</li>
+<li>页面渲染</li>
+<li>生成 DOM 树</li>
+<li>解析 CSS 样式</li>
+<li>加载 js 脚本，实现交互</li>
+</ol>
+<p>🟢 如果生产上出现了问题，你一般会如何去定位问题？SourceMap 用过么？<br>🟢 说一下自己工作中遇到最困难的问题是什么，你是怎么解决的？或者说一下在你工作中最有成就感的事情。<br>🟢 能简单说一下自己的优势么？你相比于其他开发同学你有哪些核心竞争力？<br>🟢 如果给小伙伴安排工作，不过他不服从安排，你应该如何处理？<br>🟢 如果 2 个领导给出的意见不一致，你会如何处理？<br>🟢 有为团队中作出什么贡献的事情么？</p>
+<p>⚪ UI 库的样式跟设计稿不匹配，你会怎么处理？<br>⚪ 平时用过缺陷管理系统么？禅道，tapd？<br>⚪ 自己有从头搭建过项目的经历么？<br>⚪ 有做过 封装公共组件，封装插件，开放辅助工作的工具和脚本。封装了哪些？为解决什么问题？</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>哈哈，本来准备在放飞理想的咸鱼博主后面加一个（先苟一波），<br>后来想想还是有点太怂了，实在是下不去手。<br>富贵不能淫，<br>贫贱不能移，<br>威武不能屈，<br>理想还是应该放飞放飞。😎</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9D%A2%E8%AF%95/" rel="tag"># 面试</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/09/09/37-%E7%AE%80%E5%8D%95%E8%81%8A%E4%B8%80%E8%81%8AESLint%E7%9A%84%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/" rel="prev" title="37.简单聊一聊ESLint的相关内容">
+      <i class="fa fa-chevron-left"></i> 37.简单聊一聊ESLint的相关内容
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/09/21/39-%E8%87%AA%E5%B7%B1%E7%9E%8E%E6%8D%89%E6%91%B8%E4%B9%8BCSS%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/" rel="next" title="39.自己瞎捉摸之CSS动画实现">
+      39.自己瞎捉摸之CSS动画实现 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">gengjian1203</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">138k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"eL60vwm4rfbHvfB9iGURmnOH-gzGzoHsz","appKey":"DlHKsMf3Ijp6arF0iN0723TC","placeholder":"随便说点什么吧~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"language":"zh-cn","visitor":false,"comment_count":true,"recordIP":true,"serverURLs":null}
+    ));
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"react":{"opacity":0.7}});</script></body>
+</html>

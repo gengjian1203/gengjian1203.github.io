@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gengjian1203.github.io","root":"/","scheme":"Gemini","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="写在前面本来一直以来是使用微信的云函数以及部署静态网站的。（确实很傻瓜式，简单易操作）结果微信现在是把人圈到手之后，开启收割模式了。 记得最最开始的时候微信云服务是免费很多额度的，后来大概到了 20 年左右吧，再创建新的云环境的时候，免费额度下调到原来的十分之一（也是勉强可以接受），那么现在厉害了，有最低消费了，先 20 元 &#x2F; 月试行 3 个月，然后自 2023 年起 40 元 &#x2F; 月。算下来一">
+<meta property="og:type" content="article">
+<meta property="og:title" content="40.菜鸡前端从0到1搭建阿里云服务器记录">
+<meta property="og:url" content="https://gengjian1203.github.io/2022/12/31/40-%E8%8F%9C%E9%B8%A1%E5%89%8D%E7%AB%AF%E4%BB%8E0%E5%88%B01%E6%90%AD%E5%BB%BA%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%B0%E5%BD%95/">
+<meta property="og:site_name" content="耿健的个人博客">
+<meta property="og:description" content="写在前面本来一直以来是使用微信的云函数以及部署静态网站的。（确实很傻瓜式，简单易操作）结果微信现在是把人圈到手之后，开启收割模式了。 记得最最开始的时候微信云服务是免费很多额度的，后来大概到了 20 年左右吧，再创建新的云环境的时候，免费额度下调到原来的十分之一（也是勉强可以接受），那么现在厉害了，有最低消费了，先 20 元 &#x2F; 月试行 3 个月，然后自 2023 年起 40 元 &#x2F; 月。算下来一">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-12-31T08:37:41.000Z">
+<meta property="article:modified_time" content="2024-11-25T09:43:04.300Z">
+<meta property="article:author" content="gengjian1203">
+<meta property="article:tag" content="运维">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://gengjian1203.github.io/2022/12/31/40-%E8%8F%9C%E9%B8%A1%E5%89%8D%E7%AB%AF%E4%BB%8E0%E5%88%B01%E6%90%AD%E5%BB%BA%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%B0%E5%BD%95/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>40.菜鸡前端从0到1搭建阿里云服务器记录 | 耿健的个人博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">耿健的个人博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个即将放飞理想的咸鱼博主</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/projects" rel="section"><i class="fa fa-th fa-fw"></i>项目</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#写在前面"><span class="nav-number">1.</span> <span class="nav-text">写在前面</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搞个服务器能做什么"><span class="nav-number">2.</span> <span class="nav-text">搞个服务器能做什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#购买服务器"><span class="nav-number">3.</span> <span class="nav-text">购买服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化服务器"><span class="nav-number">4.</span> <span class="nav-text">初始化服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#管理服务器"><span class="nav-number">5.</span> <span class="nav-text">管理服务器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Docker-浅尝"><span class="nav-number">6.</span> <span class="nav-text">Docker 浅尝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-nginx"><span class="nav-number">7.</span> <span class="nav-text">安装 nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Jenkins"><span class="nav-number">8.</span> <span class="nav-text">安装 Jenkins</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-MongoDB"><span class="nav-number">9.</span> <span class="nav-text">安装 MongoDB</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-MySQL"><span class="nav-number">10.</span> <span class="nav-text">安装 MySQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安装-Ollama"><span class="nav-number">11.</span> <span class="nav-text">安装 Ollama</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#风险相关"><span class="nav-number">12.</span> <span class="nav-text">风险相关</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代办事项"><span class="nav-number">13.</span> <span class="nav-text">代办事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#未完待续"><span class="nav-number">14.</span> <span class="nav-text">未完待续</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">15.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="gengjian1203"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">gengjian1203</p>
+  <div class="site-description" itemprop="description">要么读书，要么旅行，身体和灵魂总有一个在路上</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/projects">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">项目</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gengjian1203" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gengjian1203" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:187076081@qq.com" title="E-Mail → mailto:187076081@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gengjian1203.github.io/2022/12/31/40-%E8%8F%9C%E9%B8%A1%E5%89%8D%E7%AB%AF%E4%BB%8E0%E5%88%B01%E6%90%AD%E5%BB%BA%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="gengjian1203">
+      <meta itemprop="description" content="要么读书，要么旅行，身体和灵魂总有一个在路上">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耿健的个人博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          40.菜鸡前端从0到1搭建阿里云服务器记录
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-12-31 16:37:41" itemprop="dateCreated datePublished" datetime="2022-12-31T16:37:41+08:00">2022-12-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-11-25 17:43:04" itemprop="dateModified" datetime="2024-11-25T17:43:04+08:00">2024-11-25</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/12/31/40-%E8%8F%9C%E9%B8%A1%E5%89%8D%E7%AB%AF%E4%BB%8E0%E5%88%B01%E6%90%AD%E5%BB%BA%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%B0%E5%BD%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/12/31/40-%E8%8F%9C%E9%B8%A1%E5%89%8D%E7%AB%AF%E4%BB%8E0%E5%88%B01%E6%90%AD%E5%BB%BA%E9%98%BF%E9%87%8C%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%B0%E5%BD%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>9.1k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>8 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h3><p>本来一直以来是使用微信的云函数以及部署静态网站的。（确实很傻瓜式，简单易操作）<br>结果微信现在是把人圈到手之后，开启收割模式了。</p>
+<p>记得最最开始的时候微信云服务是免费很多额度的，<br>后来大概到了 20 年左右吧，再创建新的云环境的时候，免费额度下调到原来的十分之一（也是勉强可以接受），<br>那么现在厉害了，有最低消费了，<br>先 20 元 / 月试行 3 个月，<br>然后自 2023 年起 40 元 / 月。<br>算下来一年也得小 500 块呢，还不如搞个低配版云服务器了。<br>选择了阿里云，毕竟老牌大厂，相关教程应该很多，上手能快一些。</p>
+<a id="more"></a>
+
+<h3 id="搞个服务器能做什么"><a href="#搞个服务器能做什么" class="headerlink" title="搞个服务器能做什么"></a>搞个服务器能做什么</h3><p>我要搞清楚，<br>如果需要花重金来养一台服务器，那么这个服务器能为我做什么？</p>
+<ol>
+<li>帮我部署网站。<br>之前的网站都是部署在微信云静态网站上的，我有些网站 demo 想要部署到公网上。<br>这个就需要用到 nginx + jenkins。捎带学一学 nginx 和 jenkins 怎么配置的。（代码都存到了 github 上，使用 github 的静态页面实在太卡了，根本没法展示使用；gitee 也不想用，一套代码存两个仓库这么冗余太累了）</li>
+<li>为我提供接口服务。<br>比如小程序登录，或者三方 api 跨域，没办法由前端调用接口的时候，需要有个后端服务替我转发请求。而且一些 demo 的数据信息也需要存储起来。<br><del>这个就需要用到 express + MySQL。（后来想了一下，还需要服务器维护一个这样的服务太麻烦了，干脆改用了阿里云的函数计算 FC，也就是 serverless，还能省去了运维成本。）</del><br>现在更新为 express + mongo, 迁移数据库的原因是, 首先 mongo 是非关系型的, 后期拓展字段的时候非常方便, 而且 mongo 支持的字段类型也比较多也很灵活, 相加字段直接在类型上加就好, 不用再去特意去跑 SQL 脚本, (MySQL 每次都要序列化 / 反序列化对数据操作感觉不是很舒适). 再就是看了一下阿里云的配套产品也都是搭配 mongo 的, 后期如果想要在迁移到单独的阿里云数据库也会更顺滑一些.<br>那么对于 mongo 的一些弱势我也觉得我可以接受, 比如: 当大体量数据的时候, 他会效率变低, 由于这个目前我的定位只是 demo 展示,不会有大量数据的情况.</li>
+<li>服务器可以为我提供定时任务。<br>比如说定时爬取一些文章，积累数据，或者定时让机器人发送一些消息，以作日常提醒之用。</li>
+<li>学习 Docker 常用指令以及运维的相关知识。</li>
+<li>能够真正弄懂要上线一个产品的整个技术链路，比如申请域名，https 证书，安全，相关权限审核，部署网站，部署服务。以作自身的技术储备之用。</li>
+</ol>
+<h3 id="购买服务器"><a href="#购买服务器" class="headerlink" title="购买服务器"></a>购买服务器</h3><p>下定决心之后，开始付之于行动。<br>首先，登录阿里云服务器<a href="https://www.aliyun.com/" target="_blank" rel="noopener">https://www.aliyun.com/</a>真是惊了个呆，<br>花里胡哨产品一大堆脑瓜子嗡嗡的，<br>我记得之前曾经搞过<code>云服务ECS</code>，我估计就没有新人优惠了，没有点进去细看，<br>然后发现现在多出来了个<code>轻量应用服务器</code>，感觉自己应该也不会有太多用户，而且后端逻辑不会太重，搞个最简单的应该就好。于是我就选择了这个轻量应用服务器。<br><del>不过我应该是买贵了，选择的是 2 核 1G 内存的最低配，一年需要 612 元。</del><br><del>我同事跟我说他买相同配置也就 300 多点，瞬间感觉自己略微有点头大，</del><br><del>没办法，技术不够只能氪金凑了，</del><br><del>虎爷告诉过我，只要为了学习投资都是值得的，毕竟花这个钱，总要比在原神氪个 648 要强吧 =.=!</del>）~~<br>没错，确实是买贵了，阿里云前端时间出来个云服务器<code>99元/年</code>的活动，<br>果断今年换成这个服务器了，开始了各种迁移工作。</p>
+<p>不过相对来说, 便宜没好货, 估计这台服务器也就是一个 VPS, 好在能满足个人级别的使用我就满足了.</p>
+<h3 id="初始化服务器"><a href="#初始化服务器" class="headerlink" title="初始化服务器"></a>初始化服务器</h3><p>现在买完服务器之后，你在工作台就能看到自己的服务器卡片了。<br>第一件事就是重置密码，然后可以选择镜像进行安装。<br>一我开始是选择了宝塔镜像，不过感觉集成度太高，导致实际很多东西还是学习不到，都被宝塔封装实现了，只是点点鼠标，而且用起来有种很古老的感觉扑面而来；<br>后来决定改用了安装 Docker 镜像，毕竟还是要紧跟时代潮流的，捎带还能学习一波 Docker 的相关知识。</p>
+<h3 id="管理服务器"><a href="#管理服务器" class="headerlink" title="管理服务器"></a>管理服务器</h3><p>安装完镜像之后，服务器就可以处于正常运行状态啦。<br>现在就可以通过页面卡片来对服务器进行一个简单的管理，也可以通过终端远程连接服务器。<br>Dokcer 镜像是基于 CentOS 操作系统的，如果之前是使用的 Mac 系统，经常使用命令行能够更平滑更友好的过度和接受。</p>
+<h3 id="Docker-浅尝"><a href="#Docker-浅尝" class="headerlink" title="Docker 浅尝"></a>Docker 浅尝</h3><p>Docker 有两个概念：</p>
+<ol>
+<li><p>镜像<br>用代码来类比说，是类似于“抽象类”的概念。<br>他没有实体，只是一个镜像模板。</p>
+</li>
+<li><p>容器<br>用代码来类比说，是类似于“示例”的概念。<br> 他是对应镜像的实例化对象。<br>而我们操作也是都会在对应的容器里面操作。</p>
+</li>
+</ol>
+<p>备注几个 docker 常用命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 1.1 查看镜像列表</span></span><br><span class="line">sudo docker images</span><br><span class="line"><span class="comment"># 1.2 镜像搜索</span></span><br><span class="line">sudo docker search jenkins</span><br><span class="line"><span class="comment"># 1.3 拉下镜像</span></span><br><span class="line">sudo docker pull 镜像名</span><br><span class="line">sudo docker pull 镜像名:Tag</span><br><span class="line"><span class="comment"># 1.4 删除镜像 id可以通过查看镜像列表获取</span></span><br><span class="line">sudo docker rmi -f 镜像名/镜像ID</span><br><span class="line"></span><br><span class="line"><span class="comment"># 2.1 查看容器列表</span></span><br><span class="line">sudo docker ps</span><br><span class="line">sudo docker ps -a <span class="comment"># 包含正在运行和已停止的</span></span><br><span class="line"><span class="comment"># 2.2 创建容器</span></span><br><span class="line"><span class="comment"># -it 表示 与容器进行交互式启动</span></span><br><span class="line"><span class="comment"># -d 表示可后台运行容器 （守护式运行）</span></span><br><span class="line"><span class="comment"># --name 给要运行的容器 起的名字</span></span><br><span class="line"><span class="comment"># /bin/bash  交互路径</span></span><br><span class="line"><span class="comment"># -p 将容器的端口映射到宿主机上，通过宿主机访问内部端口</span></span><br><span class="line"><span class="comment"># -v 将容器内的指定文件夹挂载到宿主机对应位置</span></span><br><span class="line">docker run -it -d --name 要取的别名 -p 宿主机端口:容器端口 -v 宿主机文件存储位置:容器内文件位置 镜像名:Tag /bin/bash</span><br><span class="line"><span class="comment"># 2.3 停止容器 id可以通过查看容器列表获取</span></span><br><span class="line">sudo docker stop 容器名/容器ID</span><br><span class="line"><span class="comment"># 2.4 删除容器 删除容器之前要先将容器停止</span></span><br><span class="line"><span class="comment"># 删除一个容器</span></span><br><span class="line">docker rm -f 容器名/容器ID</span><br><span class="line"><span class="comment"># 删除多个容器 空格隔开要删除的容器名或容器ID</span></span><br><span class="line">docker rm -f 容器名/容器ID 容器名/容器ID 容器名/容器ID</span><br><span class="line"><span class="comment"># 删除全部容器</span></span><br><span class="line">docker rm -f $(docker ps -aq)</span><br><span class="line"><span class="comment"># 2.5 进入容器</span></span><br><span class="line">sudo docker attach 容器ID/容器名</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装-nginx"><a href="#安装-nginx" class="headerlink" title="安装 nginx"></a>安装 nginx</h3><ol>
+<li>直接拉取最新的 nginx 镜像</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull nginx</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>新建一些目录，把 nginx 容器内的相关文件夹挂载到宿主机上，主要方便改写配置，其次是删除容器，这些文件不会丢失</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p /usr/<span class="built_in">local</span>/nginx/&#123;conf,html,logs,ssl&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>启动一个 nginx 容器，将默认的配置文件 cp 出来，拷贝到刚刚新建的目录下</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name nginx -p 80:80 -d nginx</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>将默认的配置文件 cp 出来，拷贝到刚刚新建的目录下</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker cp 刚刚创建的nginx容器id:/etc/nginx/nginx.conf /usr/<span class="built_in">local</span>/nginx/conf/</span><br><span class="line">docker cp 刚刚创建的nginx容器id:/etc/nginx/conf.d /usr/<span class="built_in">local</span>/nginx/</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>停止当前 nginx 容器，并删除</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker stop a25b9f301349</span><br><span class="line">docker rm a25b9f301349</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>将 https 证书（aaa.bbb.key、aaa.bbb.pem）放到 ssl 目录下 (https 证书可在阿里云域名菜单处免费生成)</li>
+</ol>
+<p>下载到证书之后，本地将证书复制过去。<br>下面命令在本地执行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp `你的域名`.key、`你的域名`.pem `服务器账户`@`服务器IP`:/usr/<span class="built_in">local</span>/nginx/ssl</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li>修改配置文件</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim conf/nginx.conf</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen      80;</span><br><span class="line">    listen  [::]:80;</span><br><span class="line">    server_name  www.aaa.bbb; # 你的域名</span><br><span class="line"></span><br><span class="line">    rewrite ^(.*) https:&#x2F;&#x2F;$server_name$1 permanent;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line">    listen       443 ssl;</span><br><span class="line">    server_name  www.aaa.bbb; # 你的域名</span><br><span class="line"></span><br><span class="line">    ssl_certificate      &#x2F;etc&#x2F;nginx&#x2F;ssl&#x2F;aaa.bbb.pem; # 你的证书</span><br><span class="line">    ssl_certificate_key  &#x2F;etc&#x2F;nginx&#x2F;ssl&#x2F;aaa.bbb.key; # 你的证书</span><br><span class="line"></span><br><span class="line">    ssl_session_cache    shared:SSL:1m;</span><br><span class="line">    ssl_session_timeout  5m;</span><br><span class="line"></span><br><span class="line">    ssl_ciphers  HIGH:!aNULL:!MD5;</span><br><span class="line">    ssl_prefer_server_ciphers  on;</span><br><span class="line"></span><br><span class="line">    location &#x2F; &#123;</span><br><span class="line">        proxy_set_header   X-Real-IP         $remote_addr;</span><br><span class="line">        proxy_set_header   Host              $http_host;</span><br><span class="line">        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;</span><br><span class="line">        root   &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html;</span><br><span class="line">        index  index.html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # 专门为jenkins提供的配置</span><br><span class="line">    location &#x2F;jenkins&#x2F; &#123;</span><br><span class="line">        proxy_pass http:&#x2F;&#x2F;111.111.111.111:8080; # 你的IP</span><br><span class="line">        proxy_read_timeout 90s;</span><br><span class="line"></span><br><span class="line">        proxy_set_header   X-Real-IP         $remote_addr;</span><br><span class="line">        proxy_set_header   Host              $http_host;</span><br><span class="line">        proxy_set_header   X-Forwarded-For   $proxy_add_x_forwarded_for;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    error_page   500 502 503 504  &#x2F;50x.html;</span><br><span class="line">    location &#x3D; &#x2F;50x.html &#123;</span><br><span class="line">        root   &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>要在特定的 location 禁用缓冲，将 location 中的 proxy_buffering 指令设置为 off,<br>如下：To disable buffering in a specific location, place the proxy_buffering directive in the location with the off parameter, as follows:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">location &#x2F;some&#x2F;path&#x2F; &#123;</span><br><span class="line">    proxy_buffering off;</span><br><span class="line">    proxy_pass http:&#x2F;&#x2F;localhost:8000;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="8">
+<li>启动新的 nginx 容器</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run \</span><br><span class="line">--name nginx \</span><br><span class="line">-p 443:443 -p 80:80 \</span><br><span class="line">-v /usr/<span class="built_in">local</span>/nginx/logs:/var/<span class="built_in">log</span>/nginx \</span><br><span class="line">-v /usr/<span class="built_in">local</span>/nginx/html:/usr/share/nginx/html \</span><br><span class="line">-v /usr/<span class="built_in">local</span>/nginx/conf/nginx.conf:/etc/nginx/nginx.conf \</span><br><span class="line">-v /usr/<span class="built_in">local</span>/nginx/conf.d:/etc/nginx/conf.d \</span><br><span class="line">-v /usr/<span class="built_in">local</span>/nginx/ssl:/etc/nginx/ssl/  \</span><br><span class="line">--privileged=<span class="literal">true</span> -d --restart=always nginx</span><br></pre></td></tr></table></figure>
+
+<ol start="9">
+<li>网站部署</li>
+</ol>
+<p>那么此时你可以本地将你的网站如目录为<code>home</code>，打包压缩为<code>home.tar.gz</code>，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zcvf home.tar.gz home</span><br></pre></td></tr></table></figure>
+
+<p>然后将其上传到 /usr/local/nginx/html 即可。<br>命令在本地执行。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp home.tar.gz `服务器账户`@`服务器IP`:/usr/<span class="built_in">local</span>/nginx/html</span><br></pre></td></tr></table></figure>
+
+<p>那么再登录服务器，cd 进入到/usr/local/nginx/html 路径，将上传上来的文件解压即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf home.tar.gz</span><br></pre></td></tr></table></figure>
+
+<p>那么此时，就可以通过域名或者 IP 访问到你刚刚上传的网站啦~<br>（如果不可以，那就可以考虑重启一下 nginx 实例再试一试）</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">https:<span class="regexp">//</span>www.aaa.bbb<span class="regexp">/home/i</span>ndex.html</span><br><span class="line">http:<span class="regexp">//</span><span class="number">111.111</span>.<span class="number">111.111</span>:<span class="number">8080</span><span class="regexp">/home/i</span>ndex.html</span><br></pre></td></tr></table></figure>
+
+<ol start="10">
+<li>后面完善</li>
+</ol>
+<p>目前只是人肉来上传网站实在是太累了。<br>可以考虑用 Jenkins 来接入持续集成，到时候就可以提交完代码后，直接在 Jenkins 发布个任务，即可将网站部署上去。（优先级不那么高，后续有空的时候研究一波）</p>
+<h3 id="安装-Jenkins"><a href="#安装-Jenkins" class="headerlink" title="安装 Jenkins"></a>安装 Jenkins</h3><p>其实有了 nginx 的部署经验之后，安装后面的容器和配置也都大同小异，我就简单说明了。</p>
+<p>Jenkins 的话，是需要提前安装好 maven 和 java 环境的。<br>安装好之后，要记录好安装路径，后面启动容器的时候需要关联上。</p>
+<p>如果没有安装，可以先看一下后面的参考资料<code>3</code>、<code>4</code>、<code>5</code>。</p>
+<ol>
+<li>拉取 jenkins 镜像</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull jenkins/jenkins:2.344</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>启动 jenkins 容器</li>
+</ol>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -p <span class="number">8080</span>:<span class="number">8080</span> -p <span class="number">50000</span>:<span class="number">50000</span> -v <span class="regexp">/usr/</span>local<span class="regexp">/jenkins/</span><span class="string">jenkins_home:</span><span class="regexp">/var/</span>jenkins_home -v <span class="regexp">/usr/</span>local<span class="regexp">/maven/</span>apache-maven<span class="number">-3.8</span><span class="number">.5</span>:<span class="regexp">/usr/</span>local<span class="regexp">/maven -v /</span>etc<span class="regexp">/localtime:/</span>etc<span class="regexp">/localtime -v /</span>mnt<span class="regexp">/jenkins/</span><span class="string">sysconfig:</span><span class="regexp">/etc/</span>sysconfig -e JENKINS_OPTS=<span class="string">"--prefix=/jenkins"</span> -e JENKINS_ARGS=<span class="string">"--prefix=/jenkins"</span> --name jenkins --restart=always jenkins/jenkins</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>初始化 jenkins</li>
+</ol>
+<p>由于已经配置好 nginx，<br>那么就可以登录进入 jenkins 进行初始化，以及相关插件的安装，<br>以及配置路径，方便后续可以通过域名方式登录 Jenkins</p>
+<h3 id="安装-MongoDB"><a href="#安装-MongoDB" class="headerlink" title="安装 MongoDB"></a>安装 MongoDB</h3><ol>
+<li>获取 MongoDB 镜像。来获取 MongoDB 的最新版本镜像。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mongo:4.2</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>启动 MongoDB 容器。</li>
+</ol>
+<p>首先简单启动一下.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name mongo -p 222222:27017 -v /usr/<span class="built_in">local</span>/mongo/data:/data/db -d --restart=always --privileged=<span class="literal">true</span> mongo:4.2</span><br></pre></td></tr></table></figure>
+
+<p>登录进容器<code>docker exec -it my-mongo bash</code>, 创建一个 admin 角色</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mongo</span><br><span class="line">use admin</span><br><span class="line">db.createUser(</span><br><span class="line">  &#123;</span><br><span class="line">    user: <span class="string">"myUserAdmin"</span>,</span><br><span class="line">    pwd: <span class="string">"abc123"</span>,</span><br><span class="line">    roles: [ &#123; <span class="attr">role</span>: <span class="string">"userAdminAnyDatabase"</span>, <span class="attr">db</span>: <span class="string">"admin"</span> &#125;, <span class="string">"readWriteAnyDatabase"</span> ]</span><br><span class="line">  &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>然后再把宿主的<code>mongod.conf.orig</code>文件拷贝出来, 用来在宿主环境报错对应的配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker cp 容器ID或者NAME:/etc/mongod.conf.orig /usr/<span class="built_in">local</span>/mongo/mongod.conf.orig</span><br></pre></td></tr></table></figure>
+
+<p>然后删除刚刚创建的容器<code>docker rm -f 容器ID</code>, 调整好映射端口和文件, 重新再新建个容器.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name mongo -p 222222:27017 -v /usr/<span class="built_in">local</span>/mongo/data:/data/db -v /usr/<span class="built_in">local</span>/mongo/mongod.conf.orig:/etc/mongod.conf.orig -d --restart=always --privileged=<span class="literal">true</span> mongo:4.2 --auth</span><br></pre></td></tr></table></figure>
+
+<p>然后再把时区文件放到容器里</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker cp /usr/share/zoneinfo/Asia/Shanghai 容器ID或者NAME:/etc/localtime</span><br></pre></td></tr></table></figure>
+
+<p>docker cp /usr/share/zoneinfo/Asia/Shanghai c91a9edf7a81:/etc/localtime</p>
+<p>具体参数含义如下:</p>
+<ul>
+<li><code>--name</code> 指定容器的名称</li>
+<li><code>-p</code> 映射容器的端口到宿主机的端口</li>
+<li><code>-v</code> 将宿主机的目录挂载到容器中作为数据目录</li>
+<li><code>-e</code> 设置系统参数</li>
+<li><code>-d</code> 表示以守护进程方式运行容器</li>
+<li><code>--restart</code> 设置容器重启策略</li>
+<li><code>--privileged</code> 允许容器拥有额外的权限</li>
+<li><code>--auth</code> 开启安全认证(只有 admin 用户后才生效)</li>
+</ul>
+<ol start="3">
+<li>进入 MongoDB 容器。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it mongo /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>或者直接进入 MongoDB 中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it mongo mongo</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>创建 MongoDB 用户。<br>在容器中，使用命令<code>mongo admin</code>进入<code>admin</code>数据库，然后为<code>testdb</code>的数据库,创建一个名为<code>root</code>，密码为<code>123456</code>的用户，并设置读写权限权限。</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 先去admin创建一个超级管理员</span></span><br><span class="line">use admin</span><br><span class="line">db.createUser(&#123;<span class="attr">user</span>: <span class="string">"root"</span>, <span class="attr">pwd</span>: <span class="string">"123456"</span>, <span class="attr">roles</span>: [&#123; <span class="attr">role</span>: <span class="string">"root"</span>, <span class="attr">db</span>: <span class="string">"admin"</span> &#125;]&#125;);</span><br><span class="line"><span class="comment">// 然后去testdb数据库, 创建一个zhangsan的拥有读写权限的用户</span></span><br><span class="line">use testdb</span><br><span class="line">db.createUser(&#123;<span class="attr">user</span>: <span class="string">"zhangsan"</span>, <span class="attr">pwd</span>: <span class="string">"123456"</span>, <span class="attr">roles</span>: [&#123; <span class="attr">role</span>: <span class="string">"readWrite"</span>, <span class="attr">db</span>: <span class="string">"testdb"</span> &#125;]&#125;);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 修改用户密码\权限</span></span><br><span class="line">db.updateUser(<span class="string">"root"</span>, &#123;</span><br><span class="line">  pwd: <span class="string">"666666"</span>,</span><br><span class="line">  roles: [&#123; <span class="attr">role</span>: <span class="string">"root"</span>, <span class="attr">db</span>: <span class="string">"admin"</span> &#125;],</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li><p>测试 MongoDB 服务。<br>在 MongoDB 里,输入下面命令, 如果提示没有权限, 则说明<code>安全认证</code>配置好了.</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show user</span><br></pre></td></tr></table></figure>
+
+<p>如果发现没有权限之后,<br>使用命令<code>db.auth(&#39;root&#39;,&#39;666666&#39;)</code>进行用户认证, 就可以正常的操作了.</p>
+</li>
+<li><p>连接本地客户端。<br>使用客户端工具如 Studio 3T 或 Robo 3T 连接到 MongoDB 数据库，并验证连接是否正常。</p>
+</li>
+<li><p>后续运维。<br>如果需要对 MongoDB 进行更多的管理和维护操作，可以使用命令<code>docker stop mongo</code>来停止容器，<code>docker rm mongo</code>来删除容器，或者<code>docker start mongo</code>来重新启动容器。</p>
+</li>
+<li><p>mongo 内命令</p>
+<ul>
+<li><p>查看所有数据库<br><code>show databases</code></p>
+</li>
+<li><p>查看当前数据库<br><code>db.getName();</code></p>
+</li>
+<li><p>查看当前数据库的所有集合<br><code>show collections</code></p>
+</li>
+<li><p>查看当前所有用户<br><code>show users;</code></p>
+</li>
+<li><p>切换/创建数据库<br><code>use Member</code></p>
+</li>
+<li><p>创建集合<br><code>db.createCollection(&quot;test1&quot;)</code></p>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="安装-MySQL"><a href="#安装-MySQL" class="headerlink" title="安装 MySQL"></a>安装 MySQL</h3><ol>
+<li>拉取 MySQL 镜像（除了使用 docker 官方镜像，也可以尝试用一下<a href="https://c.163.com/hub#/m/home/" target="_blank" rel="noopener">网易云 Docker 仓库</a>的镜像）</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull hub.c.163.com/library/mysql:latest</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>启动 MySQL 容器</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker run \</span><br><span class="line">--name mysql \</span><br><span class="line">-p 11111:3306 \</span><br><span class="line">-v /usr/share/zoneinfo/:/usr/share/ \</span><br><span class="line">-v /usr/share/zoneinfo/:/usr/share/zoneinfo/ \</span><br><span class="line">-e MYSQL_ROOT_PASSWORD=你的数据库密码 \</span><br><span class="line">-e TZ=Asia/Shanghai \</span><br><span class="line">-d --privileged=<span class="literal">true</span> --restart=always hub.c.163.com/library/mysql:latest</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>本地可视化连接 MySQL</li>
+</ol>
+<p>可以使用 Navicat 本地连接服务器的数据库，进行增删改查。</p>
+<ol start="4">
+<li>更新数据库本地时间</li>
+</ol>
+<h3 id="安装-Ollama"><a href="#安装-Ollama" class="headerlink" title="安装 Ollama"></a>安装 Ollama</h3><ol>
+<li>拉取 Ollama 镜像</li>
+</ol>
+<p>各种被墙, 人都麻了.<br>到处找镜像站, 最后终于找到了一个能用的, 赶紧拉下来</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull dockerpull.org/ollama/ollama</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>启动 Ollama 容器</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -v ollama:/root/.ollama -p 11434:11434 --name ollama dockerpull.org/ollama/ollama</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>下载 llama3.2 模型并应用</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it ollama ollama run llama3.2</span><br></pre></td></tr></table></figure>
+
+<h3 id="风险相关"><a href="#风险相关" class="headerlink" title="风险相关"></a>风险相关</h3><p>在实例化 docker 服务的时候, 建议<code>修改一下默认的端口</code>, 数据库相关服务的 <code>IP</code> 也限制一下, <code>密码</code>也设置的稍显复杂一些, 以防会有坏人对安全进行破坏.<br>由于昨晚刚刚搭建好 MongoDB, 并且随便刷了 1000 条测试数据,今天一大早就发现昨晚数据都没了,而且数据库被篡改了…收到了勒索信息 = =!~<br>幸亏还没开始有真实的数据, 也给自己敲响了一个警钟. (没错, 我连踩 3 坑, 我用的就是 mongo 默认端口, 然后访问 IP 还全部放开了, 然后 MongoDB 安装好后, 还是默认不启用安全认证的. 研究了一天终于搞定了)</p>
+<h3 id="代办事项"><a href="#代办事项" class="headerlink" title="代办事项"></a>代办事项</h3><p>继续 docker 深造一波, 可以使用 docker 来部署前端网站和后端服务.</p>
+<h3 id="未完待续"><a href="#未完待续" class="headerlink" title="未完待续"></a>未完待续</h3><p>后续随着自身的学习，会不定期的复盘，在积累和总结之后会继续完善这篇文章。</p>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li><a href="https://www.jb51.net/article/242762.htm" target="_blank" rel="noopener">1. docker 安装 nginx 并配置 ssl 的方法步骤</a></li>
+<li><a href="https://blog.csdn.net/win7i/article/details/127805064" target="_blank" rel="noopener">2. nginx 反向代理 jenkins 服务,实现 https 域名访问</a></li>
+<li><a href="https://blog.csdn.net/lzc2644481789/article/details/124888223" target="_blank" rel="noopener">3. docker 安装 jenkins 并且通过 jenkins 部署项目(超详细 and 靠谱)</a></li>
+<li><a href="https://blog.csdn.net/lzc2644481789/article/details/124888804" target="_blank" rel="noopener">4. centos7.6 安装 maven</a></li>
+<li><a href="https://juejin.cn/post/6862497968973742094" target="_blank" rel="noopener">5. 超详细 Docker 安装 jenkins（避坑！！！）</a></li>
+<li><a href="https://www.freesion.com/article/62721131766/" target="_blank" rel="noopener">6. 服务器 DOCKER 部署 jenkins 无法连接</a></li>
+<li><a href="https://blog.51cto.com/u_15790101/5673548" target="_blank" rel="noopener">7. 安装 jenkins 时 web 界面出现该 jenkins 实例似乎已离线</a></li>
+<li><a href="https://c.163.com/hub#/m/home/" target="_blank" rel="noopener">8. 网易云 Docker 仓库</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E8%BF%90%E7%BB%B4/" rel="tag"># 运维</a>
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/09/21/39-%E8%87%AA%E5%B7%B1%E7%9E%8E%E6%8D%89%E6%91%B8%E4%B9%8BCSS%E5%8A%A8%E7%94%BB%E5%AE%9E%E7%8E%B0/" rel="prev" title="39.自己瞎捉摸之CSS动画实现">
+      <i class="fa fa-chevron-left"></i> 39.自己瞎捉摸之CSS动画实现
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/02/11/41-%E5%A5%BD%E7%94%A8%E7%9A%84%E7%BD%91%E7%AB%99%E6%95%B4%E7%90%86/" rel="next" title="41.好用的网站整理">
+      41.好用的网站整理 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">gengjian1203</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">138k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"eL60vwm4rfbHvfB9iGURmnOH-gzGzoHsz","appKey":"DlHKsMf3Ijp6arF0iN0723TC","placeholder":"随便说点什么吧~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"language":"zh-cn","visitor":false,"comment_count":true,"recordIP":true,"serverURLs":null}
+    ));
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"react":{"opacity":0.7}});</script></body>
+</html>

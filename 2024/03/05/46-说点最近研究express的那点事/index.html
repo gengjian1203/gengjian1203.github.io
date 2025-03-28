@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gengjian1203.github.io","root":"/","scheme":"Gemini","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="只是开头服务器到手之后,前端项目部署完,就开始手痒痒想要研究研究后端接口咋实现的.想起了 N 年前摆弄过的 express,果断的开始折腾起来.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="46.说点最近研究express的那点事">
+<meta property="og:url" content="https://gengjian1203.github.io/2024/03/05/46-%E8%AF%B4%E7%82%B9%E6%9C%80%E8%BF%91%E7%A0%94%E7%A9%B6express%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/">
+<meta property="og:site_name" content="耿健的个人博客">
+<meta property="og:description" content="只是开头服务器到手之后,前端项目部署完,就开始手痒痒想要研究研究后端接口咋实现的.想起了 N 年前摆弄过的 express,果断的开始折腾起来.">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-03-04T16:11:06.000Z">
+<meta property="article:modified_time" content="2024-11-26T03:02:12.769Z">
+<meta property="article:author" content="gengjian1203">
+<meta property="article:tag" content="后端">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://gengjian1203.github.io/2024/03/05/46-%E8%AF%B4%E7%82%B9%E6%9C%80%E8%BF%91%E7%A0%94%E7%A9%B6express%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>46.说点最近研究express的那点事 | 耿健的个人博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">耿健的个人博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个即将放飞理想的咸鱼博主</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/projects" rel="section"><i class="fa fa-th fa-fw"></i>项目</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#只是开头"><span class="nav-number">1.</span> <span class="nav-text">只是开头</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实现功能"><span class="nav-number">2.</span> <span class="nav-text">实现功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后记"><span class="nav-number">3.</span> <span class="nav-text">后记</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="gengjian1203"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">gengjian1203</p>
+  <div class="site-description" itemprop="description">要么读书，要么旅行，身体和灵魂总有一个在路上</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/projects">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">项目</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gengjian1203" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gengjian1203" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:187076081@qq.com" title="E-Mail → mailto:187076081@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gengjian1203.github.io/2024/03/05/46-%E8%AF%B4%E7%82%B9%E6%9C%80%E8%BF%91%E7%A0%94%E7%A9%B6express%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="gengjian1203">
+      <meta itemprop="description" content="要么读书，要么旅行，身体和灵魂总有一个在路上">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耿健的个人博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          46.说点最近研究express的那点事
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2024-03-05 00:11:06" itemprop="dateCreated datePublished" datetime="2024-03-05T00:11:06+08:00">2024-03-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2024-11-26 11:02:12" itemprop="dateModified" datetime="2024-11-26T11:02:12+08:00">2024-11-26</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2024/03/05/46-%E8%AF%B4%E7%82%B9%E6%9C%80%E8%BF%91%E7%A0%94%E7%A9%B6express%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2024/03/05/46-%E8%AF%B4%E7%82%B9%E6%9C%80%E8%BF%91%E7%A0%94%E7%A9%B6express%E7%9A%84%E9%82%A3%E7%82%B9%E4%BA%8B/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>1.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="只是开头"><a href="#只是开头" class="headerlink" title="只是开头"></a>只是开头</h3><p>服务器到手之后,<br>前端项目部署完,<br>就开始手痒痒想要研究研究后端接口咋实现的.<br>想起了 N 年前摆弄过的 express,<br>果断的开始折腾起来.</p>
+<a id="more"></a>
+
+<h3 id="实现功能"><a href="#实现功能" class="headerlink" title="实现功能"></a>实现功能</h3><p>虽然说是用野路子搭建一个后端项目,<br>不过尽量还是模拟成平时在项目中应用的那种感觉.</p>
+<ol>
+<li>首先需要具备多环境</li>
+</ol>
+<ul>
+<li>PROD 环境用以生产使用</li>
+<li>UAT 环境用以开发使用</li>
+</ul>
+<ol start="2">
+<li>安全性: 搞一套 JWT 身份认证</li>
+</ol>
+<ul>
+<li>JWT（JSON Web Token）是一种在网络中以 JSON 格式安全地传输信息的令牌.</li>
+<li>Token 令牌用于身份认证. 由于 HTTP 请求是无状态的, 所以需要通过 token 来获取每次请求的用户信息.</li>
+</ul>
+<p>token 可以通过 jsonwebtoken 三方库来生成,<br>后端对一个用户身份验证通过后,<br>会将这个用户非敏感的信息,<br>经过秘钥签名算法进行编码,<br>进而生成一个 token 并返回给客户端.</p>
+<p>而用户在后续请求的时候,<br>需要携带这个 token,<br>服务器处理请求的时候,<br>可以通过携带的 token 经过秘钥签名算法下进行解码,<br>进而得知当前用户的身份信息.</p>
+<ol start="3">
+<li>安全性: 签名验证</li>
+</ol>
+<p>为了防止一些恶意抓包, 修改请求数据欺骗服务器的情况,<br>服务器和客户端要设计一套加密算法.<br>两边将相同的变量以某种固定的格式进行 md5 加密,<br>如果两边得出的结果相同即为合法请求,否则会认为是非法请求进行.</p>
+<p>像是某些比较敏感的重要请求,<br>比如增加积分, 奖励等操作, 则需要请求 id 做重复校验.<br>即为同一个请求 id 只能操作一次,否则就会非法报错.</p>
+<ol start="4">
+<li>规范性: 遵循 Restful API 接口规范</li>
+</ol>
+<ul>
+<li>路由携带版本号.</li>
+</ul>
+<blockquote>
+<p>/xxx/v1/xxx/xxx<br>/xxx/v2/xxx/xxx</p>
+</blockquote>
+<ul>
+<li>使用 http 状态码定义 api 执行结果.</li>
+</ul>
+<p>主要分为 5 类:</p>
+<ul>
+<li>信息响应(1xx)</li>
+<li>成功响应(2xx)</li>
+<li>重定向(3xx)</li>
+<li>客户端错误(4xx)</li>
+<li>服务器错误(5xx)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">状态码 code</th>
+<th align="center">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">200</td>
+<td align="center">成功</td>
+</tr>
+<tr>
+<td align="center">301</td>
+<td align="center">请求资源永久转移</td>
+</tr>
+<tr>
+<td align="center">302</td>
+<td align="center">请求资源临时转移</td>
+</tr>
+<tr>
+<td align="center">400</td>
+<td align="center">客户端请求语法错误</td>
+</tr>
+<tr>
+<td align="center">401</td>
+<td align="center">用户身份认证错误</td>
+</tr>
+<tr>
+<td align="center">404</td>
+<td align="center">无法找到请求资源</td>
+</tr>
+<tr>
+<td align="center">405</td>
+<td align="center">method 方法不匹配</td>
+</tr>
+<tr>
+<td align="center">500</td>
+<td align="center">服务器意料之外的错误</td>
+</tr>
+</tbody></table>
+<ul>
+<li>使用 method 对应不同的请求动作.</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">请求方式 method</th>
+<th align="center">请求说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">GET</td>
+<td align="center">查询操作</td>
+</tr>
+<tr>
+<td align="center">POST</td>
+<td align="center">新增操作</td>
+</tr>
+<tr>
+<td align="center">PUT</td>
+<td align="center">更新操作</td>
+</tr>
+<tr>
+<td align="center">PATCH</td>
+<td align="center">部分更新操作</td>
+</tr>
+<tr>
+<td align="center">DELETE</td>
+<td align="center">删除操作</td>
+</tr>
+</tbody></table>
+<ol start="5">
+<li>规范性: 搞一个通用的可配置的必填参数校验</li>
+</ol>
+<p>每个接口暴露出来一个对象,<br>对象中将该接口所需的必传参数 key 暴露出来.</p>
+<p>然后在接口的外层统一拦截器对其进行校验判断,<br>如果没有传入该字段, 即不会走入到业务逻辑中,<br>直接返回 400 报错.</p>
+<ol start="6">
+<li>规范性: 统一一个报错枚举表</li>
+</ol>
+<p>单独维护一个配置文件,<br>将所有报错枚举统计出来,<br>后续接口业务逻辑中的所有报错枚举,<br>都需要在这个表里取值.</p>
+<ol start="7">
+<li>规范性: 支持不同格式请求体/返回体</li>
+</ol>
+<ul>
+<li><p>常规场景<br>json 格式</p>
+</li>
+<li><p>上传文件场景<br>支持 file 文件格式</p>
+</li>
+<li><p>AI 会话场景<br>stream 格式返回</p>
+</li>
+</ul>
+<ol start="8">
+<li>规范性: 跨域配置 CORS</li>
+</ol>
+<p>服务器端定义跨域请求规则.</p>
+<ol start="9">
+<li>链接数据库, 且支持事务回滚(未实现)</li>
+</ol>
+<p>数据库选型选择了 mongodb.<br>好处是在于接入方便, 容易扩展, 简单易上手.<br>缺点在于数据量到达一定量级之后性能会急剧下降.(估计也达不到)</p>
+<p>事务回滚指的是:<br>即为当一个请求操作的时候,<br>需要后端服务器多个表进行读写.</p>
+<p>在多个写入操作中如果其中一个报错,<br>那么之前操作过得所有记录都需要恢复.</p>
+<p>选型的 mongodb 在 4.0 版本之后才支持事务,<br>而且想要支持事务回滚, mongodb 还需要配置副本集.<br>配置过程中各种花式报错,<br>裂开了…<br>研究好久没搞出来,先搁置吧…</p>
+<ol start="9">
+<li>缓存层(未实现)</li>
+</ol>
+<p>目前代码直接对数据库进行读写,<br>频繁的对数据库进行 I/O 操作肯定是影响性能.</p>
+<p>由于目前体量较小,<br>业务也不复杂,<br>勉强跑着.</p>
+<p>后续如果体量变大之后,<br>需要考虑搞一个缓存层, 如: Redis,<br>减少对数据库的直接操作.</p>
+<ol start="10">
+<li>伸缩性(未实现)</li>
+</ol>
+<p>这个说远了, 实在能力有限了,<br>真要是有一天发达了,<br>用户数量需要用到集群才能解决的时候,<br>要么就干脆直接托管云服务了,<br>要么就已经抱住了强力大腿了.</p>
+<ol start="11">
+<li>搞一个可视化接口文档</li>
+</ol>
+<ul>
+<li>借助 express-swagger-generator 三方库来实现.</li>
+</ul>
+<p>在每个接口上,<br>这个库支持以注释的方式书写接口的 route/group/header/params 等信息,<br>那么在项目运行的时候,<br>就会自动生成出一套 swagger 在线接口文档.</p>
+<p><a href="https://www.orz2.online/apiuat/smart/swagger" target="_blank" rel="noopener">目前已经实现</a></p>
+<p>同时这个在线接口文档也支持发起接口请求,<br>方便开发的时候调试.<br>(有的时候懒得特意再起 Postman)</p>
+<ol start="12">
+<li>实现自动生成 CURD 脚本(待实现)</li>
+</ol>
+<p>创建表之后, 自动生成对该表进行增删改查的 4 个常用接口.</p>
+<h3 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h3><p>现在已经初步能实现了一些小功能,<br>后面随着功能的增加,<br>业务需求的需要,<br>会慢慢继续完善自己的这个 express 项目.</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%90%8E%E7%AB%AF/" rel="tag"># 后端</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/06/10/45-%E7%AE%80%E5%8D%95%E8%81%8A%E8%81%8AChrome%E5%BC%80%E5%8F%91%E8%80%85%E5%B7%A5%E5%85%B7%E8%B0%83%E8%AF%95/" rel="prev" title="45.简单聊聊Chrome开发者工具调试">
+      <i class="fa fa-chevron-left"></i> 45.简单聊聊Chrome开发者工具调试
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/09/26/47-%E9%85%8D%E7%BD%AEmongodb%E5%89%AF%E6%9C%AC%E9%9B%86%E7%9A%84%E7%BF%BB%E8%BD%A6%E7%AC%94%E8%AE%B0/" rel="next" title="47.配置mongodb副本集的翻车笔记">
+      47.配置mongodb副本集的翻车笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">gengjian1203</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">138k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"eL60vwm4rfbHvfB9iGURmnOH-gzGzoHsz","appKey":"DlHKsMf3Ijp6arF0iN0723TC","placeholder":"随便说点什么吧~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"language":"zh-cn","visitor":false,"comment_count":true,"recordIP":true,"serverURLs":null}
+    ));
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"react":{"opacity":0.7}});</script></body>
+</html>

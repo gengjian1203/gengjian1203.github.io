@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  
+  <link rel="stylesheet" href="/lib/animate-css/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"gengjian1203.github.io","root":"/","scheme":"Gemini","version":"8.0.0-rc.4","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="记录背景企微侧边栏是企业微信 PC 端，用于帮助运营和管理人员，提供工具服务，来协助管理对应的群和客户。在进入外部群或者外部联系人会话的时候，输入栏右上方才会有的侧边栏图标。点击侧边栏图标，会在弹窗右侧出现一个定宽(360px)不定高的 webview。而开发者可以以开发企微 H5 应用的形式对其进行开发。 这个侧边栏出发点确实是好的，不过其开发和调试环境实在是过于恶劣，可能也因为该功能也是刚开始">
+<meta property="og:type" content="article">
+<meta property="og:title" content="34.企微侧边栏开发记录">
+<meta property="og:url" content="https://gengjian1203.github.io/2022/05/22/34-%E4%BC%81%E5%BE%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/">
+<meta property="og:site_name" content="耿健的个人博客">
+<meta property="og:description" content="记录背景企微侧边栏是企业微信 PC 端，用于帮助运营和管理人员，提供工具服务，来协助管理对应的群和客户。在进入外部群或者外部联系人会话的时候，输入栏右上方才会有的侧边栏图标。点击侧边栏图标，会在弹窗右侧出现一个定宽(360px)不定高的 webview。而开发者可以以开发企微 H5 应用的形式对其进行开发。 这个侧边栏出发点确实是好的，不过其开发和调试环境实在是过于恶劣，可能也因为该功能也是刚开始">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://gengjian1203.github.io/images/image_34_1.jpeg">
+<meta property="og:image" content="https://gengjian1203.github.io/images/image_34_2.jpg">
+<meta property="article:published_time" content="2022-05-22T11:20:06.000Z">
+<meta property="article:modified_time" content="2023-09-21T03:09:01.827Z">
+<meta property="article:author" content="gengjian1203">
+<meta property="article:tag" content="企业微信">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://gengjian1203.github.io/images/image_34_1.jpeg">
+
+<link rel="canonical" href="https://gengjian1203.github.io/2022/05/22/34-%E4%BC%81%E5%BE%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>34.企微侧边栏开发记录 | 耿健的个人博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <main class="main">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+        <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+        <span class="toggle-line toggle-line-first"></span>
+        <span class="toggle-line toggle-line-middle"></span>
+        <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">耿健的个人博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">一个即将放飞理想的咸鱼博主</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/projects" rel="section"><i class="fa fa-th fa-fw"></i>项目</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <section class="post-toc-wrap sidebar-panel">
+          <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#记录背景"><span class="nav-number">1.</span> <span class="nav-text">记录背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#技术方案"><span class="nav-number">2.</span> <span class="nav-text">技术方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开发踩坑"><span class="nav-number">3.</span> <span class="nav-text">开发踩坑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考文档"><span class="nav-number">4.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+      </section>
+      <!--/noindex-->
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="gengjian1203"
+      src="/images/head.jpg">
+  <p class="site-author-name" itemprop="name">gengjian1203</p>
+  <div class="site-description" itemprop="description">要么读书，要么旅行，身体和灵魂总有一个在路上</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">50</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/projects">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">项目</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/gengjian1203" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;gengjian1203" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:187076081@qq.com" title="E-Mail → mailto:187076081@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </section>
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </header>
+
+      
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div id="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+      <div class="main-inner">
+        
+
+        <div class="content post posts-expand">
+          
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://gengjian1203.github.io/2022/05/22/34-%E4%BC%81%E5%BE%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/head.jpg">
+      <meta itemprop="name" content="gengjian1203">
+      <meta itemprop="description" content="要么读书，要么旅行，身体和灵魂总有一个在路上">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="耿健的个人博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          34.企微侧边栏开发记录
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-05-22 19:20:06" itemprop="dateCreated datePublished" datetime="2022-05-22T19:20:06+08:00">2022-05-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-09-21 11:09:01" itemprop="dateModified" datetime="2023-09-21T11:09:01+08:00">2023-09-21</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Valine：</span>
+    
+    <a title="valine" href="/2022/05/22/34-%E4%BC%81%E5%BE%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/#valine-comments" itemprop="discussionUrl">
+      <span class="post-comments-count valine-comment-count" data-xid="/2022/05/22/34-%E4%BC%81%E5%BE%AE%E4%BE%A7%E8%BE%B9%E6%A0%8F%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="记录背景"><a href="#记录背景" class="headerlink" title="记录背景"></a>记录背景</h3><p>企微侧边栏是企业微信 PC 端，用于帮助运营和管理人员，提供工具服务，来协助管理对应的群和客户。<br>在进入外部群或者外部联系人会话的时候，输入栏右上方才会有的侧边栏图标。<br>点击侧边栏图标，会在弹窗右侧出现一个定宽(360px)不定高的 webview。<br>而开发者可以以开发企微 H5 应用的形式对其进行开发。</p>
+<p>这个侧边栏出发点确实是好的，不过其开发和调试环境实在是过于恶劣，<br>可能也因为该功能也是刚开始开发给客户，里面有很多隐藏的坑。<br>而且官方文档比较模糊，全靠开发者的悟性，企微自身的 bug 让开发浪费了很多时间，也背了无数的锅。<br>借此记录一下，以免后续开发同学免去踩这些坑。</p>
+<a id="more"></a>
+
+<h3 id="技术方案"><a href="#技术方案" class="headerlink" title="技术方案"></a>技术方案</h3><ol>
+<li><p>企微后端管理平台创建好<code>自建应用</code>，且需要将该应用设置为侧边栏项目<code>配置到聊天侧边栏</code></p>
+<p>建议将侧边栏设置为第一项。（如需有跳转群操作，侧边栏只会默认打开第一项侧边栏）</p>
+</li>
+<li><p>该应用需要把<code>网页授权及JS-SDK</code>设置好可信域名</p>
+<p>即，初次设置时会拿到一个 txt 秘钥文件，将该文件放置到域名的根目录下，再将域名输入到可信域名列表中，校验成功后即为配置成功。<br>该文件只会拿到一次，假如弄丢就只能删掉引用重建了。</p>
+</li>
+<li><p>侧边栏开发基础要求</p>
+<p>侧边栏与企微 H5 很相似，都是需要经过 wx.config 与 wx.agentConfig 注入应用权限后才能使用对应 api 的。</p>
+</li>
+<li><p>跳转群会话实现传参</p>
+<p>企微侧边栏无法使用路由带参跳转实现传参。<br>只能使用企微自带的 api 来通过 chatId 来进行跳转，<br>群会话跳转后，侧边栏的 webview 会销毁后重新创建。<br>所以路由只能为固定后台设置写死的 url。</p>
+<p>目前方案为跳转群会话前先存入有效期缓存，<br>然后在新的会话加载侧边栏页面后，<br>让页面先读取缓存，如有对应缓存即为作为传参字段来实现。</p>
+</li>
+<li><p>侧边栏的缓存 Storage 仅为 2.5M，且业务对缓存极为依赖</p>
+<p>侧边栏如有需求获取用户信息，<br>每次都需要走一遍 Auth 流程，跳转至企微授权页面，通过 code 来换取用户信息。<br>不过该操作如果有频繁切换会话的时候，会使用户体验很差，大概需要用时 1s-2s 白屏，如网络不稳定则白屏时间更长。</p>
+<p>目前方案为第一次走该流程获取用户数据，并缓存下来，<br>后续使用缓存的用户数据，不再走登录流程。<br>如果企微更换用户登录，<br>则需要用户主动触发更换用户，或者通过接口返回异常来判断用户是否异常，而进行更换用户交互。</p>
+</li>
+</ol>
+<h3 id="开发踩坑"><a href="#开发踩坑" class="headerlink" title="开发踩坑"></a>开发踩坑</h3><ol>
+<li><p>侧边栏白屏</p>
+<p>a) loading chunk {} failed<br>该问题疑似企微的 webview 功能不是很健全，一些现代浏览器的基本兼容都没有实现。<br>通过 webpack 打包的代码块没有加载成功。代码不完整导致白屏。<br>尝试通过生命周期捕获异常，尝试了如下几种方法，不过没有办法捕捉异常(即没有弹出 alert)。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> forceRefresh = <span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'app forceRefresh'</span>, location.href)</span><br><span class="line">  <span class="comment">// 设置只强制刷行一次页面</span></span><br><span class="line">  <span class="keyword">if</span>(location.href.index0f(<span class="string">'#reloaded'</span>) === <span class="number">-1</span>) &#123;</span><br><span class="line">    alert(<span class="string">`即将刷新页面`</span>)</span><br><span class="line">    location.href = location.href + <span class="string">'#reloaded'</span></span><br><span class="line">    <span class="built_in">window</span>.location.reload(<span class="literal">true</span>)</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    alert(<span class="string">'请手动刷新页面!'</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">componentDidMount() &#123;</span><br><span class="line">  <span class="built_in">console</span>.warn(<span class="string">'app componentDidMount'</span>);</span><br><span class="line">  <span class="built_in">window</span>.onerror = <span class="function">(<span class="params">e</span>) =&gt;</span> &#123;</span><br><span class="line">    alert(<span class="string">`app DidMount <span class="subst">$&#123;JS0N.stringify(e)&#125;</span>`</span>)</span><br><span class="line">    <span class="built_in">console</span>.warn(<span class="string">'window.onerror'</span>, e)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">window</span>.addEventListener(<span class="string">'error'</span>, (error) =&gt; &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'app error'</span>, error,error &amp;&amp;error.message)</span><br><span class="line">    <span class="keyword">const</span> pattern = <span class="regexp">/Loading chunk (\d)+ failed/g</span></span><br><span class="line">    <span class="keyword">const</span> isChunkLoadFailed=error.message.match(patterr)</span><br><span class="line">    <span class="keyword">if</span> (isChunkLoadFailed) &#123;</span><br><span class="line">      forceRefresh()</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">componentDidCatch(error, info) &#123;</span><br><span class="line">  alert(<span class="string">`app DidCatch <span class="subst">$&#123;<span class="built_in">JSON</span>.stringify(error)&#125;</span>`</span>)</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'componentDidCatch'</span>, error, info)</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">String</span>(error).includes(<span class="string">'Loading chunk'</span>)) &#123;</span><br><span class="line">    <span class="built_in">window</span>.location.reload()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">componentDidCatchError(error, info) &#123;</span><br><span class="line">  alert(<span class="string">`app DidCatchError <span class="subst">$&#123;<span class="built_in">JSON</span>.stringify(error)&#125;</span>`</span>)</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'componentDidCatchError'</span>, error, info)</span><br><span class="line">  <span class="keyword">if</span> (<span class="built_in">String</span>(error).includes(<span class="string">'Loading chunk'</span>)) &#123;</span><br><span class="line">    <span class="built_in">window</span>.location.reload()</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>目测这个 bug 在最新版的企微上好像没有再复现了，可能企微偷偷的修复该问题了。<br><img src="../../../../images/image_34_1.jpeg" alt="loading chunk {} failed"></p>
+<p>b) wx is not defined<br>因为是通过异步 https 加载的 jweixin-1.2.0.js 文件，如果网络等原因 js 未加载成功，或加载过慢而 wx 对象异步操作被提前使用，<br>这个时候直接去调用 wx 对象即会报错，程序不在往后走，现象为白屏。<br>目前方案为，通过 try catch 来判断是否拿到 wx 对象，如果没有则等待一段时间，直至拿到 wx 对象。<br>如果一定时间内依然拿不到，就去动态新增 jweixin-1.2.0.js 脚本，去重新请求一次 js 文件。<br><img src="../../../../images/image_34_2.jpg" alt="wx is not defined"></p>
+</li>
+<li><p>调用跳转群会话 api，无法跳转异常群，且该回调也不会报错。<br>以下为异常群情况，<br>静默群：用户被拉入一个外部群，不过群里没人发言，该用户的会话列表不存在该群，是无感知的，不过后台群列表统计能拿到该群，则该群属于静默群。<br>解散群：群已解散。<br>目前方案为执行跳转后，在成功的回调通过该方法<code>wx.invoke(&#39;getContext&#39;)</code>和<code>wx.invoke(&#39;getCurExternalChat&#39;)</code>方法来判断。<br>如果真正的跳转成功，那么 webview 就会销毁后续逻辑不再执行，<br>如果真正的跳转失败，那么后续逻辑还会执行，判断当前群 chatId 和期望跳转 chatId 是否相同，<br>如果相同则算作正常；如果不相同，则算作异常群跳转失败。</p>
+</li>
+<li><p>Win/Mac 环境表现不一样。<br>Mac 支持 jweixin-1.6.0  版本引用。<br>Win 仅支持 jweixin-1.2.0 版本引用。（如引用 1.6.0 版本没有报错直接程序卡住白屏。通过打印日志 wx.agentConfig 为 undefined）</p>
+<p>引用 jweixin-1.2.0 版本后。<br>官方文档说明从企业微信 3.0.24 及以后版本，无须先调用 wx.config，可直接 wx.agentConfig。</p>
+<p>Mac 直接调用 wx.agentConfig 报错，一定需要再 wx.config 之后的 wx.ready 回调中使用，才能正常。<br>Win 则可以直接调用 wx.agentConfig。</p>
+</li>
+<li><p>配置较差电脑，如果输入栏内有信息不发出去，调用跳转群 api 会出现闪退情况。<br>该问题疑似企微自身 bug。</p>
+</li>
+<li><p>配置较差电脑，侧边栏使用跳转群 api 次数频繁后，电脑会慢慢越来越卡。<br>该问题疑似企微自身 bug。</p>
+</li>
+<li><p>连续发送文字、发送图片，图片有概率会出现在文字中间。<br>该问题疑似企微自身 bug。<br>目前方案为，发送文字后，通过一定时间的延迟再去发送下一个类型的消息。</p>
+</li>
+</ol>
+<h3 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h3><ul>
+<li><a href="https://developer.work.weixin.qq.com/document/path/90514" target="_blank" rel="noopener">1. 引用 jweixin.js 版本</a></li>
+<li><a href="https://developer.work.weixin.qq.com/tutorial/h5-application/1" target="_blank" rel="noopener">2. 快速集成 H5 项目</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/465436686" target="_blank" rel="noopener">3. 企业微信侧边栏</a></li>
+<li><a href="https://www.cnblogs.com/chuaWeb/p/12430140.html" target="_blank" rel="noopener">4. 企业微信侧边栏功能/微信企业授权</a></li>
+<li><a href="https://blog.csdn.net/hu_baobao/article/details/109120687" target="_blank" rel="noopener">5. Loading chunk failed 问题处理</a></li>
+<li><a href="https://blog.csdn.net/u014505277/article/details/119181385" target="_blank" rel="noopener">6. 企业微信客户端 web 页面调试</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E4%BC%81%E4%B8%9A%E5%BE%AE%E4%BF%A1/" rel="tag"># 企业微信</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/16/33-%E5%BE%AE%E4%BF%A1%E5%B0%8F%E7%A8%8B%E5%BA%8F%E6%8F%92%E4%BB%B6%E5%BC%80%E5%8F%91%E8%AE%B0%E5%BD%95/" rel="prev" title="33.微信小程序插件开发记录">
+      <i class="fa fa-chevron-left"></i> 33.微信小程序插件开发记录
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/24/35-%E5%90%84%E5%B9%B3%E5%8F%B0%E5%AF%B9%E8%AF%86%E5%88%AB%E4%BA%8C%E7%BB%B4%E7%A0%81%E7%9A%84%E6%B5%8B%E8%AF%95%E8%AE%B0%E5%BD%95/" rel="next" title="35.各平台对识别二维码的测试记录">
+      35.各平台对识别二维码的测试记录 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+        </div>
+        
+    <div class="comments" id="valine-comments"></div>
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">gengjian1203</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">138k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:06</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+
+<script>
+NexT.utils.loadComments(document.querySelector('#valine-comments'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/valine@1/dist/Valine.min.js', () => {
+    new Valine(Object.assign({
+      el  : '#valine-comments',
+      path: location.pathname,
+    }, {"enable":true,"appId":"eL60vwm4rfbHvfB9iGURmnOH-gzGzoHsz","appKey":"DlHKsMf3Ijp6arF0iN0723TC","placeholder":"随便说点什么吧~","avatar":"mm","meta":["nick","mail","link"],"pageSize":10,"language":"zh-cn","visitor":false,"comment_count":true,"recordIP":true,"serverURLs":null}
+    ));
+  }, window.Valine);
+});
+</script>
+
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"pluginRootPath":"live2dw/","pluginJsPath":"lib/","pluginModelPath":"assets/","tagMode":false,"log":false,"model":{"jsonPath":"/live2dw/assets/koharu.model.json"},"display":{"position":"right","width":150,"height":300},"mobile":{"show":false},"react":{"opacity":0.7}});</script></body>
+</html>
