@@ -1,0 +1,210 @@
+name: Deploy Blog
+run-name: Deploying Blog to ${{ (github.event_name == 'workflow_dispatch' && inputs.environment) || 'UAT' }} by ${{ github.actor }}
+
+on:
+  push:
+    branches: [hexo-source]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "部署环境"
+        required: true
+        type: choice
+        default: "uat"
+        options:
+          - uat
+          - prod
+      deploy_to_master:
+        description: "部署到Master分支"
+        required: false
+        type: boolean
+        default: true
+      deploy_to_aliyun:
+        description: "部署到阿里云服务器"
+        required: false
+        type: boolean
+        default: true
+
+jobs:
+  build-for-master:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || inputs.deploy_to_master }}
+
+    steps:
+      - name: Checkout hexo-source branch
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Set deployment environment
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "DEPLOY_ENV=${{ inputs.environment }}" >> $GITHUB_ENV
+          else
+            echo "DEPLOY_ENV=uat" >> $GITHUB_ENV
+          fi
+          echo "当前部署环境: ${{ env.DEPLOY_ENV }} (Master构建)"
+
+      - name: Build Hexo blog for Master
+        run: |
+          echo "使用 _config_Master.yml 构建..."
+          cp ./script/_config_Master.yml _config.yml
+          npm run build
+
+      - name: Save build output for Master
+        uses: actions/upload-artifact@v3
+        with:
+          name: hexo-output-master
+          path: ./public
+          retention-days: 1
+
+  build-for-aliyun:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || inputs.deploy_to_aliyun }}
+
+    steps:
+      - name: Checkout hexo-source branch
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16.x"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Set deployment environment
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "DEPLOY_ENV=${{ inputs.environment }}" >> $GITHUB_ENV
+          else
+            echo "DEPLOY_ENV=uat" >> $GITHUB_ENV
+          fi
+          echo "当前部署环境: ${{ env.DEPLOY_ENV }} (阿里云构建)"
+
+      - name: Build Hexo blog for Aliyun
+        run: |
+          echo "使用 _config_Web.yml 构建..."
+          cp ./script/_config_Web.yml _config.yml
+          npm run build
+
+      - name: Save build output for Aliyun
+        uses: actions/upload-artifact@v3
+        with:
+          name: hexo-output-aliyun
+          path: ./public
+          retention-days: 1
+
+  deploy-to-master:
+    runs-on: ubuntu-latest
+    needs: build-for-master
+    if: ${{ github.event_name == 'push' || inputs.deploy_to_master }}
+
+    steps:
+      - name: Set deployment environment
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "DEPLOY_ENV=${{ inputs.environment }}" >> $GITHUB_ENV
+          else
+            echo "DEPLOY_ENV=uat" >> $GITHUB_ENV
+          fi
+
+      - name: Download build output
+        uses: actions/download-artifact@v3
+        with:
+          name: hexo-output-master
+          path: ./public
+
+      - name: Setup Git identity
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "gengjian1203@foxmail.com"
+
+      - name: Deploy to master branch
+        run: |
+          cd ./public
+          git init
+          git add .
+
+          if [ "${{ env.DEPLOY_ENV }}" == "prod" ]; then
+            git commit -m "【生产环境】通过GitHub Actions部署 - ${{ github.sha }}"
+          else
+            git commit -m "【测试环境】通过GitHub Actions部署 - ${{ github.sha }}"
+          fi
+
+          git push -f https://${{ secrets.GITHUB_TOKEN }}@github.com/gengjian1203/gengjian1203.github.io.git HEAD:master
+          echo "🎉 成功部署到master分支 (环境: ${{ env.DEPLOY_ENV }})"
+
+  deploy-to-aliyun:
+    runs-on: ubuntu-latest
+    needs: build-for-aliyun
+    if: ${{ github.event_name == 'push' || inputs.deploy_to_aliyun }}
+
+    steps:
+      - name: Set deployment environment
+        run: |
+          if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+            echo "DEPLOY_ENV=${{ inputs.environment }}" >> $GITHUB_ENV
+          else
+            echo "DEPLOY_ENV=uat" >> $GITHUB_ENV
+          fi
+
+      - name: Checkout hexo-source branch
+        uses: actions/checkout@v3
+
+      - name: Download build output
+        uses: actions/download-artifact@v3
+        with:
+          name: hexo-output-aliyun
+          path: ./gengjian1203
+
+      - name: Prepare for Aliyun deployment
+        run: |
+          # 创建压缩包
+          TIMESTAMP=$(date +%Y%m%d%H%M%S)
+          FOLDER_NAME="gengjian1203"
+
+          # 根据环境设置不同的文件夹名称
+          if [ "${{ env.DEPLOY_ENV }}" == "prod" ]; then
+            FOLDER_NAME="gengjian1203"
+          else
+            FOLDER_NAME="uat/gengjian1203"
+          fi
+
+          TAR_NAME="${FOLDER_NAME}_${TIMESTAMP}.tar.gz"
+          tar -zcvf $TAR_NAME -C ./gengjian1203 .
+          echo "TAR_NAME=$TAR_NAME" >> $GITHUB_ENV
+          echo "FOLDER_NAME=$FOLDER_NAME" >> $GITHUB_ENV
+          echo "TIMESTAMP=$TIMESTAMP" >> $GITHUB_ENV
+
+      - name: Upload to Aliyun
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          source: ${{ env.TAR_NAME }}
+          target: ${{ secrets.SERVER_BACKUP_PATH }}
+
+      - name: Extract on Aliyun
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            rm -rf ${{ secrets.SERVER_HTML }}/${{ env.FOLDER_NAME }}
+            mkdir -p ${{ secrets.SERVER_HTML }}/${{ env.FOLDER_NAME }}
+            tar -xvf ${{ secrets.SERVER_BACKUP_PATH }}/${{ env.TAR_NAME }} -C ${{ secrets.SERVER_HTML }}/${{ env.FOLDER_NAME }}
+            echo "🎉 成功部署到阿里云服务器 (环境: ${{ env.DEPLOY_ENV }})"
