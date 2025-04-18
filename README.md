@@ -53,6 +53,8 @@
 
 ## 本地开发
 
+Node Version: 18.18.0
+
 ```bash
 # 安装依赖
 npm install
