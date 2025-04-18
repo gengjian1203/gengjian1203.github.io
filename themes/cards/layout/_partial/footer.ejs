@@ -1,0 +1,9 @@
+<footer class="footer">
+    <%- partial('_third-party/busuanzi', {position: 'site'}) %> 
+    <% if (theme.meta.footer && theme.meta.footer.length) { %>
+        <% for(let i = 0; i < theme.meta.footer.length; ++i) { %>
+            <%- markdown(theme.meta.footer[i]) %>
+        <% } %>
+    <% } %>
+    <p>Powered by <a href="https://hexo.io" target="_blank">Hexo</a> | Theme - <a href="https://github.com/ChrAlpha/hexo-theme-cards" target="_blank">Cards</a></p>
+</footer>

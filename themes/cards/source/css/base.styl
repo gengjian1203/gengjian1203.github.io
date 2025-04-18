@@ -1,0 +1,83 @@
+:root
+    --main-color $color_main
+    --bg-color $color_background
+    --bg-content-color $color_card
+    --bg-tag-color $color_tags_block
+    --bg-cat-color $color_categories_block
+    --bg-code $color_codeblock
+    --body-color $color_font
+    --title-color $color_title
+    --link-color $color_link
+    --link-color-hover $color_link_hover
+    --border-color rgba(0,0,0,0.1)
+    --space $space_main
+    --content-width $max_width_main
+    --logo-width $max_width_logo
+    --toc-width $max_width_toc
+    --link-item-width $max_link_item
+    --header-height $header_height
+    --radius $radius_main
+    --code-fontsize $font_codesize
+    --toc-fontsize $font_tocsize
+
+article
+aside
+details
+figcaption
+figure
+footer
+header
+hgroup
+menu
+nav
+section
+    display block
+
+html
+    --base-font-size $font_basesize
+    font-size var(--base-font-size)
+
+::-webkit-scrollbar 
+    width .49rem!important
+    height .36rem!important
+    background 0 0!important
+
+::-webkit-scrollbar-thumb
+    background rgba(0,0,0,.3)!important
+
+@media screen and (max-width: 762px)
+    ::-webkit-scrollbar 
+        width .25rem!important
+        height .16rem!important
+
+body
+p
+    font-family rubik,-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,pingfang sc,source han sans sc,noto sans cjk sc,sarasa gothic sc,microsoft yahei,sans-serif,Apple Color Emoji,Segoe UI Emoji,Varela Round
+
+body
+    font-weight 400
+    background-color var(--bg-color)
+    color var(--body-color)
+    transition color .6s,background-color .6s
+    margin 0
+    padding 0
+    line-height $font_lineheight
+
+@media screen and (max-width:650px)
+    body
+        --space $space_sm
+
+.main
+    margin 0 auto
+    padding 1.5vw 15px 0
+    // max-width var(--content-width)
+
+    &.tagscloud
+        margin 0 auto
+        padding 0 var(--space)
+        max-width 100%
+
+    &.friends 
+        margin 0 auto 
+        padding 0 var(--space)
+        max-width 100%

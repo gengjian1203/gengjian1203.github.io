@@ -1,0 +1,105 @@
+name: Deploy
+
+run-name: Manual Deploy by ${{ github.actor }} ${{ github.event.inputs.environment }} ${{ github.event.inputs.branch }} ${{ github.event.inputs.commit }}
+
+env:
+  BUILD_OUTPUT_PATH: "gengjian1203/"
+  BUILD_NAME: "gengjian1203"
+  BUILD_RM: "true" # important
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment type (prod, uat)"
+        required: true
+        type: choice
+        options:
+          - prod
+          - uat
+        default: "uat"
+
+      version_type:
+        description: "Version increment type (major, feat, fix)"
+        required: true
+        type: choice
+        options:
+          - major
+          - feat
+          - fix
+        default: "fix"
+
+permissions:
+  contents: write
+  id-token: write
+  actions: read
+  deployments: write
+
+jobs:
+  increment-tag:
+    uses: Xshuliner/workflows/.github/workflows/auto-increment-tag.yml@master
+    with:
+      version_type: ${{ github.event.inputs.version_type }}
+    secrets: inherit
+
+  build:
+    needs: increment-tag
+    runs-on: ubuntu-latest
+    outputs:
+      build_name: ${{ env.BUILD_NAME }}
+      build_rm: ${{ env.BUILD_RM }}
+      download_dist_name: ${{ steps.repo.outputs.download_dist_name }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Build
+        run: yarn build
+
+      - name: List build result
+        run: ls -la ${{ env.BUILD_OUTPUT_PATH }}
+
+      - name: Get repository name
+        id: repo
+        run: |
+          TIMESTAMP=$(date +%Y%m%d%H%M%S)
+          if [ -n "${{ env.BUILD_NAME }}" ]; then
+            REPO_NAME="${{ env.BUILD_NAME }}"
+          else
+            REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
+          fi
+          DOWNLOAD_DIST_NAME="${REPO_NAME}-${TIMESTAMP}"
+
+          echo "download_dist_name=$DOWNLOAD_DIST_NAME" >> $GITHUB_OUTPUT
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.repo.outputs.download_dist_name }}
+          path: ${{ env.BUILD_OUTPUT_PATH }}
+
+  deploy:
+    needs: [increment-tag, build]
+    uses: Xshuliner/workflows/.github/workflows/upload-html.yml@master
+    with:
+      env: ${{ github.event.inputs.environment }}
+      version: ${{ needs.increment-tag.outputs.new_version }}
+      repository_name: ${{ needs.build.outputs.build_name }}
+      rm: ${{ fromJSON(needs.build.outputs.build_rm) }}
+      strip_components: 1
+      download_dist_name: ${{ needs.build.outputs.download_dist_name }}
+    secrets:
+      SSH_HOST: ${{ secrets.SSH_HOST }}
+      SSH_PORT: ${{ secrets.SSH_PORT }}
+      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+      SSH_KEY: ${{ secrets.SSH_KEY }}
+      SERVER_HTML: ${{ secrets.SERVER_HTML }}
