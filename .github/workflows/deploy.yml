@@ -3,8 +3,8 @@ name: Deploy
 run-name: Manual Deploy by ${{ github.actor }} ${{ github.event.inputs.environment }} ${{ github.event.inputs.branch }} ${{ github.event.inputs.commit }}
 
 env:
-  BUILD_OUTPUT_PATH: "projects/gengjian1203/"
-  BUILD_NAME: "gengjian1203"
+  BUILD_OUTPUT_PATH: "gengjian1203/"
+  BUILD_NAME: "projects/gengjian1203"
   BUILD_RM: "true" # important
 
 on:
