@@ -3,7 +3,7 @@ name: Deploy
 run-name: Manual Deploy by ${{ github.actor }} ${{ github.event.inputs.environment }} ${{ github.event.inputs.branch }} ${{ github.event.inputs.commit }}
 
 env:
-  BUILD_OUTPUT_PATH: "gengjian1203/"
+  BUILD_OUTPUT_PATH: "gengjian1203"
   BUILD_NAME: "projects/gengjian1203"
   BUILD_RM: "true" # important
 
@@ -72,11 +72,7 @@ jobs:
         id: repo
         run: |
           TIMESTAMP=$(date +%Y%m%d%H%M%S)
-          if [ -n "${{ env.BUILD_NAME }}" ]; then
-            REPO_NAME="${{ env.BUILD_NAME }}"
-          else
-            REPO_NAME=$(echo "${{ github.repository }}" | cut -d'/' -f2)
-          fi
+          REPO_NAME=$(echo "${{ github.repository }}" | tr '/' '_')
           DOWNLOAD_DIST_NAME="${REPO_NAME}-${TIMESTAMP}"
 
           echo "download_dist_name=$DOWNLOAD_DIST_NAME" >> $GITHUB_OUTPUT
