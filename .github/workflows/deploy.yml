@@ -99,3 +99,4 @@ jobs:
       SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
       SSH_KEY: ${{ secrets.SSH_KEY }}
       SERVER_HTML: ${{ secrets.SERVER_HTML }}
+      QYWX_WEBHOOK: ${{ secrets.QYWX_WEBHOOK }}
