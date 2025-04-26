@@ -171,7 +171,7 @@ token 可以通过 jsonwebtoken 三方库来生成,
 那么在项目运行的时候,  
 就会自动生成出一套 swagger 在线接口文档.
 
-[目前已经实现](https://www.orz2.online/apiuat/smart/swagger)
+[目前已经实现](https://www.xshuliner.online/apiuat/smart/swagger)
 
 同时这个在线接口文档也支持发起接口请求,  
 方便开发的时候调试.  

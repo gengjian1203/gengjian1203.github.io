@@ -4,7 +4,7 @@ run-name: Manual Deploy by ${{ github.actor }} ${{ github.event.inputs.environme
 
 env:
   BUILD_OUTPUT_PATH: "gengjian1203"
-  BUILD_NAME: "projects/gengjian1203"
+  BUILD_NAME: "portal/gengjian1203"
   BUILD_RM: "true" # important
 
 on:
