@@ -14,20 +14,21 @@ on:
         description: "Environment type (prod, uat)"
         required: true
         type: choice
+        default: "uat"
         options:
           - prod
           - uat
-        default: "uat"
 
       version_type:
-        description: "Version increment type (major, feat, fix)"
+        description: "Version increment type (major, feat, fix, repeat)"
         required: true
         type: choice
+        default: "fix"
         options:
           - major
           - feat
           - fix
-        default: "fix"
+          - repeat
 
 permissions:
   contents: write
