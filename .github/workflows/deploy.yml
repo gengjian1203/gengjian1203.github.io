@@ -99,4 +99,16 @@ jobs:
       SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
       SSH_KEY: ${{ secrets.SSH_KEY }}
       SERVER_HTML: ${{ secrets.SERVER_HTML }}
-      QYWX_WEBHOOK: ${{ secrets.QYWX_WEBHOOK }}
+
+  notify-third:
+    needs: [increment-tag, build, deploy]
+    uses: Xshuliner/workflows/.github/workflows/notify-third-party.yml@master
+    with:
+      env: ${{ github.event.inputs.environment }}
+      version: ${{ needs.increment-tag.outputs.new_version }}
+      preview_url: ${{ needs.deploy.outputs.preview_url }}
+      project_name: ${{ needs.build.outputs.build_name }}
+      third_type: "qywx"
+      status: "success"
+    secrets:
+      WEBHOOK_QYWX: ${{ secrets.WEBHOOK_QYWX }}
