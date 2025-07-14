@@ -47,9 +47,9 @@ jobs:
     needs: increment-tag
     runs-on: ubuntu-latest
     outputs:
-      build_name: ${{ env.BUILD_NAME }}
+      project_name: ${{ env.BUILD_NAME }}
       build_rm: ${{ env.BUILD_RM }}
-      download_dist_name: ${{ steps.repo.outputs.download_dist_name }}
+      download_artifact_name: ${{ steps.repo.outputs.download_artifact_name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -74,14 +74,14 @@ jobs:
         run: |
           TIMESTAMP=$(date +%Y%m%d%H%M%S)
           REPO_NAME=$(echo "${{ github.repository }}" | tr '/' '_')
-          DOWNLOAD_DIST_NAME="${REPO_NAME}-${TIMESTAMP}"
+          DOWNLOAD_ARTIFACT_NAME="${REPO_NAME}-${TIMESTAMP}"
 
-          echo "download_dist_name=$DOWNLOAD_DIST_NAME" >> $GITHUB_OUTPUT
+          echo "download_artifact_name=$DOWNLOAD_ARTIFACT_NAME" >> $GITHUB_OUTPUT
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.repo.outputs.download_dist_name }}
+          name: ${{ steps.repo.outputs.download_artifact_name }}
           path: ${{ env.BUILD_OUTPUT_PATH }}
 
   deploy:
@@ -90,10 +90,10 @@ jobs:
     with:
       env: ${{ github.event.inputs.environment }}
       version: ${{ needs.increment-tag.outputs.new_version }}
-      repository_name: ${{ needs.build.outputs.build_name }}
+      download_artifact_name: ${{ needs.build.outputs.download_artifact_name }}
+      project_name: ${{ needs.build.outputs.project_name }}
       rm: ${{ fromJSON(needs.build.outputs.build_rm) }}
       strip_components: 1
-      download_dist_name: ${{ needs.build.outputs.download_dist_name }}
     secrets:
       SSH_HOST: ${{ secrets.SSH_HOST }}
       SSH_PORT: ${{ secrets.SSH_PORT }}
@@ -108,7 +108,7 @@ jobs:
       env: ${{ github.event.inputs.environment }}
       version: ${{ needs.increment-tag.outputs.new_version }}
       preview_url: ${{ needs.deploy.outputs.preview_url }}
-      project_name: ${{ needs.build.outputs.build_name }}
+      project_name: ${{ needs.build.outputs.project_name }}
       third_type: "qywx"
       status: "success"
     secrets:
